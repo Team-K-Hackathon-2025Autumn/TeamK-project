@@ -63,4 +63,16 @@ def home_view():
     else:
         groups = Group.get_all()
         groups.reverse()
-        return render_template("groups.html", groups=groups, uid=uid)
+        return render_template("channels.html", groups=groups, uid=uid)
+
+
+# グループ名編集
+@app.route("/group/<gid>/update", methods=["POST"])
+def update_group(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        group_name = request.form.get("groupName")
+        Group.update(gid, group_name)
+        return redirect("/group/{gid}")

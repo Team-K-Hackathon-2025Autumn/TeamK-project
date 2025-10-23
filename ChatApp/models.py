@@ -22,3 +22,19 @@ class Group:
             abort(500)
         finally:
             db_pool.release(conn)
+
+    @classmethod
+    def update(cls, uid, gid, new_group_name):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "UPDATE groups SET uid=%s, name=%s, WHERE id=&s;"
+                cur.execute(sql, (uid, gid, new_group_name))
+                conn.commit()
+                groups = cur.fetchall()
+                return groups
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
