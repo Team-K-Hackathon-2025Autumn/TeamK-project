@@ -15,7 +15,7 @@ import uuid
 import re
 import os
 
-from models import User, Channel, Message
+from models import User, Group, Member, Message
 from util.assets import bundle_css_files
 
 
