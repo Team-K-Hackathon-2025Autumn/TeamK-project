@@ -1,3 +1,4 @@
+from ast import Is
 from flask import (
     Flask,
     request,
@@ -34,14 +35,17 @@ app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 2678400
 bundle_css_files(app)
 
 
+# uidの有無をチェックするヘルパー関数
+def has_uid():
+    uid = session.get("uid")
+    if uid is None:
+        return False
+    return True
+
+
 # ルートページ処理
 @app.route("/", methods=["GET"])
 def index_process():
-    uid = session.get("uid")
-    if uid is None:
-        return redirect(
-            url_for("login_view")
-        )  # uidがない場合、ログインページにリダイレクト
-    return redirect(
-        url_for("home_view")
-    )  # uidがある場合、ログイン済みなのでグループ一覧にリダイレクト
+    if has_uid() is False:
+        return redirect(url_for("login_view"))
+    return redirect(url_for("home_view"))
