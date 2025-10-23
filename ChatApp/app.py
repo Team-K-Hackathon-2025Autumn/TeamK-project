@@ -52,3 +52,15 @@ def login_view():
     return redirect(
         url_for("home_view")
     )  # ログイン済みの場合、グループ一覧にリダイレクト
+
+
+# グループ一覧ページ表示
+@app.route("/home", methods=["GET"])
+def home_view():
+    uid = session.get("uid")
+    if uid is None:
+        return render_template("auth/login.html")
+    else:
+        groups = Group.get_all()
+        groups.reverse()
+        return render_template("groups.html", groups=groups, uid=uid)
