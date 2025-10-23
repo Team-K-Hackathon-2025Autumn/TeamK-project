@@ -54,12 +54,12 @@ def login_view():
     )  # ログイン済みの場合、グループ一覧にリダイレクト
 
 
-# グループ一覧ページ表示
-@app.route("/home", methods=["GET"])
-def home_view():
+# グループ名編集
+@app.route("/group/<gid>/update", methods=["POST"])
+def update_group(gid):
     uid = session.get("uid")
     if uid is None:
-        return render_template("auth/login.html")
+        return redirect(url_for("login_view"))
     else:
         groups = Group.get_all()
         groups.reverse()
