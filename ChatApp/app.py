@@ -1,3 +1,4 @@
+from google import genai
 from flask import (
     Flask,
     request,
@@ -13,6 +14,7 @@ import hashlib
 import uuid
 import re
 import os
+import json
 
 from models import User, Group, Member, Message
 from util.assets import bundle_css_files
@@ -115,5 +117,94 @@ def message_view(gid):
         return render_template(
             "group/messages.html", messages=messages, group=group, uid=uid
         )
-=======
->>>>>>> 7b39ca3 (グループ編集の関数を追加。合わせてGroupクラスにグループIDをキーにグループを検索するクラスメソッドとグループを削除するクラスメソッドを追加)
+
+
+# AIメニュー候補リクエスト処理
+@app.route("/group/<gid>/menu", methods=["POST"])
+def ai_menu_process(request_data):
+    """Gemini APIを使用してメニューのリクエストデータに基づいて、JSON形式で作成されたメニュー候補のレスポンスを取得する"""
+
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+
+    # ---- Gemini APIの設定 ----
+    try:
+        client = genai.Client()
+    except Exception as e:
+        print(f"Gemini APIの初期化中にエラーが発生しました: {e}")
+        abort(500)
+
+    # ---- Gemini APIでメニュー作成を依頼 ---
+    # プロンプト
+    prompt = f"""
+    あなたは献立のメニューアドバイザーです。JSON形式で送信される情報に基づいて、献立を考えてください。情報には、
+        - 今ある食材名、分量、分量の単位
+        - 任意の希望リクエスト
+        - 希望するメニュー数
+    が存在し、以下のようなJSONフォーマットです。
+
+    {{
+    "ingredients": [
+        {{"name": "人参", "quantity": 2, "unit": "本"}},
+        {{"name": "じゃがいも", "quantity": 3, "unit": "個"}},
+        {{"name": "豚肉", "quantity": 200, "unit": "g"}},
+    ],
+    "request": "白米に合うメニューでお願いします",
+    "menuCandidateCount": 3,
+    }}
+
+    # 最重要ルール
+    - 回答は、必ず必須情報を含む以下の形式のJSON配列のみを返してください。
+    - メニュー番号（整数型。1から始まる）
+    - メニュー名
+    - 材料
+    - 作り方
+    - 必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
+    - 回答にはJSON以外の余計なテキスト（"はい、承知しました..."など）を含めないでください。
+
+    # 回答JSON形式の例
+{{
+"menus": [
+    {{
+    "menuId": 1,
+    "menuName": "カレーライス",
+    "ingredients": [
+        {{
+        "name": "人参",
+        "quantity": 1,
+        "unit": "本"
+        }}
+    ],
+    "instructions": [
+        "1. 野菜と肉を炒める。",
+        "2. 水を加えて煮込む。"
+    ]
+    }}
+]
+}}
+
+    # リクエストJSONリスト
+    {request_data}
+
+    # 回答 (JSON配列のみ)
+    """
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash", contents=prompt
+        )
+        response_text = response.text
+
+        if response_text.startswith("```json"):
+            response_text = response_text[7:]
+        if response_text.endswith("```"):
+            response_text = response_text[:-3]
+
+        result = json.loads(response_text)
+        print(result)
+        return redirect(url_for("home_view"))
+
+    except Exception as e:
+        print(f"エラーが発生しています：{e}")
+        abort(500)
