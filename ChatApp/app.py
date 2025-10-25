@@ -54,12 +54,12 @@ def login_view():
     )  # ログイン済みの場合、グループ一覧にリダイレクト
 
 
-# グループ名編集
-@app.route("/group/<gid>/update", methods=["POST"])
-def update_group(gid):
+# グループ一覧ページ表示
+@app.route("/home", methods=["GET"])
+def home_view():
     uid = session.get("uid")
     if uid is None:
-        return redirect(url_for("login_view"))
+        return render_template("auth/login.html")
     else:
         groups = Group.get_all()
         groups.reverse()
@@ -76,3 +76,19 @@ def update_group(gid):
         new_group_name = request.form.get("groupName")
         Group.update(gid, new_group_name)
         return redirect("/group/{gid}")
+
+
+# グループ削除処理
+@app.route("/group/<gid>/delete", methods=["POST"])
+def delete_group(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        group = Group.find_by_gid(gid)
+        if gid != group["gid"]:
+            flash("グループは作成者のみ削除可能です")
+        else:
+            Group.delete(gid)
+
+        return redirect("home_view")
