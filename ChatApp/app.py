@@ -78,7 +78,7 @@ def update_group(gid):
         return redirect("/group/{gid}")
 
 
-# グループ削除処理
+# グループ削除
 @app.route("/group/<gid>/delete", methods=["POST"])
 def delete_group(gid):
     uid = session.get("uid")
