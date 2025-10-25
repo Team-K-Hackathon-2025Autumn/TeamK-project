@@ -99,7 +99,7 @@ def delete_group(gid):
 
 
 # メッセージ一覧ページ表示（各グループ内で、そのグループに属している全メッセージを表示させる）
-@app.route("/group/<gid>", methods=["GE"])
+@app.route("/group/<gid>", methods=["GET"])
 def message_view(gid):
     uid = session.get("uid")
     if uid is None:
