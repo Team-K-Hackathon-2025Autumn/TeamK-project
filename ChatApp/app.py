@@ -78,7 +78,11 @@ def update_group(gid):
         return redirect("/group/{gid}")
 
 
+<<<<<<< HEAD
 # グループ削除
+=======
+# グループ削除処理
+>>>>>>> 7b39ca3 (グループ編集の関数を追加。合わせてGroupクラスにグループIDをキーにグループを検索するクラスメソッドとグループを削除するクラスメソッドを追加)
 @app.route("/group/<gid>/delete", methods=["POST"])
 def delete_group(gid):
     uid = session.get("uid")
