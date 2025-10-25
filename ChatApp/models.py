@@ -6,62 +6,21 @@ from util.DB import DB
 db_pool = DB.init_db_pool()
 
 
-# グループクラス
-class Group:
+class Member:
     @classmethod
-    def get_all(cls):
+    def get_all(cls, gid):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT * FROM groups;"
-                cur.execute(sql)
-                groups = cur.fetchall()
-                return groups
-        except pymysql.Error as e:
-            print(f"エラーが発生しています：{e}")
-            abort(500)
-        finally:
-            db_pool.release(conn)
-
-    @classmethod
-    def find_by_gid(cls, gid):
-        conn = db_pool.get_conn()
-        try:
-            with conn.cursor() as cur:
-                sql = "SELECT * FROM groups WHERE gid=%s;"
+                sql = """
+                    SELECT ug.id, u.name, u.email
+                    FROM user_groups AS ug INNER JOIN users AS u ON ug.uid = u.id
+                    WHERE ug.gid = %s
+                    ORDER BY ug.id ASC;
+                """
                 cur.execute(sql, (gid,))
-                groups = cur.fetchone()
-                return groups
-        except pymysql.Error as e:
-            print(f"エラーが発生しています：{e}")
-            abort(500)
-        finally:
-            db_pool.release(conn)
-
-    @classmethod
-    def update(cls, gid, new_group_name):
-        conn = db_pool.get_conn()
-        try:
-            with conn.cursor() as cur:
-                sql = "UPDATE groups SET name=%s, WHERE id=%s;"
-                cur.execute(sql, (gid, new_group_name))
-                conn.commit()
-                groups = cur.fetchall()
-                return groups
-        except pymysql.Error as e:
-            print(f"エラーが発生しています：{e}")
-            abort(500)
-        finally:
-            db_pool.release(conn)
-
-    @classmethod
-    def delete(cls, gid):
-        conn = db_pool.get_conn()
-        try:
-            with conn.cursor() as cur:
-                sql = "DELETE * FROM groups WHERE gid=%s;"
-                cur.execute(sql, (gid,))
-                conn.commit()
+                messages = cur.fetchall()
+                return messages
         except pymysql.Error as e:
             print(f"エラーが発生しています：{e}")
             abort(500)
@@ -69,7 +28,6 @@ class Group:
             db_pool.release(conn)
 
 
-# メッセージクラス
 class Message:
     @classmethod
     def get_all(cls, gid):
