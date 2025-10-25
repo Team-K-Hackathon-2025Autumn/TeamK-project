@@ -74,5 +74,5 @@ def update_group(gid):
         return redirect(url_for("login_view"))
     else:
         new_group_name = request.form.get("groupName")
-        Group.update(uid, gid, new_group_name)
+        Group.update(gid, new_group_name)
         return redirect("/group/{gid}")
