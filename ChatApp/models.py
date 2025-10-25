@@ -83,10 +83,40 @@ class Message:
                     INNER JOIN eat_reactions AS r ON m.id = r.message_id 
                     WHERE m.gid = %s 
                     ORDER BY m.id ASC;
+
+                    SELECT m.uid, u.name, m.message, r.counts, m.created_at FROM messages AS m INNER JOIN users AS u ON m.uid = u.id WHERE m.gid = %s 
+                    
+                    UNION ALL
+                    
+                    SELECT '0' AS uid, 'ai' AS name, am.message, ar.counts, am.created_at FROM ai_messages AS am INNER JOIN ai_eat_reactions AS ar WHERE am.gid = %s
+                    
+                    ORDER BY created_at ASC;
                 """
+
                 cur.execute(sql, (gid,))
                 messages = cur.fetchall()
                 return messages
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def create_ai_message(cls, gid, ai_message):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "INSERT INTO ai_messages(uid, gid, message) VALUES(%s, %s, %s)"
+                cur.execute(
+                    sql,
+                    (
+                        0,
+                        gid,
+                        ai_message,
+                    ),
+                )
+                conn.commit()
         except pymysql.Error as e:
             print(f"エラーが発生しています：{e}")
             abort(500)
