@@ -73,6 +73,6 @@ def update_group(gid):
     if uid is None:
         return redirect(url_for("login_view"))
     else:
-        group_name = request.form.get("groupName")
-        Group.update(gid, group_name)
+        new_group_name = request.form.get("groupName")
+        Group.update(gid, new_group_name)
         return redirect("/group/{gid}")
