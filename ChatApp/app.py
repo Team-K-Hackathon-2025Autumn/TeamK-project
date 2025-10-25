@@ -63,7 +63,7 @@ def home_view():
     else:
         groups = Group.get_all()
         groups.reverse()
-        return render_template("channels.html", groups=groups, uid=uid)
+        return render_template("home.html", groups=groups, uid=uid)
 
 
 # グループ名編集
@@ -74,5 +74,5 @@ def update_group(gid):
         return redirect(url_for("login_view"))
     else:
         new_group_name = request.form.get("groupName")
-        Group.update(gid, new_group_name)
+        Group.update(uid, gid, new_group_name)
         return redirect("/group/{gid}")
