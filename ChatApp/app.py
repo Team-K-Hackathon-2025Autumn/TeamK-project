@@ -79,7 +79,11 @@ def update_group(gid):
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # グループ削除
+=======
+# グループ削除処理
+>>>>>>> 7b39ca3 (グループ編集の関数を追加。合わせてGroupクラスにグループIDをキーにグループを検索するクラスメソッドとグループを削除するクラスメソッドを追加)
 =======
 # グループ削除処理
 >>>>>>> 7b39ca3 (グループ編集の関数を追加。合わせてGroupクラスにグループIDをキーにグループを検索するクラスメソッドとグループを削除するクラスメソッドを追加)
@@ -96,10 +100,11 @@ def delete_group(gid):
             Group.delete(gid)
 
         return redirect("home_view")
+<<<<<<< HEAD
 
 
 # メッセージ一覧ページ表示（各グループ内で、そのグループに属している全メッセージを表示させる）
-@app.route("/group/<gid>", methods=["GT"])
+@app.route("/group/<gid>", methods=["GET"])
 def message_view(gid):
     uid = session.get("uid")
     if uid is None:
@@ -110,3 +115,5 @@ def message_view(gid):
         return render_template(
             "group/messages.html", messages=messages, group=group, uid=uid
         )
+=======
+>>>>>>> 7b39ca3 (グループ編集の関数を追加。合わせてGroupクラスにグループIDをキーにグループを検索するクラスメソッドとグループを削除するクラスメソッドを追加)
