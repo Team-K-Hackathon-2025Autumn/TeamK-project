@@ -1,3 +1,4 @@
+
 DROP DATABASE cookchat;
 DROP USER 'testuser';
 
@@ -28,7 +29,6 @@ CREATE TABLE user_groups (
     FOREIGN KEY (gid) REFERENCES `groups`(id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     uid VARCHAR(255) NOT NULL,
@@ -37,11 +37,4 @@ CREATE TABLE messages (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (uid) REFERENCES users(id),
     FOREIGN KEY (gid) REFERENCES `groups`(id) ON DELETE CASCADE
-);
-
-CREATE TABLE eat_reactions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    message_id INT NOT NULL,
-    counts INT NOT NULL,
-    FOREIGN KEY(message_id) REFERENCES messages(id) ON DELETE CASCADE
 );
