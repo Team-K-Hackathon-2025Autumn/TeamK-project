@@ -80,15 +80,7 @@ def update_group(gid):
         return redirect("/group/{gid}")
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # グループ削除
-=======
-# グループ削除処理
->>>>>>> 7b39ca3 (グループ編集の関数を追加。合わせてGroupクラスにグループIDをキーにグループを検索するクラスメソッドとグループを削除するクラスメソッドを追加)
-=======
-# グループ削除処理
->>>>>>> 7b39ca3 (グループ編集の関数を追加。合わせてGroupクラスにグループIDをキーにグループを検索するクラスメソッドとグループを削除するクラスメソッドを追加)
 @app.route("/group/<gid>/delete", methods=["POST"])
 def delete_group(gid):
     uid = session.get("uid")
@@ -102,7 +94,6 @@ def delete_group(gid):
             Group.delete(gid)
 
         return redirect("home_view")
-<<<<<<< HEAD
 
 
 # メッセージ一覧ページ表示（各グループ内で、そのグループに属している全メッセージを表示させる）
