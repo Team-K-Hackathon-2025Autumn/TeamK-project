@@ -4,13 +4,21 @@
 <div class="main-container">
   <div id="chat-header">
     <p class="group-title-text detail-title">CookChat</p>
-    <!-- もしuidとグループ作成者が同じならタイトル、説明を編集可能にする -->
-    <p id="chatroom-name">{{ group.name }}</p>
-    {% endif %} {% if uid == group.created_by %}
+    <!-- もしuidとグループ作成者が同じならグループ名の変更とユーザーの追加を可能にする -->
+    <p id="group-name">{{ group.name }}</p>
+    {% if uid == group.created_by %}
     <button id="group-update-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
-    {% include 'modal/update-group.html' %} {% endif %}
+    {% include 'modal/update-group.html' %}
+    <button id="member-add-button">
+      <ion-icon name="brush" style="color: #ffffff"></ion-icon>
+    </button>
+    {% include 'modal/add-member.html' %} {% endif %}
+    <button id="member-view-button">
+      <ion-icon name="brush" style="color: #ffffff"></ion-icon>
+    </button>
+    {% include 'modal/view-member.html' %}
   </div>
   <div id="message-area">
     {% if messages|length > 0 %} {% for message in messages %} {% if message.uid
