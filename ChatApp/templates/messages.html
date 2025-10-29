@@ -4,7 +4,7 @@
 <div class="main-container">
   <div id="chat-header">
     <p class="group-title-text detail-title">CookChat</p>
-    <!-- もしuidとチャンネル作成者が同じならタイトル、説明を編集可能にする -->
+    <!-- もしuidとグループ作成者が同じならタイトル、説明を編集可能にする -->
     <p id="chatroom-name">{{ group.name }}</p>
     {% endif %} {% if uid == group.created_by %}
     <button id="group-update-button">
