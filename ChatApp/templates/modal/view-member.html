@@ -1,0 +1,28 @@
+<div id="view-member-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5>メンバー</h5>
+      <span class="modalClose" id="view-page-close-button">×</span>
+    </div>
+    <div id="member-list">
+      <div id="pagination-wrapper">
+        <div>
+          <div class="pagination-container">
+            <p id="prev"><</p>
+            <ul class="pagination"></ul>
+            <p id="next">></p>
+          </div>
+        </div>
+      </div>
+      <ul class="member-box"></ul>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  // prettier-ignore
+  const members = JSON.parse('{{ members|tojson }}');
+</script>
+<script
+  src="{{url_for('static',filename='js/members/pagination.js')}}"
+  type="module"
+></script>
