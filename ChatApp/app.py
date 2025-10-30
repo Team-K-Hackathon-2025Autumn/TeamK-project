@@ -1,7 +1,7 @@
 # ログイン処理
 from flask import flash, session
 
-@app.route("/login", methods=["POST"])## ログインページでPOSTリクエストが来た場合
+@app.route("/login", methods=["POST"])
 def login_process():
     email = request.form.get("email")
     password = request.form.get("password")
