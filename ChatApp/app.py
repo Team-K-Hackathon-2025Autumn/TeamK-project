@@ -51,3 +51,24 @@ def login_view():
     return redirect(
         url_for("home_view")
     )  # ログイン済みの場合、グループ一覧にリダイレクト
+ 
+ # -----ここから下が新規アップロード分----- 
+ # グループ作成処理(b-8)
+@app.route('/group', methods = ['POST'])
+def create_group():
+    uid = session.get('uid')
+    if uid is None:
+        return redirect(url_for('login_view'))
+    else:
+        group_name = request.form.get('groupName') 
+
+        if group_name == '':
+            return redirect(url_for('home_view'))
+        else:
+            Group.create(uid, group_name) 
+    
+            created_group = Group.find_by_name(group_name) # message_viewにgidの値を渡すために、groupsから作成したレコードを取得
+            gid = created_group['id']
+
+            Member.add(uid, gid) # user_groupsテーブルに作成者を登録
+            return redirect(url_for('message_view', gid = gid))
