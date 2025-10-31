@@ -51,3 +51,10 @@ def login_view():
     return redirect(
         url_for("home_view")
     )  # ログイン済みの場合、グループ一覧にリダイレクト
+
+# -----ここから下が新規アップロード分-----
+# ログアウト処理(b-6)
+@app.route('/logout')
+def logout_process():
+    session.clear()
+    return redirect(url_for('login_view'))
