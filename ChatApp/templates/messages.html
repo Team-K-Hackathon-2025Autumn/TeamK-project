@@ -1,6 +1,11 @@
 {% extends 'base.html' %} {% block title %}
 <title>chatroom</title>
 {% endblock %} {% block body %}
+<div class="page-links">
+  <a href="{{ url_for('logout') }}">
+    <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+  </a>
+</div>
 <div class="main-container">
   <div id="chat-header">
     <p class="group-title-text detail-title">CookChat</p>
