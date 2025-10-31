@@ -51,3 +51,18 @@ def login_view():
     return redirect(
         url_for("home_view")
     )  # ログイン済みの場合、グループ一覧にリダイレクト
+
+# -----ここから下が新規アップロード分-----
+# メッセージ作成(b-14)
+@app.route('/group/<gid>/message', methods = ['POST'])
+def create_message(gid):
+    uid = session.get('uid')
+    if uid is None:
+        return redirect(url_for('login_view'))
+    else:
+        message = request.form.get('message')
+
+        if message:
+            Message.create(uid, gid, message) 
+
+        return redirect(f'/group/{gid}') 
