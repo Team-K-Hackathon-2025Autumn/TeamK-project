@@ -51,3 +51,33 @@ def login_view():
     return redirect(
         url_for("home_view")
     )  # ログイン済みの場合、グループ一覧にリダイレクト
+
+# -----　ここから下が新規アップロード分 -----
+
+# ユーザー新規登録処理(b-5)Masa担当
+@app.route('/signup', methods = ['POST'])
+def signup_process():
+    email = request.form.get('email')
+    name = request.form.get('name')
+    password = request.form.get('password')
+    passwordConfirmation = request.form.get('passwordConfirmation')
+
+    if name == '' or email == '' or password == '' or passwordConfirmation == '':
+        flash('空のフォームがあります')
+    elif password != passwordConfirmation:
+        flash('二つのパスワードが一致しません')
+    elif re.match(EMAIL_PATTERN, email) is None:
+        flash('メールアドレスが正しくありません')
+    else:
+        uid = uuid.uuid4()
+        password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        registered_user = User.find_by_email(email)
+
+        if registered_user != None: 
+            flash('メールアドレスがすでに登録されています')
+        else:
+            User.create(uid, name, email, password)
+            UserID = str(uid)
+            session['uid'] = UserID
+            return redirect(url_for('home_view'))
+    return redirect(url_for('signup_view'))
