@@ -42,6 +42,7 @@ def index_process():
         return redirect(url_for("login_view"))
     return redirect(url_for("home_view"))
 
+
 # ログインページ表示
 @app.route("/login", methods=["GET"])
 def login_view():
@@ -51,3 +52,17 @@ def login_view():
     return redirect(
         url_for("home_view")
     )  # ログイン済みの場合、グループ一覧にリダイレクト
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("error/404.html"), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template("error/500.html"), 500
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
