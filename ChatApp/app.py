@@ -14,7 +14,7 @@ import uuid
 import re
 import os
 
-from models import User, Group, Member, Message
+from models import User
 from util.assets import bundle_css_files
 
 
@@ -41,6 +41,27 @@ def index_process():
     if uid is None:
         return redirect(url_for("login_view"))
     return redirect(url_for("home_view"))
+
+
+# ログイン処理
+@app.route("/login", methods=["POST"])
+def login_process():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    if email == "" or password == "":
+        flash("この項目は必須入力です")
+    else:
+        user = User.find_by_email(email)
+        if user is None:
+            flash("このユーザーは存在しません")
+        else:
+            hashPassword = hashlib.sha256(password.encode("utf-8")).hexdigest()
+            if hashPassword != user["password"]:
+                flash("パスワードが違います")
+            else:
+                session["id"] = user["id"]
+                return redirect(url_for("home_view"))
+        return redirect(url_for("login_view"))
 
 
 # ログインページ表示

@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"path": "../../.."
+	},
+	{
+		"path": "../../../../hackathon-beginners-sample"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "TeamK-project"
+  }
+}

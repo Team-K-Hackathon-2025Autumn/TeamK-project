@@ -3,6 +3,8 @@ services:
   db:
     # コンテナ名をmysqlに設定
     container_name: MySQL
+    ports:
+      - "3006:3306"
     # MySQLのDockerfileをビルドする
     build:
       # ビルドコンテキストはカレントディレクトリ
