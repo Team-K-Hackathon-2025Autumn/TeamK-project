@@ -1,0 +1,76 @@
+/*
+グループ一覧ページでレスポンスが返ってきた後、
+グループ一覧の配列データをもとにスクロール形式で表示する
+*/
+
+import { initCreategroupModal } from "/static/js/groups/create-group.js";
+import { initDeletegroupModal } from "/static/js/groups/delete-group.js"; 
+
+const deletegroupModal = document.getElementById("delete-group-modal");
+
+const groupBox = document.querySelector(".group-box"); // グループリストを表示するコンテナ
+
+const STEP = 5;          // 一度に表示するグループ数
+let displayedCount = 0;   // 現在表示しているグループ数
+
+// グループを追加表示する関数
+const appendGroups = () => {
+  const nextGroups = groups.slice(displayedCount, displayedCount + STEP);
+
+    nextGroups.forEach((group) => {
+     const li = document.createElement("li");
+     const a = document.createElement("a");
+     a.innerText = group.name;
+     a.setAttribute("href", `/groups/${group.id}`);
+     li.appendChild(a);
+
+     // 作成者のみ削除ボタンを表示
+      if (uid === group.created_by)  {
+        const deleteButton = document.createElement("button");
+        deleteButton.innerHTML =
+        '<ion-icon name="trash-outline" style="color: #D87C58"></ion-icon>';
+       deleteButton.classList.add("delete-button");
+       li.appendChild(deleteButton);
+
+      deleteButton.addEventListener("click", () => {
+         deletegroupModal.style.display = "flex";
+         const deleteGroupForm = document.getElementById("deletegroupForm");
+         deleteGroupForm.action = `/groups/${group.id}/delete`;
+       });
+    }
+
+    groupBox.appendChild(li);
+  });
+
+  displayedCount += nextGroups.length;
+
+  // グループ作成ボタンは1回だけ追加
+  if (!document.getElementById("create-group-button")) {
+    const createGroupButton = document.createElement("ion-icon");
+    createGroupButton.id = "create-group-button";
+    createGroupButton.name = "add-circle-outline";
+    createGroupButton.style = "color: #D87C58";
+    groupBox.appendChild(createGroupButton);
+
+    initCreategroupModal();
+  }
+};
+
+// 初期表示（最初の5件）
+appendGroups();
+
+// スクロールで追加表示
+groupBox.addEventListener("scroll", () => {
+  if (
+    groupBox.scrollTop + groupBox.clientHeight >=
+    groupBox.scrollHeight - 80
+  
+  ) {
+    if (displayedCount < groups.length) {
+      appendGroups();
+    }
+  }
+});
+
+// 削除モーダル初期化
+initDeletegroupModal();

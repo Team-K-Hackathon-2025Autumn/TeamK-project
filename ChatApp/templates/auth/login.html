@@ -1,0 +1,35 @@
+{% extends 'auth/base.html' %} {% block title %}
+<title>login</title>
+{% endblock %} {%block body %}
+<h1>Welcome to CookChat</h1>
+<form class="auth-form" method="post">
+  <h2 class="auth-title">WELCOME BACK!</h2>
+  <div>
+    <label for="email-input">メールアドレス</label><br />
+    <input
+      type="text"
+      placeholder="メールアドレス入力"
+      name="email"
+      id="email-input"
+    />
+  </div>
+  <div>
+    <label for="password-input">パスワード</label><br />
+    <input
+      type="password"
+      placeholder="パスワード入力"
+      name="password"
+      id="password-input"
+    />
+  </div>
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <ul class="flashes">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %} {% endwith %}
+  <button class="auth-button pink">ログイン</button>
+  <a class="switch-auth-mode" href=""> 登録はこちら </a>
+  {% endblock %}
+</form>
