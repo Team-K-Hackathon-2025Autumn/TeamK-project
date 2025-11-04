@@ -17,8 +17,8 @@ body {
 }
 
 .login-header {
-    background: url(../img/niz0024-003\ 1.png) top/ cover no-repeat,
-                linear-gradient(to bottom,rgba(157,169,119,1) 0%,rgba(157,169,119,0) 50%);
+    background: linear-gradient(to bottom,rgba(157,169,119,1) 0%,rgba(157,169,119,0) 50%),
+                url(../img/niz0024-003\ 1.png) center/ cover no-repeat;
     height: 250px;
 }
 
@@ -81,8 +81,8 @@ body {
 
 /* これより上がlogin、下がsignup */
 .signup-header {
-    background: url(../img/niz0024-003\ 1.png) top/ cover no-repeat,
-                linear-gradient(to bottom,rgba(157,169,119,1) 0%,rgba(157,169,119,0) 50%);
+    background: linear-gradient(to bottom,rgba(157,169,119,1) 0%,rgba(157,169,119,0) 50%),
+                url(../img/niz0024-003\ 1.png) center/ cover no-repeat;
     height: 138px;
 }
 
