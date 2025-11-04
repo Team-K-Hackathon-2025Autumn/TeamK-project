@@ -1,0 +1,51 @@
+{% extends 'base.html' %} 
+
+{% block title %}
+<title>home</title>
+{% endblock %}
+
+{% block body %}
+<div class="main-container">
+  <div class="home-title">
+    <h1>CookChat</h1>
+     <li class="page-links">
+        <a href="{{url_for('logout_process')}}"> 
+           <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+        </a> 
+    </li>   
+  </div >
+  <div id="groups-list">
+    <ul class="group-box"></ul>
+
+  </div>
+
+  {% include 'modal/create-group.html' %}
+  {% include 'modal/delete-group.html' %}
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+  // prettier-ignore
+  const groups = JSON.parse('{{ groups|tojson }}');
+  // prettier-ignore
+  const uid = JSON.parse('{{ uid|tojson }}');
+</script>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script
+  src="{{url_for('static',filename='js/groups/create-group.js')}}"
+  type="module"
+></script>
+<script
+  src="{{url_for('static',filename='js/pagination.js')}}"
+  type="module"
+></script>
+<script
+  src="{{url_for('static',filename='js/groups/delete-group.js')}}"
+  type="module"
+></script>
+
+{% endblock %}
