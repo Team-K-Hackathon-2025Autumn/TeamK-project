@@ -45,3 +45,5 @@ CREATE TABLE eat_reactions (
     counts INT NOT NULL,
     FOREIGN KEY(message_id) REFERENCES messages(id) ON DELETE CASCADE
 );
+
+INSERT INTO users(id, name, email, password) VALUES('970af84c-dd40-47ff-af23-282b72b7cca8','テスト','test@gmail.com','ecb666d778725ec97307044d642bf4d160aabb76f56c0069c71ea25b1e926825');
