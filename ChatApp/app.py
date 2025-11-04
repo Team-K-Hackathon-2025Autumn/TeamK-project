@@ -14,7 +14,7 @@ import uuid
 import re
 import os
 
-from models import User, Group, Member, Message
+from models import User
 from util.assets import bundle_css_files
 
 
@@ -43,6 +43,27 @@ def index_process():
     return redirect(url_for("home_view"))
 
 
+# ログイン処理
+@app.route("/login", methods=["POST"])
+def login_process():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    if email == "" or password == "":
+        flash("この項目は必須入力です")
+    else:
+        user = User.find_by_email(email)
+        if user is None:
+            flash("このユーザーは存在しません")
+        else:
+            hashPassword = hashlib.sha256(password.encode("utf-8")).hexdigest()
+            if hashPassword != user["password"]:
+                flash("パスワードが違います")
+            else:
+                session["id"] = user["id"]
+                return redirect(url_for("home_view"))
+        return redirect(url_for("login_view"))
+
+
 # ログインページ表示
 @app.route("/login", methods=["GET"])
 def login_view():
@@ -52,6 +73,39 @@ def login_view():
     return redirect(
         url_for("home_view")
     )  # ログイン済みの場合、グループ一覧にリダイレクト
+
+# MITの追加部分（ユーザー新規登録ページ表示）
+@app.route("/signup", methods=['GET'])
+def signup_view():
+    return render_template("auth/signup.html")
+
+# ユーザー新規登録処理(b-5)Masa担当
+@app.route('/signup', methods = ['POST'])
+def signup_process():
+    email = request.form.get('email')
+    name = request.form.get('name')
+    password = request.form.get('password')
+    passwordConfirmation = request.form.get('passwordConfirmation')
+
+    if name == '' or email == '' or password == '' or passwordConfirmation == '':
+        flash('空のフォームがあります')
+    elif password != passwordConfirmation:
+        flash('二つのパスワードが一致しません')
+    elif re.match(EMAIL_PATTERN, email) is None:
+        flash('メールアドレスが正しくありません')
+    else:
+        uid = uuid.uuid4()
+        password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        registered_user = User.find_by_email(email)
+
+        if registered_user != None: 
+            flash('メールアドレスがすでに登録されています')
+        else:
+            User.create(uid, name, email, password)
+            UserID = str(uid)
+            session['uid'] = UserID
+            return redirect(url_for('home_view'))
+    return redirect(url_for('signup_view'))
 
 
 @app.errorhandler(404)
@@ -66,3 +120,5 @@ def internal_server_error(error):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
+
+
