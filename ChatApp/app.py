@@ -14,7 +14,7 @@ import uuid
 import re
 import os
 
-from models import User
+from models import User,Group
 from util.assets import bundle_css_files
 
 
@@ -59,7 +59,7 @@ def login_process():
             if hashPassword != user["password"]:
                 flash("パスワードが違います")
             else:
-                session["id"] = user["id"]
+                session["uid"] = user["id"]
                 return redirect(url_for("home_view"))
         return redirect(url_for("login_view"))
 
@@ -115,7 +115,7 @@ def home_view():
         return render_template("auth/login.html")
     else:
         groups = Group.get_all()
-        groups.reverse()
+        # groups.reverse()
         return render_template("groups.html", groups=groups, uid=uid)
 
 
