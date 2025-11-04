@@ -30,6 +30,6 @@
   </ul>
   {% endif %} {% endwith %}
   <button class="auth-button pink">ログイン</button>
-  <a class="switch-auth-mode" href=""> 登録はこちら </a>
+  <a class="switch-auth-mode" href="{{url_for('signup_view')}}"> 登録はこちら </a>
   {% endblock %}
 </form>
