@@ -18,11 +18,27 @@ const appendGroups = () => {
   const nextGroups = groups.slice(displayedCount, displayedCount + STEP);
 
     nextGroups.forEach((group) => {
-     const li = document.createElement("li");
+     const wrapper = document.createElement("div");
+     wrapper.classList.add("group-item-wrapper");
+
+      const li = document.createElement("li");
+      li.classList.add("group-item");
      const a = document.createElement("a");
      a.innerText = group.name;
      a.setAttribute("href", `/groups/${group.id}`);
      li.appendChild(a);
+
+     wrapper.appendChild(li);
+
+      li.style.backgroundColor = "#FFF8ED"; // 好きな色を指定
+      li.style.color = "#5D4037";
+      li.textalign = "center";
+      li.style.width = "360px";
+      li.style.height = "40px";
+
+      li.style.padding = "12px";
+      li.style.borderRadius = "10px";
+      li.style.marginBottom = "8px";
 
      // 作成者のみ削除ボタンを表示
       if (uid === group.created_by)  {
@@ -30,7 +46,7 @@ const appendGroups = () => {
         deleteButton.innerHTML =
         '<ion-icon name="trash-outline" style="color: #D87C58"></ion-icon>';
        deleteButton.classList.add("delete-button");
-       li.appendChild(deleteButton);
+       wrapper.appendChild(deleteButton);
 
       deleteButton.addEventListener("click", () => {
          deletegroupModal.style.display = "flex";
@@ -39,7 +55,7 @@ const appendGroups = () => {
        });
     }
 
-    groupBox.appendChild(li);
+    groupBox.appendChild(wrapper);
   });
 
   displayedCount += nextGroups.length;
@@ -49,7 +65,6 @@ const appendGroups = () => {
     const createGroupButton = document.createElement("ion-icon");
     createGroupButton.id = "create-group-button";
     createGroupButton.name = "add-circle-outline";
-    createGroupButton.style = "color: #D87C58";
     groupBox.appendChild(createGroupButton);
 
     initCreategroupModal();
