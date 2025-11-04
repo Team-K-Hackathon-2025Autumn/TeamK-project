@@ -74,7 +74,7 @@ class Group:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT * FROM groups;"
+                sql = "SELECT * FROM `groups`;"
                 cur.execute(sql)
                 groups = cur.fetchall()
                 return groups

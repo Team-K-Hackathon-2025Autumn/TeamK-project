@@ -107,6 +107,12 @@ def signup_process():
             return redirect(url_for('home_view'))
     return redirect(url_for('signup_view'))
 
+# ログアウト処理(b-6)
+@app.route('/logout')
+def logout_process():
+    session.clear()
+    return redirect(url_for('login_view'))
+
 # グループ一覧ページ表示
 @app.route("/home", methods=["GET"])
 def home_view():
@@ -131,5 +137,7 @@ def internal_server_error(error):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
+
+
 
 
