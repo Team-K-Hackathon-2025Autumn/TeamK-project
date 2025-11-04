@@ -71,8 +71,13 @@ def login_view():
     if uid is None:
         return render_template("auth/login.html")
     return redirect(
-        url_for("home_view")
-    )  # ログイン済みの場合、グループ一覧にリダイレクト
+        url_for("home_view"))
+ # ログイン済みの場合、グループ一覧にリダイレクト
+
+# MITの追加部分（ユーザー新規登録ページ表示）
+@app.route("/signup", methods=['GET'])
+def signup_view():
+    return render_template("auth/signup.html")
 
 
 @app.errorhandler(404)
@@ -87,3 +92,5 @@ def internal_server_error(error):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
+
+
