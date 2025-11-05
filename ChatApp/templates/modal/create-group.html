@@ -1,0 +1,26 @@
+<div id="create-group-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="icon"><ion-icon name="build-outline"></ion-icon></span>
+      <h5>グループ作成</h5>
+      <span class="modalClose" id="add-page-close-button">×</span>
+    </div>
+    <form
+      name="creategroupForm"
+      class="modal-body"
+      action=""
+      method="POST"
+    >
+      <input
+        type="text"
+        placeholder="グループ名"
+        class="group-form-input"
+        name="groupName"
+        required
+        maxlength="20"
+        autocomplete="off"
+      />
+      <button type="submit">作成</button>
+    </form>
+  </div>
+</div>
