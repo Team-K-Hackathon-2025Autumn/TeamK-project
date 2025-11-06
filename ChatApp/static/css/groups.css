@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  background-color: #F6E2B3;
+}
+.main-container {
+  size:375px 112px;
+  display: flex;
+  justify-content: space-between;
+    align-items: center;
+  background: linear-gradient(to bottom, #F6E2B3, #D87C58);
+  padding: 30px 30px;
+}
+header .logo{
+  background-color: #FFF8E7;
+  color: #5D4037;
+  font-weight: 600;
+  padding: 16px 16px;
+  border-radius: 30px;
+}
+header .icon{
+    font-size: 32px;
+    color: #5D4037 ;
+}
+.logout-icon{
+    list-style: none;
+
+}
+/* 外枠：グループ名とゴミ箱を横並びにする */
+.group-item-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  margin-left: 16px;
+}
+
+/* グループ名のボックス */
+.group-item {
+  background-color: #FFF8ED;
+  color: #5D4037;
+  border-radius: 10px;
+  padding: 12px;
+  width: 360px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+/* グループ名リンク */
+.group-item a {
+  text-align: center;
+  color: #5D4037;
+  flex: 1;
+}
+
+/* ゴミ箱ボタン（右に少し離して置く） */
+.delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 16px;  /* グループ枠との距離 */
+  transform: translateY(2px); /* ほんの少し下にずらして揃えやすく */
+  font-size: 32px;
+  color: #D87C58;
+}
+#create-group-button {
+  display: block;
+  margin: 40px auto 20px; /* 上40px・下20pxの余白で中央寄せ */
+  font-size: 48px;
+  color: #D87C58;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
