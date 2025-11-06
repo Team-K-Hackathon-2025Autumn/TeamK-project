@@ -14,7 +14,7 @@ import uuid
 import re
 import os
 
-from models import User
+from models import User,Group
 from util.assets import bundle_css_files
 
 
@@ -59,7 +59,7 @@ def login_process():
             if hashPassword != user["password"]:
                 flash("パスワードが違います")
             else:
-                session["id"] = user["id"]
+                session["uid"] = user["id"]
                 return redirect(url_for("home_view"))
         return redirect(url_for("login_view"))
 
@@ -107,6 +107,23 @@ def signup_process():
             return redirect(url_for('home_view'))
     return redirect(url_for('signup_view'))
 
+# ログアウト処理(b-6)
+@app.route('/logout')
+def logout_process():
+    session.clear()
+    return redirect(url_for('login_view'))
+
+# グループ一覧ページ表示
+@app.route("/home", methods=["GET"])
+def home_view():
+    uid = session.get("uid")
+    if uid is None:
+        return render_template("auth/login.html")
+    else:
+        groups = Group.get_all()
+        # groups.reverse()
+        return render_template("groups.html", groups=groups, uid=uid)
+
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -120,5 +137,7 @@ def internal_server_error(error):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
+
+
 
 
