@@ -14,7 +14,7 @@ import uuid
 import re
 import os
 
-from models import User,Group
+from models import User,Group,Member
 from util.assets import bundle_css_files
 
 
@@ -124,6 +124,25 @@ def home_view():
         # groups.reverse()
         return render_template("groups.html", groups=groups, uid=uid)
 
+ # グループ作成処理(b-8)
+@app.route('/group', methods = ['POST'])
+def create_group():
+    uid = session.get('uid')
+    if uid is None:
+        return redirect(url_for('login_view'))
+    else:
+        group_name = request.form.get('groupName') 
+
+        if group_name == '':
+            return redirect(url_for('home_view'))
+        else:
+            Group.create(uid, group_name) 
+    
+            created_group = Group.find_by_name(group_name) # message_viewにgidの値を渡すために、groupsから作成したレコードを取得
+            gid = created_group['id']
+
+            Member.add(uid, gid) # user_groupsテーブルに作成者を登録
+            return redirect(url_for('message_view', gid = gid))
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -139,5 +158,8 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
 
 
+
+
+ 
 
 

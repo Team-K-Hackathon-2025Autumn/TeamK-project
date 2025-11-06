@@ -132,8 +132,4 @@
   .modal-header h5 {
     font-size: 0.95rem;
   }
-
-  button[type="submit"] {
-    width: 100%;
-  }
 }
