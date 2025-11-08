@@ -165,7 +165,7 @@ def delete_group(gid):
         else:
             Group.delete(gid)
 
-        return redirect("home_view")
+        return redirect(url_for("home_view"))
 
 
 @app.errorhandler(404)

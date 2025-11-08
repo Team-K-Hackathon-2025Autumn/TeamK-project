@@ -125,7 +125,7 @@ class Group:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "DELETE * FROM `groups` WHERE gid=%s;"
+                sql = "DELETE FROM `groups` WHERE id=%s;"
                 cur.execute(sql, (gid,))
                 conn.commit()
         except pymysql.Error as e:
