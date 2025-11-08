@@ -124,7 +124,7 @@ def home_view():
     if uid is None:
         return render_template("auth/login.html")
     else:
-        groups = Group.get_all()
+        groups = Group.find_by_uid(uid)
         # groups.reverse()
         return render_template("groups.html", groups=groups, uid=uid)
 
