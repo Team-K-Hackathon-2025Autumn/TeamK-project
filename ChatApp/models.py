@@ -21,7 +21,7 @@ class User:
                 cur.execute(
                     sql,
                     (
-                        id,
+                        uid,
                         name,
                         email,
                         password,
@@ -114,12 +114,13 @@ class Group:
                     ),
                 )
                 conn.commit()
+                return cur.lastrowid
         except pymysql.Error as e:
-            print(f"データベースの登録でエラーが発生しました：{e}")
+            print(f'データベースの登録でエラーが発生しました：{e}')
             abort(500)
         finally:
             db_pool.release(conn)
-
+    
     @classmethod
     def delete(cls, gid):
         conn = db_pool.get_conn()

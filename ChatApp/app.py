@@ -141,16 +141,10 @@ def create_group():
         if group_name == "":
             return redirect(url_for("home_view"))
         else:
-            Group.create(uid, group_name)
-
-            created_group = Group.find_by_name(
-                group_name
-            )  # message_viewにgidの値を渡すために、groupsから作成したレコードを取得
-            gid = created_group["id"]
-
-            Member.add(uid, gid)  # user_groupsテーブルに作成者を登録
-            return redirect(url_for("message_view", gid=gid))
-
+            gid = Group.create(uid, group_name) 
+    
+            Member.add(uid, gid) # user_groupsテーブルに作成者を登録
+            return redirect(url_for('message_view', gid = gid))
 
 # グループ削除処理
 @app.route("/group/<gid>/delete", methods=["POST"])
