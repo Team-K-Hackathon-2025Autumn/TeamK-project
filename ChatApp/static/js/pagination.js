@@ -1,0 +1,91 @@
+/*
+グループ一覧ページでレスポンスが返ってきた後、
+グループ一覧の配列データをもとにスクロール形式で表示する
+*/
+
+import { initCreategroupModal } from "/static/js/groups/create-group.js";
+import { initDeletegroupModal } from "/static/js/groups/delete-group.js"; 
+
+const deletegroupModal = document.getElementById("delete-group-modal");
+
+const groupBox = document.querySelector(".group-box"); // グループリストを表示するコンテナ
+
+const STEP = 5;          // 一度に表示するグループ数
+let displayedCount = 0;   // 現在表示しているグループ数
+
+// グループを追加表示する関数
+const appendGroups = () => {
+  const nextGroups = groups.slice(displayedCount, displayedCount + STEP);
+
+    nextGroups.forEach((group) => {
+     const wrapper = document.createElement("div");
+     wrapper.classList.add("group-item-wrapper");
+
+      const li = document.createElement("li");
+      li.classList.add("group-item");
+     const a = document.createElement("a");
+     a.innerText = group.name;
+     a.setAttribute("href", `/group/${group.id}`);
+     li.appendChild(a);
+
+     wrapper.appendChild(li);
+
+      li.style.backgroundColor = "#FFF8ED"; // 好きな色を指定
+      li.style.color = "#5D4037";
+      li.textalign = "center";
+      li.style.width = "360px";
+      li.style.height = "40px";
+
+      li.style.padding = "12px";
+      li.style.borderRadius = "10px";
+      li.style.marginBottom = "8px";
+
+     // 作成者のみ削除ボタンを表示
+      if (uid === group.created_by)  {
+        const deleteButton = document.createElement("button");
+        deleteButton.innerHTML =
+        '<ion-icon name="trash-outline" style="color: #D87C58"></ion-icon>';
+       deleteButton.classList.add("delete-button");
+       wrapper.appendChild(deleteButton);
+
+      deleteButton.addEventListener("click", () => {
+         deletegroupModal.style.display = "flex";
+         const deleteGroupForm = document.getElementById("deletegroupForm");
+         deleteGroupForm.action = `/group/${group.id}/delete`;
+       });
+    }
+
+    groupBox.appendChild(wrapper);
+  });
+
+  displayedCount += nextGroups.length;
+
+  // グループ作成ボタンは1回だけ追加
+  if (!document.getElementById("create-group-button")) {
+    const createGroupButton = document.createElement("ion-icon");
+    createGroupButton.id = "create-group-button";
+    createGroupButton.name = "add-circle-outline";
+    groupBox.appendChild(createGroupButton);
+
+    initCreategroupModal();
+  }
+};
+
+// 初期表示（最初の5件）
+appendGroups();
+
+// スクロールで追加表示
+groupBox.addEventListener("scroll", () => {
+  if (
+    groupBox.scrollTop + groupBox.clientHeight >=
+    groupBox.scrollHeight - 80
+  
+  ) {
+    if (displayedCount < groups.length) {
+      appendGroups();
+    }
+  }
+});
+
+// 削除モーダル初期化
+initDeletegroupModal();
