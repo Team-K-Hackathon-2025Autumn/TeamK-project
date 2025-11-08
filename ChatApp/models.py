@@ -20,7 +20,7 @@ class User:
                 cur.execute(
                     sql,
                     (
-                        id,
+                        uid,
                         name,
                         email,
                         password,
