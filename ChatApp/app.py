@@ -182,6 +182,21 @@ def message_view(gid):
         )
 
 
+# メッセージ作成処理(b-14)
+@app.route("/group/<gid>/message", methods=["POST"])
+def create_message(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        message = request.form.get("message")
+
+        if message:
+            Message.create(uid, gid, message)
+
+        return redirect(f"/group/{gid}")
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("error/404.html"), 404

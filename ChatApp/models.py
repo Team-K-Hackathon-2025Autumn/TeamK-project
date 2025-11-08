@@ -126,19 +126,35 @@ class Message:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = """
-                    SELECT m.id, m.uid, u.name, m.message, r.counts, m.created_at 
-                    FROM messages AS m 
-                    INNER JOIN users AS u ON m.uid = u.id
-                    INNER JOIN eat_reactions AS r ON m.id = r.message_id 
-                    WHERE m.gid = %s 
-                    ORDER BY m.id ASC;
+                sql = """SELECT m.id, m.uid, u.name, m.message, COALESCE(r.counts, 0) AS counts, m.created_at FROM messages AS m INNER JOIN users AS u ON m.uid = u.id LEFT OUTER JOIN eat_reactions AS r ON m.id = r.message_id WHERE m.gid = %s ORDER BY m.id ASC;
                 """
                 cur.execute(sql, (gid,))
                 messages = cur.fetchall()
                 return messages
         except pymysql.Error as e:
             print(f"エラーが発生しています：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def create(cls, uid, gid, message):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "INSERT INTO messages (uid, gid, message) VALUES (%s, %s, %s);"
+                # TIMESTANPはDBのカラム定義に「DEFAULT CURRENT_TIMESTAMP」を指定することによって自動的に入る
+                cur.execute(
+                    sql,
+                    (
+                        uid,
+                        gid,
+                        message,
+                    ),
+                )
+                conn.commit()
+        except pymysql.Error as e:
+            print(f"データベースの登録でエラーが発生しました：{e}")
             abort(500)
         finally:
             db_pool.release(conn)
