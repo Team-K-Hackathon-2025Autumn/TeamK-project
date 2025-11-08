@@ -25,7 +25,7 @@ const appendGroups = () => {
       li.classList.add("group-item");
      const a = document.createElement("a");
      a.innerText = group.name;
-     a.setAttribute("href", `/groups/${group.id}`);
+     a.setAttribute("href", `/group/${group.id}`);
      li.appendChild(a);
 
      wrapper.appendChild(li);
@@ -51,7 +51,7 @@ const appendGroups = () => {
       deleteButton.addEventListener("click", () => {
          deletegroupModal.style.display = "flex";
          const deleteGroupForm = document.getElementById("deletegroupForm");
-         deleteGroupForm.action = `/groups/${group.id}/delete`;
+         deleteGroupForm.action = `/group/${group.id}/delete`;
        });
     }
 
