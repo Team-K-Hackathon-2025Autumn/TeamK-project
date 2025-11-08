@@ -76,28 +76,13 @@ class Group:
                 sql = "INSERT INTO `groups` (name, created_by) VALUES (%s, %s);"
                 cur.execute(sql, (new_group_name, uid,))
                 conn.commit()
+                return cur.lastrowid
         except pymysql.Error as e:
             print(f'データベースの登録でエラーが発生しました：{e}')
             abort(500)
         finally:
             db_pool.release(conn)
     
-    # b-8で使用
-    @classmethod
-    def find_by_name(cls, group_name):
-        conn = db_pool.get_conn()
-        try:
-            with conn.cursor() as cur:
-                sql = 'SELECT * FROM `groups` WHERE name = %s;'
-                cur.execute(sql, (group_name,))
-                group = cur.fetchone()
-                return group
-        except pymysql.Error as e:
-            print(f'データベースの検索でエラーが発生しました：{e}')
-            abort(500)
-        finally:
-            db_pool.release(conn)
-
 class Member:
     # b-8で使用
     @classmethod
