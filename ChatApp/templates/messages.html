@@ -2,7 +2,7 @@
 <title>chatroom</title>
 {% endblock %} {% block body %}
 <div class="page-links">
-  <a href="{{ url_for('logout') }}">
+  <a href="{#{{ url_for('logout') }}#}">
     <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
   </a>
 </div>
@@ -15,15 +15,15 @@
     <button id="group-update-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
-    {% include 'modal/update-group.html' %}
+    {#{% include 'modal/update-group.html' %}#}
     <button id="member-add-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
-    {% include 'modal/add-member.html' %} {% endif %}
+    {#{% include 'modal/add-member.html' %}#}{% endif %}
     <button id="member-view-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
-    {% include 'modal/view-member.html' %}
+    {#{% include 'modal/view-member.html' %}#}
   </div>
   <div id="message-area">
     {% if messages|length > 0 %} {% for message in messages %} {% if message.uid

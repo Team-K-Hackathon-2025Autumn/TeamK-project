@@ -76,28 +76,12 @@ class Group:
                 sql = "SELECT * FROM `groups` WHERE id=%s;"
                 cur.execute(sql, (gid,))
                 group = cur.fetchone()
-                return group
         except pymysql.Error as e:
             print(f"エラーが発生しています：{e}")
             abort(500)
         finally:
             db_pool.release(conn)
-
-    # b-8で使用
-    @classmethod
-    def find_by_name(cls, group_name):
-        conn = db_pool.get_conn()
-        try:
-            with conn.cursor() as cur:
-                sql = "SELECT * FROM `groups` WHERE name = %s;"
-                cur.execute(sql, (group_name,))
-                group = cur.fetchone()
-                return group
-        except pymysql.Error as e:
-            print(f"データベースの検索でエラーが発生しました：{e}")
-            abort(500)
-        finally:
-            db_pool.release(conn)
+            return group
 
     # b-8で使用
     @classmethod
@@ -116,11 +100,11 @@ class Group:
                 conn.commit()
                 return cur.lastrowid
         except pymysql.Error as e:
-            print(f'データベースの登録でエラーが発生しました：{e}')
+            print(f"データベースの登録でエラーが発生しました：{e}")
             abort(500)
         finally:
             db_pool.release(conn)
-    
+
     @classmethod
     def delete(cls, gid):
         conn = db_pool.get_conn()
@@ -136,8 +120,51 @@ class Group:
             db_pool.release(conn)
 
 
+class Message:
+    @classmethod
+    def get_all(cls, gid):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                    SELECT m.id, m.uid, u.name, m.message, r.counts, m.created_at 
+                    FROM messages AS m 
+                    INNER JOIN users AS u ON m.uid = u.id
+                    INNER JOIN eat_reactions AS r ON m.id = r.message_id 
+                    WHERE m.gid = %s 
+                    ORDER BY m.id ASC;
+                """
+                cur.execute(sql, (gid,))
+                messages = cur.fetchall()
+                return messages
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+
 class Member:
-    # b-8で使用
+    @classmethod
+    def get_all(cls, gid):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                    SELECT u.id, u.name, u.email
+                    FROM user_groups AS ug INNER JOIN users AS u ON ug.uid = u.id
+                    WHERE ug.gid = %s
+                    ORDER BY u.id ASC;
+                """
+                cur.execute(sql, (gid,))
+                messages = cur.fetchall()
+                return messages
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
     @classmethod
     def add(cls, uid, gid):
         conn = db_pool.get_conn()

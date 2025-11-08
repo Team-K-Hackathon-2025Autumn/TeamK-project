@@ -14,7 +14,7 @@ import uuid
 import re
 import os
 
-from models import User, Group, Member
+from models import User, Group, Message, Member
 from util.assets import bundle_css_files
 
 
@@ -161,6 +161,25 @@ def delete_group(gid):
             Group.delete(gid)
 
         return redirect(url_for("home_view"))
+
+
+# メッセージ一覧ページ表示（各グループ内で、そのグループに属している全メッセージを表示させる）
+@app.route("/group/<gid>", methods=["GET"])
+def message_view(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        group = Group.find_by_gid(gid)
+        messages = Message.get_all(gid)
+        members = Member.get_all(gid)
+        return render_template(
+            "messages.html",
+            messages=messages,
+            group=group,
+            members=members,
+            uid=uid,
+        )
 
 
 @app.errorhandler(404)
