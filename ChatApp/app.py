@@ -14,7 +14,7 @@ import uuid
 import re
 import os
 
-from models import User,Group,Member
+from models import User, Group, Member
 from util.assets import bundle_css_files
 
 
@@ -74,44 +74,48 @@ def login_view():
         url_for("home_view")
     )  # ログイン済みの場合、グループ一覧にリダイレクト
 
+
 # MITの追加部分（ユーザー新規登録ページ表示）
-@app.route("/signup", methods=['GET'])
+@app.route("/signup", methods=["GET"])
 def signup_view():
     return render_template("auth/signup.html")
 
-# ユーザー新規登録処理(b-5)Masa担当
-@app.route('/signup', methods = ['POST'])
-def signup_process():
-    email = request.form.get('email')
-    name = request.form.get('name')
-    password = request.form.get('password')
-    passwordConfirmation = request.form.get('passwordConfirmation')
 
-    if name == '' or email == '' or password == '' or passwordConfirmation == '':
-        flash('空のフォームがあります')
+# ユーザー新規登録処理(b-5)Masa担当
+@app.route("/signup", methods=["POST"])
+def signup_process():
+    email = request.form.get("email")
+    name = request.form.get("name")
+    password = request.form.get("password")
+    passwordConfirmation = request.form.get("passwordConfirmation")
+
+    if name == "" or email == "" or password == "" or passwordConfirmation == "":
+        flash("空のフォームがあります")
     elif password != passwordConfirmation:
-        flash('二つのパスワードが一致しません')
+        flash("二つのパスワードが一致しません")
     elif re.match(EMAIL_PATTERN, email) is None:
-        flash('メールアドレスが正しくありません')
+        flash("メールアドレスが正しくありません")
     else:
         uid = uuid.uuid4()
-        password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        password = hashlib.sha256(password.encode("utf-8")).hexdigest()
         registered_user = User.find_by_email(email)
 
-        if registered_user != None: 
-            flash('メールアドレスがすでに登録されています')
+        if registered_user != None:
+            flash("メールアドレスがすでに登録されています")
         else:
             User.create(uid, name, email, password)
             UserID = str(uid)
-            session['uid'] = UserID
-            return redirect(url_for('home_view'))
-    return redirect(url_for('signup_view'))
+            session["uid"] = UserID
+            return redirect(url_for("home_view"))
+    return redirect(url_for("signup_view"))
+
 
 # ログアウト処理(b-6)
-@app.route('/logout')
+@app.route("/logout")
 def logout_process():
     session.clear()
-    return redirect(url_for('login_view'))
+    return redirect(url_for("login_view"))
+
 
 # グループ一覧ページ表示
 @app.route("/home", methods=["GET"])
@@ -120,26 +124,43 @@ def home_view():
     if uid is None:
         return render_template("auth/login.html")
     else:
-        groups = Group.get_all()
+        groups = Group.find_by_uid(uid)
         # groups.reverse()
         return render_template("groups.html", groups=groups, uid=uid)
 
- # グループ作成処理(b-8)
-@app.route('/group', methods = ['POST'])
-def create_group():
-    uid = session.get('uid')
-    if uid is None:
-        return redirect(url_for('login_view'))
-    else:
-        group_name = request.form.get('groupName') 
 
-        if group_name == '':
-            return redirect(url_for('home_view'))
+# グループ作成処理(b-8)
+@app.route("/group", methods=["POST"])
+def create_group():
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        group_name = request.form.get("groupName")
+
+        if group_name == "":
+            return redirect(url_for("home_view"))
         else:
             gid = Group.create(uid, group_name) 
     
             Member.add(uid, gid) # user_groupsテーブルに作成者を登録
             return redirect(url_for('message_view', gid = gid))
+
+# グループ削除処理
+@app.route("/group/<gid>/delete", methods=["POST"])
+def delete_group(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        group = Group.find_by_gid(gid)
+        if uid != group["created_by"]:
+            flash("グループは作成者のみ削除可能です")
+        else:
+            Group.delete(gid)
+
+        return redirect(url_for("home_view"))
+
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -153,10 +174,3 @@ def internal_server_error(error):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
-
-
-
-
- 
-
-
