@@ -25,3 +25,6 @@ urllib3==1.26.12
 webassets==2.0
 Werkzeug==2.2.2
 google-genai
+pydantic
+typing
+

@@ -16,6 +16,9 @@ import re
 import os
 import json
 
+from pydantic import BaseModel, Field
+from typing import List, Optional
+
 from models import User, Group, Message, Member
 from util.assets import bundle_css_files
 
@@ -225,6 +228,21 @@ def ai_menu_process(gid):
         request_data = request.form.get("requestData")
 
     # ---- Gemini APIの設定 ----
+
+    class Ingredient(BaseModel):
+        name: str = Field(description="Name of the ingredient.")
+        quantity: str = Field(description="Quantity of the ingredient")
+        unit: str = Field(description="Unit of the quantity")
+
+    class Menu(BaseModel):
+        menuId: str = Field(description="The id of the menu. start from 1")
+        menuName: str = Field(description="The name of the recipe.")
+        ingredients: List[Ingredient]
+        instructions: List[str]
+
+    class Menus(BaseModel):
+        menus: list[Menu]
+
     try:
         client = genai.Client()
     except Exception as e:
@@ -251,69 +269,42 @@ def ai_menu_process(gid):
     }}
 
     # 最重要ルール
-    - 回答は、必ず必須情報を含む以下の形式のJSON配列のみを返してください。また、回答は日本語にしてください。
-    - メニュー番号（整数型。1から始まる）
-    - メニュー名
-    - 材料
-    - 作り方
+    - 回答は日本語にしてください。
     - 必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
-    - 回答にはJSON以外の余計なテキスト（"はい、承知しました..."など）を含めないでください。
-
-    # 回答JSON形式の例
-{{
-"menus": [
-    {{
-    "menuId": 1,
-    "menuName": "カレーライス",
-    "ingredients": [
-        {{
-        "name": "人参",
-        "quantity": 1,
-        "unit": "本"
-        }}
-    ],
-    "instructions": [
-        "1. 野菜と肉を炒める。",
-        "2. 水を加えて煮込む。"
-    ]
-    }}
-]
-}}
+    - 作り方の文章には必ず 1. ような番号をつけてください。この番号は1から始めてください。
 
     # リクエストJSONリスト
     {request_data}
 
-    # 回答 (JSON配列のみ)
     """
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-flash", contents=prompt
+            model="gemini-2.5-flash",
+            contents=prompt,
+            config={
+                "response_mime_type": "application/json",
+                "response_json_schema": Menus.model_json_schema(),
+            },
         )
-        response_text = response.text
 
-        if response_text.startswith("```json"):
-            response_text = response_text[7:]
-        if response_text.endswith("```"):
-            response_text = response_text[:-3]
-
-        ai_response = json.loads(response_text)
+        ai_response = Menus.model_validate_json(response.text)
         print(ai_response)
 
-        for index, menu in enumerate(ai_response["menus"]):
+        for index, menu in enumerate(ai_response.menus):
             ai_message = []
-            menu_name = menu["menuName"]
+            menu_name = menu.menuName
             ai_message.extend(
                 [f"メニュー{index + 1}: {menu_name}", "-------", "材料: "]
             )
-            for ingredient in menu["ingredients"]:
-                name = ingredient["name"]
-                quantity = ingredient["quantity"]
-                unit = ingredient["unit"]
+            for ingredient in menu.ingredients:
+                name = ingredient.name
+                quantity = ingredient.quantity
+                unit = ingredient.unit
                 ai_message.append(f"{name} {quantity}{unit}")
 
             ai_message.extend(["-------", "作り方: "])
-            for instruction in menu["instructions"]:
+            for instruction in menu.instructions:
                 ai_message.append(instruction)
 
             ai_message_string = "\n".join(ai_message)
