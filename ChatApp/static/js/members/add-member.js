@@ -4,9 +4,7 @@
 
 const addButton = document.getElementById("member-add-button");
 const addMemberModal = document.getElementById("add-member-modal");
-const updatePageButtonClose = document.getElementById(
-  "update-page-close-button"
-);
+const addPageButtonClose = document.getElementById("add-page-close-button");
 
 // モーダルが存在するページのみ（uidとチャンネルidが同じ時のみ）
 if (addMemberModal) {
@@ -16,7 +14,7 @@ if (addMemberModal) {
   });
 
   // モーダル内のXボタンが押された時にモーダルを非表示にする
-  updatePageButtonClose.addEventListener("click", () => {
+  addPageButtonClose.addEventListener("click", () => {
     addMemberModal.style.display = "none";
   });
 
@@ -30,9 +28,9 @@ if (addMemberModal) {
 
 // add-member-modalが表示されている時に Ctrl/Command + Enter で送信
 function sendAddForm() {
-  const newChannelTitle = document.addMemberForm.email.value;
+  const email = document.addMemberForm.email.value;
 
-  if (newChannelTitle !== "") {
+  if (email !== "") {
     document.addMemberForm.submit();
   }
 }

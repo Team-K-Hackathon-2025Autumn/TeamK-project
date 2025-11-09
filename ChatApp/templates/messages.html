@@ -19,7 +19,7 @@
     <button id="member-add-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
-    {#{% include 'modal/add-member.html' %}#}{% endif %}
+    {% include 'modal/add-member.html' %}{% endif %}
     <button id="member-view-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
@@ -92,6 +92,10 @@
 ></script>
 <script
   src="{{url_for('static',filename='js/members/view-member.js')}}"
+  type="text/javascript"
+></script>
+<script
+  src="{{url_for('static',filename='js/members/add-member.js')}}"
   type="text/javascript"
 ></script>
 {% endblock %}

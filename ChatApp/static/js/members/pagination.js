@@ -8,7 +8,6 @@
 */
 const pagination = () => {
   try {
-    console.log("b");
     let page = 1; // 今何ページ目にいるか
     const STEP = 8; // ステップ数（1ページに表示する項目数）
 
@@ -96,7 +95,6 @@ const pagination = () => {
   }
 };
 
-console.log("a");
 pagination();
 // DOMツリーが構築されたらpagination関数を発火（ページネーションを作成し、その後チャンネル追加ボタンを作成・表示）
 document.addEventListener("DOMContentLoaded", function () {
