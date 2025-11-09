@@ -1,3 +1,4 @@
+from http.client import ALREADY_REPORTED
 from flask import (
     Flask,
     request,
@@ -161,7 +162,27 @@ def delete_group(gid):
             Group.delete(gid)
 
         return redirect(url_for("home_view"))
-
+    
+#ユーザー招待処理(b-11)
+@app.route("/group/<gid>/invite", methods=["POST"])
+def add_member(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    email = request.form.get("email")
+    if email == "":
+        flash("空のフォームがあります")
+    else:
+        registerd_user_uid= User.find_by_email(email)
+        if registerd_user_uid is None:
+            flash("このユーザーは存在しません")
+        else:
+            member_uid = Member.find_by_uid(registerd_user_uid);
+        if member_uid is not None:
+            flash("すでにこのグループに参加しているユーザーです")
+        else:
+            Member.add(member_uid)    
+            return redirect(f"/group/{gid}")   
 
 # メッセージ一覧ページ表示（各グループ内で、そのグループに属している全メッセージを表示させる）
 @app.route("/group/<gid>", methods=["GET"])

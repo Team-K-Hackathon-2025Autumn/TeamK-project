@@ -119,7 +119,22 @@ class Group:
         finally:
             db_pool.release(conn)
 
-
+#b-11で使用
+    @classmethod
+    def find_by_gid_and_uid(cls, uid, gid):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT FROM members WHERE uid=%s AND gid=%s:"
+                cur.execute(sql, (uid, gid,))
+                member = cur.fetchone()
+                return member
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+        
 class Message:
     @classmethod
     def get_all(cls, gid):
