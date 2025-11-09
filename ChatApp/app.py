@@ -251,7 +251,7 @@ def ai_menu_process(gid):
     }}
 
     # 最重要ルール
-    - 回答は、必ず必須情報を含む以下の形式のJSON配列のみを返してください。
+    - 回答は、必ず必須情報を含む以下の形式のJSON配列のみを返してください。また、回答は日本語にしてください。
     - メニュー番号（整数型。1から始まる）
     - メニュー名
     - 材料
@@ -297,9 +297,28 @@ def ai_menu_process(gid):
         if response_text.endswith("```"):
             response_text = response_text[:-3]
 
-        ai_message = json.loads(response_text)
-        print(ai_message)
-        Message.create_ai_message(gid, response_text)
+        ai_response = json.loads(response_text)
+        print(ai_response)
+
+        for index, menu in enumerate(ai_response["menus"]):
+            ai_message = []
+            menu_name = menu["menuName"]
+            ai_message.extend(
+                [f"メニュー{index + 1}: {menu_name}", "-------", "材料: "]
+            )
+            for ingredient in menu["ingredients"]:
+                name = ingredient["name"]
+                quantity = ingredient["quantity"]
+                unit = ingredient["unit"]
+                ai_message.append(f"{name} {quantity}{unit}")
+
+            ai_message.extend(["-------", "作り方: "])
+            for instruction in menu["instructions"]:
+                ai_message.append(instruction)
+
+            ai_message_string = "\n".join(ai_message)
+            print(ai_message_string)
+            Message.create_ai_message(gid, ai_message_string)
 
         return redirect(f"/group/{gid}")
 
