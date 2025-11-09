@@ -1,0 +1,138 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+  z-index: 1000;
+
+  /* これで常に中央寄せ（スマホでもOK） */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#create-group-modal,
+#delete-group-modal,
+#update-group-modal,
+#view-member-modal,
+#add-member-modal {
+  display: none;
+}
+/* ===== モーダルの中身 ===== */
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  width: 90%; /* スマホでは幅広め */
+  max-width: 350px; /* PCでは幅を制限 */
+  padding: 24px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease;
+  position: relative;
+}
+
+/* ===== ヘッダー部分 ===== */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.delete-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #5d4037;
+}
+
+.modal-header h5 {
+  margin: 10;
+  font-size: 1rem;
+  color: #5a2e0d;
+
+  display: flex; /* アイコンと文字を横並びに */
+  align-items: center;
+  gap: 6px; /* アイコンと文字の間隔 */
+}
+
+/* ← ここはアイコンの色と大きさを調整 */
+.icon {
+  color: #5d4037;
+  font-size: 1.2rem;
+}
+
+/* ===== 閉じるボタン ===== */
+.modalClose {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #5d4037;
+  transition: color 0.2s;
+}
+
+.modalClose:hover {
+  color: #d87c4a;
+}
+
+/* ===== 入力欄 ===== */
+.group-form-input {
+  display: flex;
+  width: 85%;
+  padding: 15px;
+  border: 1px solid #9da977;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  margin-bottom: 20px;
+  transition: border-color 0.2s;
+}
+
+.group-form-input:focus {
+  border-color: #a75b26;
+}
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.modal-body p {
+  color: #5d4037;
+}
+/* ===== ボタン ===== */
+.modal-body button {
+  align-self: center; /* 横方向中央 */
+  background-color: #e68a63;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 24px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-body button:hover {
+  background-color: #d37650;
+}
+/* ===== フェードインアニメーション ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== スマホ用微調整 ===== */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 85%;
+    padding: 20px;
+  }
+
+  .modal-header h5 {
+    font-size: 0.95rem;
+  }
+}
