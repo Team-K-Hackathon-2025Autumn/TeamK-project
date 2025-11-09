@@ -8,6 +8,7 @@
 */
 const pagination = () => {
   try {
+    console.log("b");
     let page = 1; // 今何ページ目にいるか
     const STEP = 8; // ステップ数（1ページに表示する項目数）
 
@@ -15,9 +16,9 @@ const pagination = () => {
     // 「メンバーの総数/(割る)ステップ数」の余りの有無で場合分け
     // 余りがある場合は１ページ余分に追加する
     const TOTAL =
-      channels.length % STEP == 0
-        ? channels.length / STEP
-        : Math.floor(channels.length / STEP) + 1;
+      members.length % STEP == 0
+        ? members.length / STEP
+        : Math.floor(members.length / STEP) + 1;
 
     // ページネーションで表示されるページ数部分（< 1 2 3 >）の要素を作成
     const paginationUl = document.querySelector(".pagination");
@@ -95,6 +96,8 @@ const pagination = () => {
   }
 };
 
+console.log("a");
+pagination();
 // DOMツリーが構築されたらpagination関数を発火（ページネーションを作成し、その後チャンネル追加ボタンを作成・表示）
 document.addEventListener("DOMContentLoaded", function () {
   try {

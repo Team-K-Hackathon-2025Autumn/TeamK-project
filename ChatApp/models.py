@@ -178,10 +178,9 @@ class Member:
         try:
             with conn.cursor() as cur:
                 sql = """
-                    SELECT u.id, u.name, u.email
-                    FROM user_groups AS ug INNER JOIN users AS u ON ug.uid = u.id
-                    WHERE ug.gid = %s
-                    ORDER BY u.id ASC;
+                    SELECT id, name, email
+                    FROM users WHERE id IN (SELECT uid FROM user_groups WHERE gid = %s)
+                    ORDER BY name ASC;
                 """
                 cur.execute(sql, (gid,))
                 messages = cur.fetchall()

@@ -14,7 +14,8 @@
 }
 #create-group-modal,
 #delete-group-modal,
-#update-group-modal {
+#update-group-modal,
+#view-member-modal {
   display: none;
 }
 /* ===== モーダルの中身 ===== */

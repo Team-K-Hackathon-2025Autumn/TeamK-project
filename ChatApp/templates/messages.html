@@ -23,7 +23,7 @@
     <button id="member-view-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
-    {#{% include 'modal/view-member.html' %}#}
+    {% include 'modal/view-member.html' %}
   </div>
   <div id="message-area">
     {% if messages|length > 0 %} {% for message in messages %} {% if message.uid
@@ -88,6 +88,10 @@
 ></script>
 <script
   src="{{url_for('static',filename='js/groups/update-group.js')}}"
+  type="text/javascript"
+></script>
+<script
+  src="{{url_for('static',filename='js/members/view-member.js')}}"
   type="text/javascript"
 ></script>
 {% endblock %}

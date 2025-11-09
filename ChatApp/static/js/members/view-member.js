@@ -18,7 +18,7 @@ viewPageButtonClose.addEventListener("click", () => {
 
 // 画面のどこかが押された時にモーダルを非表示にする
 addEventListener("click", (e) => {
-  if (e.target == viewMemeberModal) {
+  if (e.target == viewMemberModal) {
     viewMemberModal.style.display = "none";
   }
 });
