@@ -105,7 +105,7 @@ class Group:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "UPDATE groups SET name=%s, WHERE id=%s;"
+                sql = "UPDATE `groups` SET name=%s WHERE id=%s;"
                 cur.execute(sql, (new_group_name, gid))
                 conn.commit()
         except pymysql.Error as e:

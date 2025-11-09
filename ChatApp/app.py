@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# グループ名編集
-@app.route("/group/<gid>/update", methods=["POST"])
-def update_group(gid):
-=======
 from flask import (
     Flask,
     request,
@@ -69,7 +64,7 @@ def login_process():
         return redirect(url_for("login_view"))
 
 
-# ログインページ表示
+# ログイン画面表示
 @app.route("/login", methods=["GET"])
 def login_view():
     uid = session.get("uid")
@@ -80,13 +75,13 @@ def login_view():
     )  # ログイン済みの場合、グループ一覧にリダイレクト
 
 
-# MITの追加部分（ユーザー新規登録ページ表示）
+# ユーザー新規登録画面表示
 @app.route("/signup", methods=["GET"])
 def signup_view():
     return render_template("auth/signup.html")
 
 
-# ユーザー新規登録処理(b-5)Masa担当
+# ユーザー新規登録処理
 @app.route("/signup", methods=["POST"])
 def signup_process():
     email = request.form.get("email")
@@ -115,14 +110,14 @@ def signup_process():
     return redirect(url_for("signup_view"))
 
 
-# ログアウト処理(b-6)
+# ログアウト処理
 @app.route("/logout")
 def logout_process():
     session.clear()
     return redirect(url_for("login_view"))
 
 
-# グループ一覧ページ表示
+# グループ一覧画面表示
 @app.route("/home", methods=["GET"])
 def home_view():
     uid = session.get("uid")
@@ -134,19 +129,13 @@ def home_view():
         return render_template("groups.html", groups=groups, uid=uid)
 
 
-# グループ作成処理(b-8)
+# グループ作成処理
 @app.route("/group", methods=["POST"])
 def create_group():
->>>>>>> origin/development
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
     else:
-<<<<<<< HEAD
-        new_group_name = request.form.get("groupName")
-        Group.update(gid, new_group_name)
-        return redirect("/group/{gid}")
-=======
         group_name = request.form.get("groupName")
 
         if group_name == "":
@@ -158,6 +147,18 @@ def create_group():
             return redirect(url_for("message_view", gid=gid))
 
 
+# グループ名編集処理
+@app.route("/group/<gid>/update", methods=["POST"])
+def update_group(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        new_group_name = request.form.get("newGroupName")
+        Group.update(gid, new_group_name)
+        return redirect(f"/group/{gid}")
+
+
 # グループ削除処理
 @app.route("/group/<gid>/delete", methods=["POST"])
 def delete_group(gid):
@@ -166,7 +167,9 @@ def delete_group(gid):
         return redirect(url_for("login_view"))
     else:
         group = Group.find_by_gid(gid)
-        if uid != group["created_by"]:
+        if group is None:
+            flash("グループが存在しません")
+        elif uid != group["created_by"]:
             flash("グループは作成者のみ削除可能です")
         else:
             Group.delete(gid)
@@ -174,7 +177,7 @@ def delete_group(gid):
         return redirect(url_for("home_view"))
 
 
-# メッセージ一覧ページ表示（各グループ内で、そのグループに属している全メッセージを表示させる）
+# メッセージ一覧画面表示（各グループ内で、そのグループに属している全メッセージを表示させる）
 @app.route("/group/<gid>", methods=["GET"])
 def message_view(gid):
     uid = session.get("uid")
@@ -193,7 +196,7 @@ def message_view(gid):
         )
 
 
-# メッセージ作成処理(b-14)
+# メッセージ作成処理
 @app.route("/group/<gid>/message", methods=["POST"])
 def create_message(gid):
     uid = session.get("uid")
@@ -220,4 +223,3 @@ def internal_server_error(error):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
->>>>>>> origin/development

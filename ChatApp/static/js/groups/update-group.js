@@ -3,7 +3,7 @@
 */
 
 const updateButton = document.getElementById("group-update-button");
-const updateChannelModal = document.getElementById("update-group-modal");
+const updateGroupModal = document.getElementById("update-group-modal");
 const updatePageButtonClose = document.getElementById(
   "update-page-close-button"
 );

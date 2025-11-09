@@ -13,15 +13,16 @@
   align-items: center;
 }
 #create-group-modal,
-#delete-group-modal{
+#delete-group-modal,
+#update-group-modal {
   display: none;
 }
 /* ===== モーダルの中身 ===== */
 .modal-content {
   background: #fff;
   border-radius: 10px;
-  width: 90%;            /* スマホでは幅広め */
-  max-width: 350px;      /* PCでは幅を制限 */
+  width: 90%; /* スマホでは幅広め */
+  max-width: 350px; /* PCでは幅を制限 */
   padding: 24px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   animation: fadeIn 0.3s ease;
@@ -35,11 +36,11 @@
   justify-content: space-between;
   margin-bottom: 16px;
 }
-.delete-modal-header{
+.delete-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #5D4037;
+  color: #5d4037;
 }
 
 .modal-header h5 {
@@ -47,14 +48,14 @@
   font-size: 1rem;
   color: #5a2e0d;
 
-  display: flex;        /* アイコンと文字を横並びに */
+  display: flex; /* アイコンと文字を横並びに */
   align-items: center;
-  gap: 6px;             /* アイコンと文字の間隔 */
+  gap: 6px; /* アイコンと文字の間隔 */
 }
 
 /* ← ここはアイコンの色と大きさを調整 */
 .icon {
-  color: #5D4037;
+  color: #5d4037;
   font-size: 1.2rem;
 }
 
@@ -62,7 +63,7 @@
 .modalClose {
   cursor: pointer;
   font-size: 1.2rem;
-  color: #5D4037;
+  color: #5d4037;
   transition: color 0.2s;
 }
 
@@ -75,7 +76,7 @@
   display: flex;
   width: 85%;
   padding: 15px;
-  border: 1px solid #9DA977;
+  border: 1px solid #9da977;
   border-radius: 6px;
   font-size: 0.95rem;
   outline: none;
@@ -91,8 +92,8 @@
   flex-direction: column;
   gap: 12px;
 }
-.modal-body p{
-  color: #5D4037;
+.modal-body p {
+  color: #5d4037;
 }
 /* ===== ボタン ===== */
 .modal-body button {
