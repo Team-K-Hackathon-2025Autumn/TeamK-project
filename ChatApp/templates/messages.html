@@ -2,7 +2,7 @@
 <title>chatroom</title>
 {% endblock %} {% block body %}
 <div class="page-links">
-  <a href="{#{{ url_for('logout') }}#}">
+  <a href="{{ url_for('logout_process') }}">
     <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
   </a>
 </div>
@@ -56,6 +56,15 @@
       <p class="user-name">{{ message.name }}</p>
       <p class="box box-left">{{ message.message }}</p>
       <p class="sendTime">{{ message.created_at }}</p>
+      <form action="/group/{{ group.id }}/messages/reaction" method="POST">
+        <button
+          class="reaction-message-button"
+          name="message_id"
+          value="{{ message.id }}"
+        >
+          <ion-icon name="fast-food-outline" style="color: #122543"></ion-icon>
+        </button>
+      </form>
       <p class="reactions">{{ message.counts }}</p>
     </div>
     {% endif %} {% endfor %} {% else %}
