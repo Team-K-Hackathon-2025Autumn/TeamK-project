@@ -1,3 +1,4 @@
+import sqlite3
 from flask import (
     Flask,
     request,
@@ -196,6 +197,28 @@ def create_message(gid):
 
         return redirect(f"/group/{gid}")
 
+#リアクション送信・送信処理(b-15)
+#メッセージごとの食べたｲｲﾈ!!を取得
+@app.route("/group/<gid>/message/<message_id>", methods=["GET"])
+def get_likes(gid, message_id):
+    conn = sqlite3.connect('group.db')
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT counts FROM eat_reactions WHERE gid = ? AND message_id = ?', (gid, message_id))
+    row = cursor.fetchone()
+
+    conn.close()
+
+    if row:
+        likes_count = row[0]
+    else:
+        likes_count = 0
+         
+    return jsonify({
+        'gid': gid,
+        'message_id': message_id,
+        'likes_count': likes_count
+    })
 
 @app.errorhandler(404)
 def page_not_found(error):
