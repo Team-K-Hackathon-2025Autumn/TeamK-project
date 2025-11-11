@@ -2,7 +2,7 @@
 <title>chatroom</title>
 {% endblock %} {% block body %}
 <div class="page-links">
-  <a href="{#{{ url_for('logout') }}#}">
+  <a href="{{ url_for('logout_process') }}">
     <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
   </a>
 </div>
@@ -15,15 +15,15 @@
     <button id="group-update-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
-    {#{% include 'modal/update-group.html' %}#}
+    {% include 'modal/update-group.html' %}
     <button id="member-add-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
-    {#{% include 'modal/add-member.html' %}#}{% endif %}
+    {% include 'modal/add-member.html' %}{% endif %}
     <button id="member-view-button">
       <ion-icon name="brush" style="color: #ffffff"></ion-icon>
     </button>
-    {#{% include 'modal/view-member.html' %}#}
+    {% include 'modal/view-member.html' %}
   </div>
   <div id="message-area">
     {% if messages|length > 0 %} {% for message in messages %} {% if message.uid
@@ -31,7 +31,7 @@
     <div class="my-messages">
       <p class="box box-right">{{ message.message }}</p>
       <p class="sendTime">{{ message.created_at }}</p>
-      <form action="/group/{{ group.id }}/messages/reaction" method="POST">
+      <form action="/group/{{ group.id }}/message/reaction" method="POST">
         <button
           class="reaction-message-button"
           name="message_id"
@@ -41,7 +41,7 @@
         </button>
       </form>
       <p class="reactions">{{ message.counts }}</p>
-      <form action="/group/{{ group.id }}/messages/delete" method="POST">
+      <form action="/group/{{ group.id }}/message/delete" method="POST">
         <button
           class="delete-message-button"
           name="message_id"
@@ -56,6 +56,15 @@
       <p class="user-name">{{ message.name }}</p>
       <p class="box box-left">{{ message.message }}</p>
       <p class="sendTime">{{ message.created_at }}</p>
+      <form action="/group/{{ group.id }}/message/reaction" method="POST">
+        <button
+          class="reaction-message-button"
+          name="message_id"
+          value="{{ message.id }}"
+        >
+          <ion-icon name="fast-food-outline" style="color: #122543"></ion-icon>
+        </button>
+      </form>
       <p class="reactions">{{ message.counts }}</p>
     </div>
     {% endif %} {% endfor %} {% else %}
@@ -88,6 +97,14 @@
 ></script>
 <script
   src="{{url_for('static',filename='js/groups/update-group.js')}}"
+  type="text/javascript"
+></script>
+<script
+  src="{{url_for('static',filename='js/members/view-member.js')}}"
+  type="text/javascript"
+></script>
+<script
+  src="{{url_for('static',filename='js/members/add-member.js')}}"
   type="text/javascript"
 ></script>
 {% endblock %}

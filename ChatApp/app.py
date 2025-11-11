@@ -1,4 +1,3 @@
-import sqlite3
 from flask import (
     Flask,
     request,
@@ -15,7 +14,7 @@ import uuid
 import re
 import os
 
-from models import User, Group, Message, Member
+from models import User, Group, Message, Member, eatReaction
 from util.assets import bundle_css_files
 
 
@@ -65,7 +64,7 @@ def login_process():
         return redirect(url_for("login_view"))
 
 
-# ログインページ表示
+# ログイン画面表示
 @app.route("/login", methods=["GET"])
 def login_view():
     uid = session.get("uid")
@@ -76,13 +75,13 @@ def login_view():
     )  # ログイン済みの場合、グループ一覧にリダイレクト
 
 
-# MITの追加部分（ユーザー新規登録ページ表示）
+# ユーザー新規登録画面表示
 @app.route("/signup", methods=["GET"])
 def signup_view():
     return render_template("auth/signup.html")
 
 
-# ユーザー新規登録処理(b-5)Masa担当
+# ユーザー新規登録処理
 @app.route("/signup", methods=["POST"])
 def signup_process():
     email = request.form.get("email")
@@ -111,14 +110,14 @@ def signup_process():
     return redirect(url_for("signup_view"))
 
 
-# ログアウト処理(b-6)
+# ログアウト処理
 @app.route("/logout")
 def logout_process():
     session.clear()
     return redirect(url_for("login_view"))
 
 
-# グループ一覧ページ表示
+# グループ一覧画面表示
 @app.route("/home", methods=["GET"])
 def home_view():
     uid = session.get("uid")
@@ -130,7 +129,17 @@ def home_view():
         return render_template("groups.html", groups=groups, uid=uid)
 
 
-# グループ作成処理(b-8)
+# グループリダイレクト処理
+@app.route("/group", methods=["GET"])
+def group_process():
+    uid = session.get("uid")
+    if uid is None:
+        return render_template("auth/login.html")
+    else:
+        return redirect(url_for("home_view"))
+
+
+# グループ作成処理
 @app.route("/group", methods=["POST"])
 def create_group():
     uid = session.get("uid")
@@ -148,6 +157,18 @@ def create_group():
             return redirect(url_for("message_view", gid=gid))
 
 
+# グループ名編集処理
+@app.route("/group/<gid>/update", methods=["POST"])
+def update_group(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        new_group_name = request.form.get("newGroupName")
+        Group.update(gid, new_group_name)
+        return redirect(f"/group/{gid}")
+
+
 # グループ削除処理
 @app.route("/group/<gid>/delete", methods=["POST"])
 def delete_group(gid):
@@ -156,7 +177,9 @@ def delete_group(gid):
         return redirect(url_for("login_view"))
     else:
         group = Group.find_by_gid(gid)
-        if uid != group["created_by"]:
+        if group is None:
+            flash("グループが存在しません")
+        elif uid != group["created_by"]:
             flash("グループは作成者のみ削除可能です")
         else:
             Group.delete(gid)
@@ -164,7 +187,35 @@ def delete_group(gid):
         return redirect(url_for("home_view"))
 
 
-# メッセージ一覧ページ表示（各グループ内で、そのグループに属している全メッセージを表示させる）
+# ユーザー招待処理
+@app.route("/group/<gid>/member/add", methods=["POST"])
+def add_member(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    email = request.form.get("email")
+    if email == "":
+        flash("空のフォームがあります")
+    else:
+        registerd_user = User.find_by_email(email)
+        if registerd_user is None:
+            flash("このユーザーは存在しません")
+        else:
+            members = Member.get_all(gid)
+            new_member_uid = registerd_user["id"]
+            is_member = (
+                True
+                if new_member_uid in [member.get("id") for member in members]
+                else False
+            )
+            if is_member:
+                flash("すでにこのグループに参加しているユーザーです")
+            else:
+                Member.add(new_member_uid, gid)
+    return redirect(f"/group/{gid}")
+
+
+# メッセージ一覧画面表示（各グループ内で、そのグループに属している全メッセージを表示させる）
 @app.route("/group/<gid>", methods=["GET"])
 def message_view(gid):
     uid = session.get("uid")
@@ -183,7 +234,7 @@ def message_view(gid):
         )
 
 
-# メッセージ作成処理(b-14)
+# メッセージ作成処理
 @app.route("/group/<gid>/message", methods=["POST"])
 def create_message(gid):
     uid = session.get("uid")
@@ -197,28 +248,30 @@ def create_message(gid):
 
         return redirect(f"/group/{gid}")
 
-#リアクション送信・送信処理(b-15)
-#メッセージごとの食べたｲｲﾈ!!を取得
-@app.route("/group/<gid>/message/<message_id>", methods=["GET"])
-def get_likes(gid, message_id):
-    conn = sqlite3.connect('group.db')
-    cursor = conn.cursor()
 
-    cursor.execute('SELECT counts FROM eat_reactions WHERE gid = ? AND message_id = ?', (gid, message_id))
-    row = cursor.fetchone()
-
-    conn.close()
-
-    if row:
-        likes_count = row[0]
+# メッセージ削除処理
+@app.route("/group/<gid>/message/delete", methods=["POST"])
+def delete_message(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
     else:
-        likes_count = 0
-         
-    return jsonify({
-        'gid': gid,
-        'message_id': message_id,
-        'likes_count': likes_count
-    })
+        message_id = request.form.get("message_id")
+        Message.delete(message_id)
+        return redirect(f"/group/{gid}")
+
+
+# リアクション送信処理
+@app.route("/group/<gid>/message/reaction", methods=["POST"])
+def add_reaction(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        message_id = request.form.get("message_id")
+        eatReaction.add(message_id)
+        return redirect(f"/group/{gid}")
+
 
 @app.errorhandler(404)
 def page_not_found(error):
