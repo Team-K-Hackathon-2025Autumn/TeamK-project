@@ -31,7 +31,7 @@
     <div class="my-messages">
       <p class="box box-right">{{ message.message }}</p>
       <p class="sendTime">{{ message.created_at }}</p>
-      <form action="/group/{{ group.id }}/messages/reaction" method="POST">
+      <form action="/group/{{ group.id }}/message/reaction" method="POST">
         <button
           class="reaction-message-button"
           name="message_id"
@@ -41,7 +41,7 @@
         </button>
       </form>
       <p class="reactions">{{ message.counts }}</p>
-      <form action="/group/{{ group.id }}/messages/delete" method="POST">
+      <form action="/group/{{ group.id }}/message/delete" method="POST">
         <button
           class="delete-message-button"
           name="message_id"
@@ -56,7 +56,7 @@
       <p class="user-name">{{ message.name }}</p>
       <p class="box box-left">{{ message.message }}</p>
       <p class="sendTime">{{ message.created_at }}</p>
-      <form action="/group/{{ group.id }}/messages/reaction" method="POST">
+      <form action="/group/{{ group.id }}/message/reaction" method="POST">
         <button
           class="reaction-message-button"
           name="message_id"
