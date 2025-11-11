@@ -1,0 +1,27 @@
+<div id="update-group-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="icon"><ion-icon name="pencil-outline"></ion-icon></span>
+      <h5>グループ名変更</h5>
+      <span class="modalClose" id="update-page-close-button">×</span>
+    </div>
+    <form
+      name="updateGroupForm"
+      class="modal-body"
+      action="/group/{{ group.id }}/update"
+      method="POST"
+    >
+      <input
+        type="text"
+        placeholder="グループ名"
+        value="{{group.name}}"
+        class="group-form-input"
+        name="newGroupName"
+        maxlength="20"
+        autocomplete="off"
+        required
+      />
+      <button type="submit">変更</button>
+    </form>
+  </div>
+</div>
