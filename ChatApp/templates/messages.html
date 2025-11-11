@@ -2,7 +2,7 @@
 <title>chatroom</title>
 {% endblock %} {% block body %}
 <div class="page-links">
-  <a href="{#{{ url_for('logout') }}#}">
+  <a href="{{ url_for('logout_process') }}">
     <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
   </a>
 </div>
@@ -31,17 +31,19 @@
     <div class="my-messages">
       <p class="box box-right">{{ message.message }}</p>
       <p class="sendTime">{{ message.created_at }}</p>
-      <form action="/group/{{ group.id }}/messages/reaction" method="POST">
-        <button
-          class="reaction-message-button"
-          name="message_id"
-          value="{{ message.id }}"
-        >
+      <form action="/group/{{ group.id }}/message/reaction" method="POST">
+        <input type="hidden" name="message_id" value="{{message.id}}" />
+        <input
+          type="hidden"
+          name="message_creation_type"
+          value="{{ message.creation_type }}"
+        />
+        <button class="reaction-message-button">
           <ion-icon name="fast-food-outline" style="color: #122543"></ion-icon>
         </button>
       </form>
       <p class="reactions">{{ message.counts }}</p>
-      <form action="/group/{{ group.id }}/messages/delete" method="POST">
+      <form action="/group/{{ group.id }}/message/delete" method="POST">
         <button
           class="delete-message-button"
           name="message_id"
@@ -56,6 +58,17 @@
       <p class="user-name">{{ message.name }}</p>
       <p class="box box-left">{{ message.message }}</p>
       <p class="sendTime">{{ message.created_at }}</p>
+      <form action="/group/{{ group.id }}/message/reaction" method="POST">
+        <input type="hidden" name="message_id" value="{{message.id}}" />
+        <input
+          type="hidden"
+          name="message_creation_type"
+          value="{{ message.creation_type }}"
+        />
+        <button class="reaction-message-button">
+          <ion-icon name="fast-food-outline" style="color: #122543"></ion-icon>
+        </button>
+      </form>
       <p class="reactions">{{ message.counts }}</p>
     </div>
     {% endif %} {% endfor %} {% else %}

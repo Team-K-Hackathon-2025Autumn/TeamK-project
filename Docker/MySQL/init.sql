@@ -6,6 +6,7 @@ CREATE DATABASE cookchat;
 USE cookchat
 GRANT ALL PRIVILEGES ON cookchat.* TO 'testuser';
 
+SET time_zone = '+09:00';
 CREATE TABLE users (
     id VARCHAR(255) NOT NULL PRIMARY KEY,
     name VARCHAR(20) NOT NULL,
@@ -32,6 +33,7 @@ CREATE TABLE messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     uid VARCHAR(255) NOT NULL,
     gid INT NOT NULL,
+    creation_type VARCHAR(20) NOT NULL DEFAULT 'user',
     message TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (uid) REFERENCES users(id),
@@ -48,6 +50,7 @@ CREATE TABLE eat_reactions (
 CREATE TABLE ai_messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     gid INT NOT NULL,
+    creation_type VARCHAR(20) NOT NULL DEFAULT 'ai',
     message TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (gid) REFERENCES `groups`(id) ON DELETE CASCADE

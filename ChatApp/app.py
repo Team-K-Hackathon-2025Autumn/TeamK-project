@@ -19,7 +19,7 @@ import json
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
-from models import User, Group, Message, Member
+from models import User, Group, Message, Member, eatReaction
 from util.assets import bundle_css_files
 
 
@@ -134,6 +134,16 @@ def home_view():
         return render_template("groups.html", groups=groups, uid=uid)
 
 
+# グループリダイレクト処理
+@app.route("/group", methods=["GET"])
+def group_process():
+    uid = session.get("uid")
+    if uid is None:
+        return render_template("auth/login.html")
+    else:
+        return redirect(url_for("home_view"))
+
+
 # グループ作成処理
 @app.route("/group", methods=["POST"])
 def create_group():
@@ -182,6 +192,34 @@ def delete_group(gid):
         return redirect(url_for("home_view"))
 
 
+# ユーザー招待処理
+@app.route("/group/<gid>/member/add", methods=["POST"])
+def add_member(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    email = request.form.get("email")
+    if email == "":
+        flash("空のフォームがあります")
+    else:
+        registerd_user = User.find_by_email(email)
+        if registerd_user is None:
+            flash("このユーザーは存在しません")
+        else:
+            members = Member.get_all(gid)
+            new_member_uid = registerd_user["id"]
+            is_member = (
+                True
+                if new_member_uid in [member.get("id") for member in members]
+                else False
+            )
+            if is_member:
+                flash("すでにこのグループに参加しているユーザーです")
+            else:
+                Member.add(new_member_uid, gid)
+    return redirect(f"/group/{gid}")
+
+
 # メッセージ一覧画面表示（各グループ内で、そのグループに属している全メッセージを表示させる）
 @app.route("/group/<gid>", methods=["GET"])
 def message_view(gid):
@@ -216,19 +254,40 @@ def create_message(gid):
         return redirect(f"/group/{gid}")
 
 
-# AIメニュー候補リクエスト処理
-@app.route("/group/<gid>/menu", methods=["POST"])
-def ai_menu_process(gid):
-    """Gemini APIを使用してメニューのリクエストデータに基づいて、JSON形式で作成されたメニュー候補のレスポンスを取得する"""
-
+# メッセージ削除処理
+@app.route("/group/<gid>/message/delete", methods=["POST"])
+def delete_message(gid):
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
     else:
-        request_data = request.form.get("requestData")
+        message_id = request.form.get("message_id")
+        Message.delete(message_id)
+        return redirect(f"/group/{gid}")
+
+
+# リアクション送信処理
+@app.route("/group/<gid>/message/reaction", methods=["POST"])
+def add_reaction(gid):
+    uid = session.get("uid")
+    if uid is None:
+        return redirect(url_for("login_view"))
+    else:
+        message_id = request.form.get("message_id")
+        message_creation_type = request.form.get("message_creation_type")
+        eatReaction.add(
+            message_id,
+            message_creation_type,
+        )
+        return redirect(f"/group/{gid}")
+
+
+# AIメニュー候補リクエスト処理
+@app.route("/group/<gid>/menu", methods=["POST"])
+def ai_menu_process(gid):
+    request_data = request.form.get("requestData")
 
     # ---- Gemini APIの設定 ----
-
     class Ingredient(BaseModel):
         name: str = Field(description="Name of the ingredient.")
         quantity: str = Field(description="Quantity of the ingredient")
