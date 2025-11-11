@@ -129,6 +129,8 @@ class Group:
             db_pool.release(conn)
 
 
+        
+
 ## メッセージクラス
 class Message:
     @classmethod
