@@ -11,13 +11,10 @@ db_pool = DB.init_db_pool()
 class User:
     @classmethod
     def create(cls, uid, name, email, password):
-        # データベース接続プールからコネクションを取得する
         conn = db_pool.get_conn()
         try:
-            # コネクションからカーソル（操作用のオブジェクト）を取得する
             with conn.cursor() as cur:
                 sql = "INSERT INTO users (id, name, email, password) VALUES (%s, %s, %s, %s);"
-                # SQLを実行し、パラメータ（id, name, email, password）を埋め込む
                 cur.execute(
                     sql,
                     (
@@ -27,7 +24,6 @@ class User:
                         password,
                     ),
                 )
-                # データベースに変更を反映（保存）する
                 conn.commit()
         except pymysql.Error as e:
             print(f"エラーが発生しています：{e}")
@@ -76,16 +72,15 @@ class Group:
                 sql = "SELECT * FROM `groups` WHERE id=%s;"
                 cur.execute(sql, (gid,))
                 group = cur.fetchone()
+                return group
         except pymysql.Error as e:
             print(f"エラーが発生しています：{e}")
             abort(500)
         finally:
             db_pool.release(conn)
-            return group
 
-    # b-8で使用
     @classmethod
-    def create(cls, uid, new_group_name):
+    def create(cls, uid, group_name):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
@@ -93,7 +88,7 @@ class Group:
                 cur.execute(
                     sql,
                     (
-                        new_group_name,
+                        group_name,
                         uid,
                     ),
                 )
@@ -101,6 +96,20 @@ class Group:
                 return cur.lastrowid
         except pymysql.Error as e:
             print(f"データベースの登録でエラーが発生しました：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def update(cls, gid, new_group_name):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "UPDATE `groups` SET name=%s WHERE id=%s;"
+                cur.execute(sql, (new_group_name, gid))
+                conn.commit()
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
             abort(500)
         finally:
             db_pool.release(conn)
@@ -119,22 +128,10 @@ class Group:
         finally:
             db_pool.release(conn)
 
-#b-11で使用
-    @classmethod
-    def find_by_gid_and_uid(cls, uid, gid):
-        conn = db_pool.get_conn()
-        try:
-            with conn.cursor() as cur:
-                sql = "SELECT FROM members WHERE uid=%s AND gid=%s:"
-                cur.execute(sql, (uid, gid,))
-                member = cur.fetchone()
-                return member
-        except pymysql.Error as e:
-            print(f"エラーが発生しています：{e}")
-            abort(500)
-        finally:
-            db_pool.release(conn)
+
         
+
+## メッセージクラス
 class Message:
     @classmethod
     def get_all(cls, gid):
@@ -175,6 +172,7 @@ class Message:
             db_pool.release(conn)
 
 
+## メンバークラス
 class Member:
     @classmethod
     def get_all(cls, gid):
@@ -182,10 +180,9 @@ class Member:
         try:
             with conn.cursor() as cur:
                 sql = """
-                    SELECT u.id, u.name, u.email
-                    FROM user_groups AS ug INNER JOIN users AS u ON ug.uid = u.id
-                    WHERE ug.gid = %s
-                    ORDER BY u.id ASC;
+                    SELECT id, name, email
+                    FROM users WHERE id IN (SELECT uid FROM user_groups WHERE gid = %s)
+                    ORDER BY name ASC;
                 """
                 cur.execute(sql, (gid,))
                 messages = cur.fetchall()
@@ -211,7 +208,7 @@ class Member:
                 )
                 conn.commit()
         except pymysql.Error as e:
-            print(f"データベースの登録でエラーが発生しました（user_groups)：{e}")
+            print(f"データベースの登録でエラーが発生しました(user_groups)：{e}")
             abort(500)
         finally:
             db_pool.release(conn)
