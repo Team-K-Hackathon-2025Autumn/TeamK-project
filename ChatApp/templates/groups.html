@@ -16,14 +16,15 @@
   </div >
 </header>  
   <div id="groups-list">
-    <ul class="group-box"></ul>
+    <div class="group-box"></div>
+    <ion-icon id="create-group-button" name="add-circle-outline"></ion-icon>
 
   </div>
 
   {% include 'modal/create-group.html' %}
   {% include 'modal/delete-group.html' %}
 
-</div>
+
 {% endblock %}
 
 {% block script %}

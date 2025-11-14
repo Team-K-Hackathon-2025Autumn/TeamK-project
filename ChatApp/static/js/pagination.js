@@ -60,15 +60,7 @@ const appendGroups = () => {
 
   displayedCount += nextGroups.length;
 
-  // グループ作成ボタンは1回だけ追加
-  if (!document.getElementById("create-group-button")) {
-    const createGroupButton = document.createElement("ion-icon");
-    createGroupButton.id = "create-group-button";
-    createGroupButton.name = "add-circle-outline";
-    groupBox.appendChild(createGroupButton);
 
-    initCreategroupModal();
-  }
 };
 
 // 初期表示（最初の5件）
@@ -78,7 +70,7 @@ appendGroups();
 groupBox.addEventListener("scroll", () => {
   if (
     groupBox.scrollTop + groupBox.clientHeight >=
-    groupBox.scrollHeight - 80
+    groupBox.scrollHeight - 40
   
   ) {
     if (displayedCount < groups.length) {
@@ -89,3 +81,4 @@ groupBox.addEventListener("scroll", () => {
 
 // 削除モーダル初期化
 initDeletegroupModal();
+initCreategroupModal();
