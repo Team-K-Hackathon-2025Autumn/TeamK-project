@@ -109,6 +109,9 @@ function create_quant_input(num) {
   input_quant.setAttribute('id', 'input-quant-' + num);
   input_quant.setAttribute('name', 'quantity');
   input_quant.setAttribute('placeholder', '数量');
+  input_quant.setAttribute('type', 'number');
+  input_quant.setAttribute('step', '0.1');
+  input_quant.setAttribute('min', '0.1');
   input_quant.setAttribute('required', '');
   return input_quant;
 }

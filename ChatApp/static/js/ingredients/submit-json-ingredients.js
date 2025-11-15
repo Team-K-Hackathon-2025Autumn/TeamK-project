@@ -1,5 +1,6 @@
 const inputSubmit = document.getElementById('input-submit');
-inputSubmit.addEventListener('click', async function (event) {
+const form = document.getElementById('ingredient-form');
+form.addEventListener('submit', async function (event) {
   event.preventDefault();
   inputSubmit.disabled = true;
   isModalCloseDisabled = true;
@@ -12,7 +13,6 @@ inputSubmit.addEventListener('click', async function (event) {
     inputSubmit.innerText = inputSubmitButtonBaseText + '.'.repeat(dotNum);
   }, 1000);
 
-  const form = document.getElementById('ingredient-form');
   const formData = new FormData(form);
   const ingredientNames = formData.getAll('name');
   const ingredientQuantities = formData.getAll('quantity');

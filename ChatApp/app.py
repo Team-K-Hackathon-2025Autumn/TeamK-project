@@ -170,9 +170,15 @@ def update_group(gid):
     if uid is None:
         return redirect(url_for("login_view"))
     else:
-        new_group_name = request.form.get("newGroupName")
-        Group.update(gid, new_group_name)
-        return redirect(f"/group/{gid}")
+        group = Group.find_by_gid(gid)
+        if group is None:
+            flash("グループが存在しません")
+        elif uid != group["created_by"]:
+            flash("グループ名はグループ作成者のみ編集可能です")
+        else:
+            new_group_name = request.form.get("newGroupName")
+            Group.update(gid, new_group_name)
+            return redirect(f"/group/{gid}")
 
 
 # グループ削除処理
@@ -186,7 +192,7 @@ def delete_group(gid):
         if group is None:
             flash("グループが存在しません")
         elif uid != group["created_by"]:
-            flash("グループは作成者のみ削除可能です")
+            flash("グループはグループ作成者のみ削除可能です")
         else:
             Group.delete(gid)
 
@@ -200,61 +206,65 @@ def add_member(gid):
     if uid is None:
         return redirect(url_for("login_view"))
     email = request.form.get("email")
-    reopen_modal = None 
+    reopen_modal = None
     if email == "":
         flash("空のフォームがあります")
         reopen_modal = "add-member"
     else:
-        registerd_user = User.find_by_email(email)
-        if registerd_user is None:
-            flash("このユーザーは存在しません")
-            reopen_modal = "add-member"
+        group = Group.find_by_gid(gid)
+        if group is None:
+            flash("グループが存在しません")
+        elif uid != group["created_by"]:
+            flash("ユーザーの招待はグループ作成者のみ削除可能です")
         else:
-            members = Member.get_all(gid)
-            new_member_uid = registerd_user["id"]
-            is_member = (
-                True
-                if new_member_uid in [member.get("id") for member in members]
-                else False
-            )
-            if is_member:
-                flash("すでにこのグループに参加しているユーザーです")
+            registerd_user = User.find_by_email(email)
+            if registerd_user is None:
+                flash("このユーザーは存在しません")
                 reopen_modal = "add-member"
             else:
-                Member.add(new_member_uid, gid)
-                
-    group = Group.find_by_gid(gid)
-    messages = Message.get_all(gid)
-    members = Member.get_all(gid)
-
-    return render_template(
-        "messages.html",
-        messages=messages,
-        group=group,
-        members=members,
-        uid=uid,
-        reopen_modal=reopen_modal,  
-    )
-    
+                members = Member.get_all(gid)
+                new_member_uid = registerd_user["id"]
+                is_member = (
+                    True
+                    if new_member_uid in [member.get("id") for member in members]
+                    else False
+                )
+                if is_member:
+                    flash("すでにこのグループに参加しているユーザーです")
+                    reopen_modal = "add-member"
+                else:
+                    Member.add(new_member_uid, gid)
+        return redirect(url_for("message_view", gid=gid, reopen_modal=reopen_modal))
 
 
 # メッセージ一覧画面表示（各グループ内で、そのグループに属している全メッセージを表示させる）
 @app.route("/group/<gid>", methods=["GET"])
 def message_view(gid):
+    reopen_modal = request.args.get("reopen_modal")
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
     else:
         group = Group.find_by_gid(gid)
-        messages = Message.get_all(gid)
+        if group is None:
+            flash("グループが存在しません")
+            return redirect(url_for("home_view"))
+
         members = Member.get_all(gid)
-        return render_template(
-            "messages.html",
-            messages=messages,
-            group=group,
-            members=members,
-            uid=uid,
-        )
+        is_member = True if uid in [member.get("id") for member in members] else False
+        if not is_member:
+            flash("参加していないグループです")
+            return redirect(url_for("home_view"))
+        else:
+            messages = Message.get_all(gid)
+            return render_template(
+                "messages.html",
+                messages=messages,
+                group=group,
+                members=members,
+                uid=uid,
+                reopen_modal=reopen_modal,
+            )
 
 
 # メッセージ作成処理
@@ -264,12 +274,21 @@ def create_message(gid):
     if uid is None:
         return redirect(url_for("login_view"))
     else:
-        message = request.form.get("message")
+        group = Group.find_by_gid(gid)
+        if group is None:
+            flash("グループが存在しません")
+            return redirect(url_for("home_view"))
 
-        if message:
-            Message.create(uid, gid, message)
-
-        return redirect(f"/group/{gid}")
+        members = Member.get_all(gid)
+        is_member = True if uid in [member.get("id") for member in members] else False
+        if not is_member:
+            flash("参加していないグループです")
+            return redirect(url_for("home_view"))
+        else:
+            message = request.form.get("message")
+            if message:
+                Message.create(uid, gid, message)
+                return redirect(f"/group/{gid}")
 
 
 # メッセージ削除処理
@@ -279,9 +298,20 @@ def delete_message(gid):
     if uid is None:
         return redirect(url_for("login_view"))
     else:
-        message_id = request.form.get("message_id")
-        Message.delete(message_id)
-        return redirect(f"/group/{gid}")
+        group = Group.find_by_gid(gid)
+        if group is None:
+            flash("グループが存在しません")
+            return redirect(url_for("home_view"))
+
+        members = Member.get_all(gid)
+        is_member = True if uid in [member.get("id") for member in members] else False
+        if not is_member:
+            flash("参加していないグループです")
+            return redirect(url_for("home_view"))
+        else:
+            message_id = request.form.get("message_id")
+            Message.delete(message_id)
+            return redirect(f"/group/{gid}")
 
 
 # リアクション送信処理
@@ -291,97 +321,150 @@ def add_reaction(gid):
     if uid is None:
         return redirect(url_for("login_view"))
     else:
-        message_id = request.form.get("message_id")
-        message_creation_type = request.form.get("message_creation_type")
-        eatReaction.add(
-            message_id,
-            message_creation_type,
-        )
-        return redirect(f"/group/{gid}")
+        group = Group.find_by_gid(gid)
+        if group is None:
+            flash("グループが存在しません")
+            return redirect(url_for("home_view"))
+
+        members = Member.get_all(gid)
+        is_member = True if uid in [member.get("id") for member in members] else False
+        if not is_member:
+            flash("参加していないグループです")
+            return redirect(url_for("home_view"))
+        else:
+            message_id = request.form.get("message_id")
+            message_creation_type = request.form.get("message_creation_type")
+            eatReaction.add(
+                message_id,
+                message_creation_type,
+            )
+            return redirect(f"/group/{gid}")
 
 
 # AIメニュー候補リクエスト処理
 @app.route("/group/<gid>/menu", methods=["POST"])
 def ai_menu_process(gid):
-    request_data = request.get_json()
-    print(request_data)
-
-    # ---- Gemini APIの設定 ----
-    class Ingredient(BaseModel):
-        name: str = Field(description="Name of the ingredient.")
-        quantity: str = Field(description="Quantity of the ingredient")
-        unit: str = Field(description="Unit of the quantity")
-
-    class Menu(BaseModel):
-        menuId: str = Field(description="The id of the menu. start from 1")
-        menuName: str = Field(description="The name of the recipe.")
-        ingredients: List[Ingredient]
-        instructions: List[str]
-
-    class Menus(BaseModel):
-        menus: list[Menu]
-
-    try:
-        client = genai.Client()
-    except Exception as e:
-        print(f"Gemini APIの初期化中にエラーが発生しました: {e}")
-        abort(500)
-
-    # ---- Gemini APIでメニュー作成を依頼 ---
-    # プロンプト
-    prompt = f"""
-    あなたは献立のメニューアドバイザーです。JSON形式で送信されるデータに基づいて、献立を考えてください。
-    このデータには
-        - 今ある食材名（name）、分量（quantity)、分量の単位（unit)
-        - 任意の希望リクエスト
-        - 希望するメニュー数
-
-    が記載されています。データは{request_data}です。
-
-    # 最重要ルール
-    - 回答は日本語にしてください。
-    - 今ある食材は必ず使ってください。ただし、必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
-    - 作り方の文章には必ず 1. ような番号をつけてください。この番号は1から始めてください。
-    """
-
-    try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
-            config={
-                "response_mime_type": "application/json",
-                "response_json_schema": Menus.model_json_schema(),
-            },
+    uid = session.get("uid")
+    if uid is None:
+        # return redirect(url_for("login_view"))
+        return (
+            jsonify(
+                {
+                    "message": "ログインしていません",
+                    "redirect_url": "/login",
+                }
+            ),
+            200,
         )
-        ai_response = Menus.model_validate_json(response.text)
-        print(ai_response)
-
-        for index, menu in enumerate(ai_response.menus):
-            ai_message = []
-            menu_name = menu.menuName
-            ai_message.extend(
-                [f"メニュー{index + 1}: {menu_name}", "-------", "材料: "]
+    else:
+        group = Group.find_by_gid(gid)
+        if group is None:
+            flash("グループが存在しません")
+            return (
+                jsonify(
+                    {
+                        "message": "グループが存在しません",
+                        "redirect_url": "/login",
+                    }
+                ),
+                200,
             )
-            for ingredient in menu.ingredients:
-                name = ingredient.name
-                quantity = ingredient.quantity
-                unit = ingredient.unit
-                ai_message.append(f"{name} {quantity}{unit}")
 
-            ai_message.extend(["-------", "作り方: "])
-            for instruction in menu.instructions:
-                ai_message.append(instruction)
+        members = Member.get_all(gid)
+        is_member = True if uid in [member.get("id") for member in members] else False
+        if not is_member:
+            flash("参加していないグループです")
+            return (
+                jsonify(
+                    {
+                        "message": "参加していないグループです",
+                        "redirect_url": "/home",
+                    }
+                ),
+                200,
+            )
+        else:
+            request_data = request.get_json()
+            print(request_data)
 
-            ai_message_string = "\n".join(ai_message)
-            print(ai_message_string)
-            Message.create_ai_message(gid, ai_message_string)
+            # ---- Gemini APIの設定 ----
+            class Ingredient(BaseModel):
+                name: str = Field(description="Name of the ingredient.")
+                quantity: str = Field(description="Quantity of the ingredient")
+                unit: str = Field(description="Unit of the quantity")
 
-        # return redirect(f"/group/{gid}")
-        return jsonify({"message": "success", "redirect_url": f"/group/{gid}"}), 200
+            class Menu(BaseModel):
+                menuId: str = Field(description="The id of the menu. start from 1")
+                menuName: str = Field(description="The name of the recipe.")
+                ingredients: List[Ingredient]
+                instructions: List[str]
 
-    except Exception as e:
-        print(f"エラーが発生しています：{e}")
-        abort(500)
+            class Menus(BaseModel):
+                menus: list[Menu]
+
+            try:
+                client = genai.Client()
+            except Exception as e:
+                print(f"Gemini APIの初期化中にエラーが発生しました: {e}")
+                abort(500)
+
+            # ---- Gemini APIでメニュー作成を依頼 ---
+            # プロンプト
+            prompt = f"""
+            あなたは献立のメニューアドバイザーです。JSON形式で送信されるデータに基づいて、献立を考えてください。
+            このデータには
+                - 今ある食材名（name）、分量（quantity)、分量の単位（unit)
+                - 任意の希望リクエスト
+                - 希望するメニュー数
+
+            が記載されています。データは{request_data}です。
+
+            # 最重要ルール
+            - 回答は日本語にしてください。
+            - 今ある食材は必ず使ってください。ただし、必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
+            - 作り方の文章には必ず 1. ような番号をつけてください。この番号は1から始めてください。
+            """
+
+            try:
+                response = client.models.generate_content(
+                    model="gemini-2.5-flash",
+                    contents=prompt,
+                    config={
+                        "response_mime_type": "application/json",
+                        "response_json_schema": Menus.model_json_schema(),
+                    },
+                )
+                ai_response = Menus.model_validate_json(response.text)
+                print(ai_response)
+
+                for index, menu in enumerate(ai_response.menus):
+                    ai_message = []
+                    menu_name = menu.menuName
+                    ai_message.extend(
+                        [f"メニュー{index + 1}: {menu_name}", "", "<材料>"]
+                    )
+                    for ingredient in menu.ingredients:
+                        name = ingredient.name
+                        quantity = ingredient.quantity
+                        unit = ingredient.unit
+                        ai_message.append(f"{name} {quantity}{unit}")
+
+                    ai_message.extend(["", "<作り方> "])
+                    for instruction in menu.instructions:
+                        ai_message.append(instruction)
+
+                    ai_message_string = "\n".join(ai_message)
+                    print(ai_message_string)
+                    Message.create_ai_message(gid, ai_message_string)
+
+                return (
+                    jsonify({"message": "success", "redirect_url": f"/group/{gid}"}),
+                    200,
+                )
+
+            except Exception as e:
+                print(f"エラーが発生しています：{e}")
+                abort(500)
 
 
 @app.errorhandler(404)

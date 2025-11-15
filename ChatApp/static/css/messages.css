@@ -4,7 +4,6 @@
   padding: 0;
 }
 
-
 /* チャットヘッダー */
 
 .chat-header {
@@ -17,7 +16,6 @@
   border: none;
 }
 
-
 #group-name {
   font-weight: 600;
   font-size: 0.95rem;
@@ -27,7 +25,7 @@
 .chat-header button {
   background: none;
   border: none;
-  color: #5D4037;
+  color: #5d4037;
   font-size: 1.5rem;
   cursor: pointer;
   margin-left: 6px;
@@ -38,19 +36,17 @@
   opacity: 0.7;
 }
 
-
-
 /* メッセージエリア */
-.message-top{
+.message-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
-.message-bottom{
+.message-bottom {
   display: flex;
   justify-content: flex-end;
 }
-.message-bottom2{
+.message-bottom2 {
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
@@ -61,7 +57,8 @@
   overflow-y: auto;
 }
 
-.messages, .my-messages {
+.messages,
+.my-messages {
   margin-bottom: 20px;
 }
 
@@ -80,10 +77,12 @@
 
 .box-left {
   background-color: #fff;
+  white-space: pre-wrap;
 }
 
 .box-right {
-  background-color: #D87C58;
+  background-color: #d87c58;
+  white-space: pre-wrap;
   color: #fff;
   float: right;
 }
@@ -107,7 +106,7 @@
   margin-right: 10px;
   color: #122543;
   border-radius: 20px;
-  border-color: #9DA977;
+  border-color: #9da977;
   padding: 3px;
 }
 .delete-message-button {
@@ -122,11 +121,10 @@
 .delete-message-button:hover ion-icon {
   color: #d9534f;
 }
-.reaction2{
+.reaction2 {
   display: flex;
   margin-right: 15px;
   align-items: flex-end;
-
 }
 
 /* 入力欄 */
@@ -169,7 +167,7 @@
   display: flex;
   background: none;
   border: none;
-  color: #9DA977;
+  color: #9da977;
   font-size: 2rem;
   cursor: pointer;
   transition: 0.3s;
@@ -178,14 +176,14 @@
 #add-message-button:hover {
   transform: scale(1.1);
 }
-#create-menu{
+#create-menu {
   font-size: 3.5rem;
-  color: #D87C58;
+  color: #d87c58;
   cursor: pointer;
   transition: 0.3s ease;
-  padding-right:20px;
+  padding-right: 20px;
 }
 #create-menu img {
   width: 40px;
-  height: auto; 
+  height: auto;
 }

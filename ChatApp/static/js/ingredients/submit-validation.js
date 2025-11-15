@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     }
-    submitButton.disabled = !allRowsValid;
-    if (!submitButton.disabled) {
-      submitButton.style.backgroundColor = '#D87C58';
-    } else {
-      submitButton.style.backgroundColor = '#808080';
-    }
+    // submitButton.disabled = !allRowsValid;
+    // if (!submitButton.disabled) {
+    //   submitButton.style.backgroundColor = '#D87C58';
+    // } else {
+    //   submitButton.style.backgroundColor = '#808080';
+    // }
   }
 
   form.addEventListener('input', validateForm);
