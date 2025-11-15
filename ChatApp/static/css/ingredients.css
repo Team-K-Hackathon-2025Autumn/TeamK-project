@@ -60,10 +60,10 @@
     border: none;
     background-color: #F6EFE7;
 }
-ion-icon {
+
+#add-input-button{
     font-size: 24px;
     color: #D87C58;
-
 }
 .request {
     text-align: center;

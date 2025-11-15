@@ -31,12 +31,12 @@
     {% include 'modal/view-member.html' %}
   </div>
   <div id="message-area">
-    {% if messages|length > 0 %} {% for message in messages %} {% if message.uid
-    == uid %}
+     {% if messages|length > 0 %} {% for message in messages %} {% if message.uid
+     == uid %}
     <div class="my-messages">
       <div class="message-top">
-       <p class="sendTime">{{ message.created_at }}</p>
-       <p class="box box-right">{{ message.message }}</p>
+        <p class="sendTime">{{ message.created_at }}</p>
+        <p class="box box-right">{{ message.message }}</p>
 
       </div>
       <div class="message-bottom">
@@ -51,7 +51,7 @@
              </button>
             </form>
              <p class="reactions">{{ message.counts }}</p>
-         </div>
+        </div>
          <form action="/group/{{ group.id }}/message/delete" method="POST">
           <button
             class="delete-message-button"
@@ -78,6 +78,7 @@
            >
            食べたｲｲﾈ!
            </button>
+         </form> 
          <p class="reactions">{{ message.counts }}</p>
          <form  class="message-delete-button" action="/group/{{ group.id }}/message/delete" method="POST"></form>
     </div>
