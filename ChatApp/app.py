@@ -199,12 +199,15 @@ def add_member(gid):
     if uid is None:
         return redirect(url_for("login_view"))
     email = request.form.get("email")
+    reopen_modal = None 
     if email == "":
         flash("空のフォームがあります")
+        reopen_modal = "add-member"
     else:
         registerd_user = User.find_by_email(email)
         if registerd_user is None:
             flash("このユーザーは存在しません")
+            reopen_modal = "add-member"
         else:
             members = Member.get_all(gid)
             new_member_uid = registerd_user["id"]
@@ -215,9 +218,23 @@ def add_member(gid):
             )
             if is_member:
                 flash("すでにこのグループに参加しているユーザーです")
+                reopen_modal = "add-member"
             else:
                 Member.add(new_member_uid, gid)
-    return redirect(f"/group/{gid}")
+                
+    group = Group.find_by_gid(gid)
+    messages = Message.get_all(gid)
+    members = Member.get_all(gid)
+
+    return render_template(
+        "messages.html",
+        messages=messages,
+        group=group,
+        members=members,
+        uid=uid,
+        reopen_modal=reopen_modal,  
+    )
+    
 
 
 # メッセージ一覧画面表示（各グループ内で、そのグループに属している全メッセージを表示させる）
