@@ -1,0 +1,60 @@
+<div id="input-ingredients-modal" class="modal">
+  <div class="input-modal-content">
+    <div class="modal-header">
+      <h5 class="input-h5">必須食材入力フォーム</h5>
+      <span class="modalClose" id="input-page-close-button">×</span>
+    </div>
+    <form id="ingredient-form">
+      <div class="input-zone">
+        <div class="input-header">
+          <label class="ingre">食材名</label>
+          <label class="quant">数量</label>
+          <label class="unit">単位</label>
+          <lavel class="del_btn"></lavel>
+        </div>
+        <div id="add-input-area">
+          <!-- ここに入力欄が入る -->
+        </div>
+        <div class="ion-icon">
+          <button class="add-btn" type="button" onclick="add_input_area();">
+            <ion-icon id="add-input-button" name="add-circle-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+      <div class="request">
+        <h5>希望リクエスト</h5>
+        <textarea
+          id="request-area"
+          name="request"
+          placeholder="希望を入力してください"
+        ></textarea>
+      </div>
+      <div class="request">
+        <h5>希望メニュー数（1~9）</h5>
+        <input
+          id="candidate-count"
+          type="number"
+          value="5"
+          max="9"
+          name="menuCandidateCount"
+          placeholder="半角数字で入力"
+        />
+      </div>
+      <p class="input-submit">
+        <button id="input-submit">AIに送信</button>
+      </p>
+    </form>
+  </div>
+</div>
+<script
+  src="{{url_for('static',filename='js/ingredients/submit-json-ingredients.js')}}"
+  type="module"
+></script>
+<script
+  type="module"
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+></script>
+<script
+  nomodule
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+></script>

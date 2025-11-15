@@ -1,3 +1,4 @@
+from google import genai
 from flask import (
     Flask,
     request,
@@ -13,6 +14,10 @@ import hashlib
 import uuid
 import re
 import os
+import json
+
+from pydantic import BaseModel, Field
+from typing import List, Optional
 
 from models import User, Group, Message, Member, eatReaction
 from util.assets import bundle_css_files
@@ -286,8 +291,95 @@ def add_reaction(gid):
         return redirect(url_for("login_view"))
     else:
         message_id = request.form.get("message_id")
-        eatReaction.add(message_id)
+        message_creation_type = request.form.get("message_creation_type")
+        eatReaction.add(
+            message_id,
+            message_creation_type,
+        )
         return redirect(f"/group/{gid}")
+
+
+# AIメニュー候補リクエスト処理
+@app.route("/group/<gid>/menu", methods=["POST"])
+def ai_menu_process(gid):
+    request_data = request.get_json()
+
+    # ---- Gemini APIの設定 ----
+    class Ingredient(BaseModel):
+        name: str = Field(description="Name of the ingredient.")
+        quantity: str = Field(description="Quantity of the ingredient")
+        unit: str = Field(description="Unit of the quantity")
+
+    class Menu(BaseModel):
+        menuId: str = Field(description="The id of the menu. start from 1")
+        menuName: str = Field(description="The name of the recipe.")
+        ingredients: List[Ingredient]
+        instructions: List[str]
+
+    class Menus(BaseModel):
+        menus: list[Menu]
+
+    try:
+        client = genai.Client()
+    except Exception as e:
+        print(f"Gemini APIの初期化中にエラーが発生しました: {e}")
+        abort(500)
+
+    # ---- Gemini APIでメニュー作成を依頼 ---
+    # プロンプト
+    prompt = f"""
+    あなたは献立のメニューアドバイザーです。JSON形式で送信されるデータに基づいて、献立を考えてください。
+    このデータには
+        - 今ある食材名（name）、分量（quantity)、分量の単位（unit)
+        - 任意の希望リクエスト
+        - 希望するメニュー数
+
+    が記載されています。データは{request_data}です。
+
+    # 最重要ルール
+    - 回答は日本語にしてください。
+    - 必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
+    - 作り方の文章には必ず 1. ような番号をつけてください。この番号は1から始めてください。
+    """
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+            config={
+                "response_mime_type": "application/json",
+                "response_json_schema": Menus.model_json_schema(),
+            },
+        )
+        print(request_data)
+        ai_response = Menus.model_validate_json(response.text)
+        print(ai_response)
+
+        for index, menu in enumerate(ai_response.menus):
+            ai_message = []
+            menu_name = menu.menuName
+            ai_message.extend(
+                [f"メニュー{index + 1}: {menu_name}", "-------", "材料: "]
+            )
+            for ingredient in menu.ingredients:
+                name = ingredient.name
+                quantity = ingredient.quantity
+                unit = ingredient.unit
+                ai_message.append(f"{name} {quantity}{unit}")
+
+            ai_message.extend(["-------", "作り方: "])
+            for instruction in menu.instructions:
+                ai_message.append(instruction)
+
+            ai_message_string = "\n".join(ai_message)
+            print(ai_message_string)
+            Message.create_ai_message(gid, ai_message_string)
+
+        return redirect(f"/group/{gid}")
+
+    except Exception as e:
+        print(f"エラーが発生しています：{e}")
+        abort(500)
 
 
 @app.errorhandler(404)

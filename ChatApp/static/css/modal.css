@@ -16,7 +16,8 @@
 #delete-group-modal,
 #update-group-modal,
 #view-member-modal,
-#add-member-modal {
+#add-member-modal,
+#input-ingredients-modal {
   display: none;
 }
 /* ===== モーダルの中身 ===== */
