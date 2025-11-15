@@ -5,9 +5,9 @@ document
     const form = document.getElementById("ingredient-form");
     const formData = new FormData(form);
 
-    const ingredientNames = formData.getAll("ingredient_name");
-    const ingredientQuantities = formData.getAll("ingredient_quantity");
-    const ingredientUnits = formData.getAll("ingredient_unit");
+    const ingredientNames = formData.getAll("name");
+    const ingredientQuantities = formData.getAll("quantity");
+    const ingredientUnits = formData.getAll("unit");
 
     const ingredients = [];
     for (let i = 0; i < ingredientNames.length; i++) {

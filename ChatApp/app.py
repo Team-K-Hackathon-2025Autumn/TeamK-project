@@ -285,7 +285,7 @@ def add_reaction(gid):
 # AIメニュー候補リクエスト処理
 @app.route("/group/<gid>/menu", methods=["POST"])
 def ai_menu_process(gid):
-    request_data = request.form.get("requestData")
+    request_data = request.get_json()
 
     # ---- Gemini APIの設定 ----
     class Ingredient(BaseModel):
@@ -311,30 +311,18 @@ def ai_menu_process(gid):
     # ---- Gemini APIでメニュー作成を依頼 ---
     # プロンプト
     prompt = f"""
-    あなたは献立のメニューアドバイザーです。JSON形式で送信される情報に基づいて、献立を考えてください。情報には、
-        - 今ある食材名、分量、分量の単位
+    あなたは献立のメニューアドバイザーです。JSON形式で送信されるデータに基づいて、献立を考えてください。
+    このデータには
+        - 今ある食材名（name）、分量（quantity)、分量の単位（unit)
         - 任意の希望リクエスト
         - 希望するメニュー数
-    が存在し、以下のようなJSONフォーマットです。
 
-    {{
-    "ingredients": [
-        {{"name": "人参", "quantity": 2, "unit": "本"}},
-        {{"name": "じゃがいも", "quantity": 3, "unit": "個"}},
-        {{"name": "豚肉", "quantity": 200, "unit": "g"}},
-    ],
-    "request": "白米に合うメニューでお願いします",
-    "menuCandidateCount": 3,
-    }}
+    が記載されています。データは{request_data}です。
 
     # 最重要ルール
     - 回答は日本語にしてください。
     - 必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
     - 作り方の文章には必ず 1. ような番号をつけてください。この番号は1から始めてください。
-
-    # リクエストJSONリスト
-    {request_data}
-
     """
 
     try:
@@ -346,7 +334,7 @@ def ai_menu_process(gid):
                 "response_json_schema": Menus.model_json_schema(),
             },
         )
-
+        print(request_data)
         ai_response = Menus.model_validate_json(response.text)
         print(ai_response)
 
