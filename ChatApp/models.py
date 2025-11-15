@@ -152,7 +152,9 @@ class Message:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "INSERT INTO messages (uid, gid, message) VALUES (%s, %s, %s);"
+                sql = """
+                INSERT INTO messages (uid, gid, message) VALUES (%s, %s, %s);
+                """
                 # TIMESTANPはDBのカラム定義に「DEFAULT CURRENT_TIMESTAMP」を指定することによって自動的に入る
                 cur.execute(
                     sql,
@@ -163,8 +165,35 @@ class Message:
                     ),
                 )
                 conn.commit()
+
+            message_id = cur.lastrowid
+            with conn.cursor() as cur:
+                sql = """
+                INSERT INTO eat_reactions (message_id, counts) VALUES (%s, 0);
+                """
+                # eat_reactionsテーブルにリアクション数を0として挿入する
+                cur.execute(
+                    sql,
+                    (message_id),
+                )
+                conn.commit()
         except pymysql.Error as e:
             print(f"データベースの登録でエラーが発生しました：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def delete(cls, message_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """DELETE FROM messages WHERE id = %s;
+                """
+                cur.execute(sql, (message_id,))
+                conn.commit()
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
             abort(500)
         finally:
             db_pool.release(conn)
@@ -207,6 +236,26 @@ class Member:
                 conn.commit()
         except pymysql.Error as e:
             print(f"データベースの登録でエラーが発生しました(user_groups)：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+
+# リアクションクラス
+class eatReaction:
+    @classmethod
+    def add(cls, message_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                    UPDATE eat_reactions SET counts = counts + 1
+                    WHERE message_id = %s;
+                """
+                cur.execute(sql, (message_id,))
+                conn.commit()
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
             abort(500)
         finally:
             db_pool.release(conn)

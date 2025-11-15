@@ -1,6 +1,13 @@
 /*
 メンバーを追加するモーダルの制御
 */
+window.addEventListener("DOMContentLoaded", () => {
+  const reopen = document.body.dataset.reopenModal;
+  if (reopen === "add-member") {
+    const modal = document.getElementById("add-member-modal");
+    if (modal) modal.style.display = "flex";
+  }
+});
 
 const addButton = document.getElementById("member-add-button");
 const addMemberModal = document.getElementById("add-member-modal");
