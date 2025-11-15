@@ -3,7 +3,7 @@ body {
   background-color: #F6E2B3;
 }
 .main-container {
-  size:375px 112px;
+  size:375px 110px;
   display: flex;
   justify-content: space-between;
     align-items: center;
@@ -31,6 +31,16 @@ header .icon{
   align-items: center;
   margin-bottom: 12px;
   margin-left: 16px;
+}
+/* グループ全体のコンテナ */
+.group-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 横方向中央寄せ */
+  max-height: 400px;
+  overflow-y: auto;
+  height: max-content; /* スクロールできる高さを確保（適宜調整） */
+  padding: 20px 0;
 }
 
 /* グループ名のボックス */

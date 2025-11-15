@@ -1,0 +1,95 @@
+.input-modal-content {
+    background-color: #F6EFE7;
+    padding: 10px;
+    border-radius: 8px;
+}
+.input-h5 {
+    border-bottom: solid 1px black;
+    margin: 20px auto 0;
+}
+.input-zone {
+    height: 200px;
+    width: 90%;
+    margin: 0 auto;
+    overflow-y: auto;
+}
+
+.input-header {
+    display: flex;
+    flex-direction: row;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color:#F6EFE7;
+}
+.input-area {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2px;
+}
+.ingre {
+    width: 50%;
+    /* text-align: center; */
+    box-sizing: border-box;
+    margin-right: 2px;
+}
+.quant {
+    width: 25%;
+    /* text-align: center; */
+    box-sizing: border-box;
+    margin-right: 2px;
+}
+.unit {
+    width: 15%;
+    /* text-align: center; */
+    box-sizing: border-box;
+}
+.del_btn {
+    width: 10%;
+    /* text-align: center; */
+    box-sizing: border-box;
+    border: none;
+    background-color: #F6EFE7;
+    font-size: 15px;
+}
+.ion-icon {
+    text-align: center;
+    margin-top: 10px;
+}
+.add-btn {
+    border: none;
+    background-color: #F6EFE7;
+}
+
+#add-input-button{
+    font-size: 24px;
+    color: #D87C58;
+}
+.request {
+    text-align: center;
+    margin: 30px 0 10px;
+}
+.request h5{
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+#request-area {
+    margin-top: 5px;
+    width: 67%;
+    height: 110px;
+}
+#candidate-count{
+    text-align: right;
+    width: 40%;
+}
+.input-submit {
+    text-align: right;
+    padding: 20px;    
+}
+.input-submit button {
+    border: none;
+    color: #FFFFFF;
+    background-color: #D87C58;
+    border-radius: 21px;
+    padding: 10.5px 15px;
+}

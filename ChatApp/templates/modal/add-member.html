@@ -1,7 +1,10 @@
 <div id="add-member-modal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
-      <h5>ユーザー招待</h5>
+      <h5>
+        <span class="icon"><ion-icon name="person-add-outline"></ion-ico></span>
+          ユーザー招待
+      </h5>
       <span class="modalClose" id="add-page-close-button">×</span>
     </div>
     <form
@@ -13,13 +16,13 @@
       <input
         type="text"
         placeholder="メールアドレス"
-        class="add-member-form-input"
+        class="group-form-input"
         name="email"
         maxlength="255"
         autocomplete="off"
         required
       />
-      <button>招待</button>
+      <button id="submit">招待</button>
     </form>
   </div>
 </div>
