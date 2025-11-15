@@ -136,9 +136,23 @@ class Message:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = """SELECT m.id, m.uid, u.name, m.message, COALESCE(r.counts, 0) AS counts, m.created_at FROM messages AS m INNER JOIN users AS u ON m.uid = u.id LEFT OUTER JOIN eat_reactions AS r ON m.id = r.message_id WHERE m.gid = %s ORDER BY m.id ASC;
+                sql = """
+                    SELECT m.id, m.uid, u.name, m.creation_type, m.message, r.counts, m.created_at 
+                    FROM messages AS m 
+                    INNER JOIN users AS u ON m.uid = u.id
+                    LEFT OUTER JOIN eat_reactions AS r ON m.id = r.message_id
+                    WHERE m.gid = %s 
+                    
+                    UNION ALL
+                    
+                    SELECT am.id, '0' AS uid, 'AIからのメニュー提案' AS name, am.creation_type, am.message, ar.counts, am.created_at
+                    FROM ai_messages AS am
+                    LEFT OUTER JOIN ai_eat_reactions AS ar ON am.id = ar.message_id
+                    WHERE am.gid = %s
+
+                    ORDER BY created_at ASC;
                 """
-                cur.execute(sql, (gid,))
+                cur.execute(sql, (gid, gid))
                 messages = cur.fetchall()
                 return messages
         except pymysql.Error as e:
@@ -171,7 +185,7 @@ class Message:
                 sql = """
                 INSERT INTO eat_reactions (message_id, counts) VALUES (%s, 0);
                 """
-                # eat_reactionsテーブルにリアクション数を0として挿入する
+                # メッセージ作成時にeat_reactionsテーブルにリアクション数を0として挿入する
                 cur.execute(
                     sql,
                     (message_id),
@@ -192,6 +206,39 @@ class Message:
                 """
                 cur.execute(sql, (message_id,))
                 conn.commit()
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def create_ai_message(cls, gid, ai_message):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "INSERT INTO ai_messages(gid, message) VALUES(%s, %s)"
+                cur.execute(
+                    sql,
+                    (
+                        gid,
+                        ai_message,
+                    ),
+                )
+                conn.commit()
+
+            message_id = cur.lastrowid
+            with conn.cursor() as cur:
+                sql = """
+                INSERT INTO ai_eat_reactions (message_id, counts) VALUES (%s, 0);
+                """
+                # AIメッセージ作成時にai_eat_reactionsテーブルにリアクション数を0として挿入する
+                cur.execute(
+                    sql,
+                    (message_id),
+                )
+                conn.commit()
+
         except pymysql.Error as e:
             print(f"エラーが発生しています：{e}")
             abort(500)
@@ -244,16 +291,29 @@ class Member:
 # リアクションクラス
 class eatReaction:
     @classmethod
-    def add(cls, message_id):
+    def add(
+        cls,
+        message_id,
+        message_creation_type,
+    ):
         conn = db_pool.get_conn()
         try:
-            with conn.cursor() as cur:
-                sql = """
-                    UPDATE eat_reactions SET counts = counts + 1
-                    WHERE message_id = %s;
-                """
-                cur.execute(sql, (message_id,))
-                conn.commit()
+            if message_creation_type == "user":
+                with conn.cursor() as cur:
+                    sql = """
+                        UPDATE eat_reactions SET counts = counts + 1
+                        WHERE message_id = %s;
+                    """
+                    cur.execute(sql, (message_id,))
+                    conn.commit()
+            elif message_creation_type == "ai":
+                with conn.cursor() as cur:
+                    sql = """
+                        UPDATE ai_eat_reactions SET counts = counts + 1
+                        WHERE message_id = %s;
+                    """
+                    cur.execute(sql, (message_id,))
+                    conn.commit()
         except pymysql.Error as e:
             print(f"エラーが発生しています：{e}")
             abort(500)
