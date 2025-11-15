@@ -8,6 +8,7 @@ from flask import (
     flash,
     abort,
     url_for,
+    jsonify,
 )
 from datetime import timedelta
 import hashlib
@@ -358,7 +359,8 @@ def ai_menu_process(gid):
             print(ai_message_string)
             Message.create_ai_message(gid, ai_message_string)
 
-        return redirect(f"/group/{gid}")
+        # return redirect(f"/group/{gid}")
+        return jsonify({"status": "success", "redirect_url": f"/group/{gid}"}), 200
 
     except Exception as e:
         print(f"エラーが発生しています：{e}")
