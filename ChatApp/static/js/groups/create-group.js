@@ -17,6 +17,7 @@ export const initCreategroupModal = () => {
   addPageButtonClose.addEventListener("click", () => {
 
     creategroupModal.style.display = "none"; 
+    
   });
 
   addEventListener("click", (e) => {

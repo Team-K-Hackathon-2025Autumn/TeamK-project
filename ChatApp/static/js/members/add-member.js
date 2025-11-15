@@ -23,12 +23,18 @@ if (addMemberModal) {
   // モーダル内のXボタンが押された時にモーダルを非表示にする
   addPageButtonClose.addEventListener("click", () => {
     addMemberModal.style.display = "none";
+    const flashes = addMemberModal.querySelector(".flashes");
+    if (flashes) flashes.remove();
   });
 
   // 画面のどこかが押された時にモーダルを非表示にする
   addEventListener("click", (e) => {
     if (e.target == addMemberModal) {
       addMemberModal.style.display = "none";
+       const flashes = addMemberModal.querySelector(".flashes");
+       console.log(flashes);
+       
+       if (flashes) flashes.remove();
     }
   });
 }
