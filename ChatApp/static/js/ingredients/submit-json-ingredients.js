@@ -27,7 +27,7 @@ document
       menuCandidateCount: menuCandidateCount,
     };
 
-    fetch(`/group/${groups.id}/menu`, {
+    fetch(`/group/${group.id}/menu`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
