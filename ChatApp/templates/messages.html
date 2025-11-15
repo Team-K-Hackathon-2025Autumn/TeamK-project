@@ -4,111 +4,118 @@
 <header>
   <div class="main-container">
     <div class="logo">CookChat</div>
-     <li class="logout-icon">
-        <a href="{{ url_for('logout_process') }}"> 
-           <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
-        </a> 
-     </li>   
-  </div >
-</header> 
-  <div class="chat-header">
-    <a href="{{ url_for('home_view') }}">
-      <button><ion-icon name="chevron-back-outline"></ion-icon></button>
-   </a>
-    <p id="group-name">{{ group.name }}</p>
-    {% if uid == group.created_by %}
-    <button id="group-update-button">
-     <ion-icon name="pencil-outline"></ion-icon>
-    </button>
-    {% include 'modal/update-group.html' %}
-    <button id="member-add-button">
-      <ion-icon name="person-add-outline"></ion-icon>
-    </button>
-    {% include 'modal/add-member.html' %}{% endif %}
-    <button id="member-view-button">
-      <ion-icon name="people-outline"></ion-icon>
-    </button>
-    {% include 'modal/view-member.html' %}
+    <li class="logout-icon">
+      <a href="{{ url_for('logout_process') }}">
+        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+      </a>
+    </li>
   </div>
-  <div id="message-area">
-     {% if messages|length > 0 %} {% for message in messages %} {% if message.uid
-     == uid %}
-    <div class="my-messages">
-      <div class="message-top">
-        <p class="sendTime">{{ message.created_at }}</p>
-        <p class="box box-right">{{ message.message }}</p>
-
-      </div>
-      <div class="message-bottom">
-        <div class="reaction2" >
-           <form action="/group/{{ group.id }}/message/reaction" method="POST">
-             <button
-               class="reaction-message-button"
-               name="message_id"
-               value="{{ message.id }}"
-             >
-             食べたｲｲﾈ!
-             </button>
-            </form>
-             <p class="reactions">{{ message.counts }}</p>
-        </div>
-         <form action="/group/{{ group.id }}/message/delete" method="POST">
-          <button
-            class="delete-message-button"
-            name="message_id"
-            value="{{ message.id }}"
-           >
-            <ion-icon name="trash-outline" style="color: #122543"></ion-icon>
-          </button>
-        </form>
-     </div>
-    </div> 
-     {% else %}
-     <div class="messages">
-       <p class="user-name">{{ message.name }}</p>
-       <div class="message-top">
-         <p class="box box-left">{{ message.message }}</p>
-         <p class="sendTime">{{ message.created_at }}</p>
-       </div> 
-         <form class="message-bottom2" action="/group/{{ group.id }}/message/reaction" method="POST">
-           <button
-             class="reaction-message-button"
-             name="message_id"
-             value="{{ message.id }}"
-           >
-           食べたｲｲﾈ!
-           </button>
-         </form> 
-         <p class="reactions">{{ message.counts }}</p>
-         <form  class="message-delete-button" action="/group/{{ group.id }}/message/delete" method="POST"></form>
+</header>
+<div class="chat-header">
+  <a href="{{ url_for('home_view') }}">
+    <button><ion-icon name="chevron-back-outline"></ion-icon></button>
+  </a>
+  <p id="group-name">{{ group.name }}</p>
+  {% if uid == group.created_by %}
+  <button id="group-update-button">
+    <ion-icon name="pencil-outline"></ion-icon>
+  </button>
+  {% include 'modal/update-group.html' %}
+  <button id="member-add-button">
+    <ion-icon name="person-add-outline"></ion-icon>
+  </button>
+  {% include 'modal/add-member.html' %}{% endif %}
+  <button id="member-view-button">
+    <ion-icon name="people-outline"></ion-icon>
+  </button>
+  {% include 'modal/view-member.html' %}
+</div>
+<div id="message-area">
+  {% if messages|length > 0 %} {% for message in messages %} {% if message.uid
+  == uid %}
+  <div class="my-messages">
+    <div class="message-top">
+      <p class="sendTime">{{ message.created_at }}</p>
+      <p class="box box-right">{{ message.message }}</p>
     </div>
-    {% endif %} {% endfor %} {% else %}
-    <p id="no-message">まだメッセージがありません</p>
-    {% endif %}
- </div>
-  <div class="typing-box-wrapper">
+    <div class="message-bottom">
+      <div class="reaction2">
+        <form action="/group/{{ group.id }}/message/reaction" method="POST">
+          <input type="hidden" name="message_id" value="{{message.id}}" />
+          <input
+            type="hidden"
+            name="message_creation_type"
+            value="{{ message.creation_type }}"
+          />
+          <button class="reaction-message-button">食べたｲｲﾈ!</button>
+        </form>
+        <p class="reactions">{{ message.counts }}</p>
+      </div>
+      <form action="/group/{{ group.id }}/message/delete" method="POST">
+        <button
+          class="delete-message-button"
+          name="message_id"
+          value="{{ message.id }}"
+        >
+          <ion-icon name="trash-outline" style="color: #122543"></ion-icon>
+        </button>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <div class="messages">
+    <p class="user-name">{{ message.name }}</p>
+    <div class="message-top">
+      <p class="box box-left">{{ message.message }}</p>
+      <p class="sendTime">{{ message.created_at }}</p>
+    </div>
     <form
-      class="typing-box"
-      action="/group/{{ group.id }}/message"
+      class="message-bottom2"
+      action="/group/{{ group.id }}/message/reaction"
       method="POST"
-      name="newMessageForm"
     >
-      <textarea name="message" id="message" autofocus></textarea>
-      <input type="hidden" name="gid" value="{{ group.id }}" />
-      <button type="submit" id="add-message-button">
-        <ion-icon name="paper-plane"></ion-icon>
-      </button>
+      <input type="hidden" name="message_id" value="{{message.id}}" />
+      <input
+        type="hidden"
+        name="message_creation_type"
+        value="{{ message.creation_type }}"
+      />
+      <button class="reaction-message-button">食べたｲｲﾈ!</button>
     </form>
-     <a id="create-menu" href="#">
-       <img src="{{ url_for('static', filename='img/button.svg') }}" />
-    </a>
-    {% include 'modal/input-ingredients.html' %}
- </div>  
+    <p class="reactions">{{ message.counts }}</p>
+    <form
+      class="message-delete-button"
+      action="/group/{{ group.id }}/message/delete"
+      method="POST"
+    ></form>
+  </div>
+  {% endif %} {% endfor %} {% else %}
+  <p id="no-message">まだメッセージがありません</p>
+  {% endif %}
+</div>
+<div class="typing-box-wrapper">
+  <form
+    class="typing-box"
+    action="/group/{{ group.id }}/message"
+    method="POST"
+    name="newMessageForm"
+  >
+    <textarea name="message" id="message" autofocus></textarea>
+    <input type="hidden" name="gid" value="{{ group.id }}" />
+    <button type="submit" id="add-message-button">
+      <ion-icon name="paper-plane"></ion-icon>
+    </button>
+  </form>
+  <a id="create-menu" href="#">
+    <img src="{{ url_for('static', filename='img/button.svg') }}" />
+  </a>
+  {% include 'modal/input-ingredients.html' %}
+</div>
 {% endblock %} {% block script %}
 <script type="text/javascript">
   // prettier-ignore
   const uid = JSON.parse('{{ uid|tojson }}');
-  const group = JSON.parse('{{ group|tojson }}');
+  const group = JSON.parse("{{ group|tojson }}");
 </script>
 <script
   src="{{url_for('static',filename='js/scroll-message.js')}}"
