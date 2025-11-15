@@ -81,13 +81,14 @@
         value="{{ message.creation_type }}"
       />
       <button class="reaction-message-button">食べたｲｲﾈ!</button>
-    </form>
-    <p class="reactions">{{ message.counts }}</p>
+      <p class="reactions">{{ message.counts }}</p>
     <form
       class="message-delete-button"
       action="/group/{{ group.id }}/message/delete"
       method="POST"
-    ></form>
+    >
+    </form>
+
   </div>
   {% endif %} {% endfor %} {% else %}
   <p id="no-message">まだメッセージがありません</p>

@@ -1,3 +1,10 @@
+window.addEventListener("DOMContentLoaded", () => {
+  const reopen = document.body.dataset.reopenModal;
+  if (reopen === "create-group") {
+    const modal = document.getElementById("create-group-modal");
+    if (modal) modal.style.display = "flex";
+  }
+});
 export const initCreategroupModal = () => {
   const creategroupModal = document.getElementById("create-group-modal"); 
   const addPageButtonClose = document.getElementById("add-page-close-button"); 
@@ -10,6 +17,7 @@ export const initCreategroupModal = () => {
   addPageButtonClose.addEventListener("click", () => {
 
     creategroupModal.style.display = "none"; 
+    
   });
 
   addEventListener("click", (e) => {
