@@ -287,6 +287,7 @@ def add_reaction(gid):
 @app.route("/group/<gid>/menu", methods=["POST"])
 def ai_menu_process(gid):
     request_data = request.get_json()
+    print(request_data)
 
     # ---- Gemini APIの設定 ----
     class Ingredient(BaseModel):
@@ -322,7 +323,7 @@ def ai_menu_process(gid):
 
     # 最重要ルール
     - 回答は日本語にしてください。
-    - 必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
+    - 今ある食材は必ず使ってください。ただし、必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
     - 作り方の文章には必ず 1. ような番号をつけてください。この番号は1から始めてください。
     """
 
@@ -335,7 +336,6 @@ def ai_menu_process(gid):
                 "response_json_schema": Menus.model_json_schema(),
             },
         )
-        print(request_data)
         ai_response = Menus.model_validate_json(response.text)
         print(ai_response)
 
@@ -360,7 +360,7 @@ def ai_menu_process(gid):
             Message.create_ai_message(gid, ai_message_string)
 
         # return redirect(f"/group/{gid}")
-        return jsonify({"status": "success", "redirect_url": f"/group/{gid}"}), 200
+        return jsonify({"message": "success", "redirect_url": f"/group/{gid}"}), 200
 
     except Exception as e:
         print(f"エラーが発生しています：{e}")

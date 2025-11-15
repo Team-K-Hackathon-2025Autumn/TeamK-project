@@ -17,7 +17,10 @@
         </div>
         <div class="ion-icon">
           <button class="add-btn" type="button" onclick="add_input_area();">
-            <ion-icon id="add-input-button" name="add-circle-outline"></ion-icon>
+            <ion-icon
+              id="add-input-button"
+              name="add-circle-outline"
+            ></ion-icon>
           </button>
         </div>
       </div>
@@ -48,6 +51,10 @@
 </div>
 <script
   src="{{url_for('static',filename='js/ingredients/submit-json-ingredients.js')}}"
+  type="module"
+></script>
+<script
+  src="{{url_for('static',filename='js/ingredients/submit-validation.js')}}"
   type="module"
 ></script>
 <script
