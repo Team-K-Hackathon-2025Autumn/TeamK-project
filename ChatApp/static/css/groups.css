@@ -30,17 +30,20 @@ header .icon{
   display: flex;
   align-items: center;
   margin-bottom: 12px;
-  margin-left: 16px;
+  /* margin-left: 16px; */
 }
 /* グループ全体のコンテナ */
 .group-box {
   display: flex;
   flex-direction: column;
-  align-items: center;   /* 横方向中央寄せ */
+  /* align-items: center; */ /* ゴミ箱があってもY軸の配置がずれないよう削除 */  /* 横方向中央寄せ */
   max-height: 400px;
   overflow-y: auto;
   height: max-content; /* スクロールできる高さを確保（適宜調整） */
   padding: 20px 0;
+  width: 367px;  /* ここからゴミ箱があってもY軸の配置がずれないよう追加 */
+  margin: 0 auto;
+  padding:20px 0 20px 8px;  /* ここまで */
 }
 
 /* グループ名のボックス */
@@ -49,7 +52,7 @@ header .icon{
   color: #5D4037;
   border-radius: 10px;
   padding: 12px;
-  width: 360px;
+  width: 295px;    /* ゴミ箱があってもY軸の配置がずれないよう追加360から変更 */
   height: 40px;
   display: flex;
   align-items: center;

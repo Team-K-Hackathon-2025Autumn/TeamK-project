@@ -33,7 +33,7 @@ const appendGroups = () => {
       li.style.backgroundColor = "#FFF8ED"; // 好きな色を指定
       li.style.color = "#5D4037";
       li.textalign = "center";
-      li.style.width = "360px";
+      li.style.width = "295px";
       li.style.height = "40px";
 
       li.style.padding = "12px";
