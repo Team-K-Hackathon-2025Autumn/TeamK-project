@@ -62,6 +62,7 @@ def login_process():
             flash("このユーザーは存在しません")
         else:
             hashPassword = hashlib.sha256(password.encode("utf-8")).hexdigest()
+
             if hashPassword != user["password"]:
                 flash("パスワードが違います")
             else:
@@ -76,6 +77,7 @@ def login_view():
     uid = session.get("uid")
     if uid is None:
         return render_template("auth/login.html")
+
     return redirect(
         url_for("home_view")
     )  # ログイン済みの場合、グループ一覧にリダイレクト
@@ -105,7 +107,6 @@ def signup_process():
         uid = uuid.uuid4()
         password = hashlib.sha256(password.encode("utf-8")).hexdigest()
         registered_user = User.find_by_email(email)
-
         if registered_user != None:
             flash("メールアドレスがすでに登録されています")
         else:
@@ -302,7 +303,6 @@ def delete_message(gid):
         if group is None:
             flash("グループが存在しません")
             return redirect(url_for("home_view"))
-
         members = Member.get_all(gid)
         is_member = True if uid in [member.get("id") for member in members] else False
         if not is_member:
@@ -310,8 +310,16 @@ def delete_message(gid):
             return redirect(url_for("home_view"))
         else:
             message_id = request.form.get("message_id")
-            Message.delete(message_id)
-            return redirect(url_for("message_view", gid=gid))
+            message = Message.find_by_mid(message_id)
+            isMessageExist = True if not message else False
+            if not isMessageExist:
+                flash("メッセージが存在しません")
+            elif message != None:
+                if uid != message["uid"]:
+                    flash("メッセージの作成者ではないため削除できません")
+            else:
+                Message.delete(message_id)
+        return redirect(url_for("message_view", gid=gid))
 
 
 # リアクション送信処理
@@ -334,19 +342,29 @@ def add_reaction(gid):
         else:
             message_id = request.form.get("message_id")
             message_creation_type = request.form.get("message_creation_type")
+
+            if message_creation_type == "user":
+                message = Message.find_by_mid(message_id)
+                print(message)
+                isMessageExist = True if message else False
+                print(isMessageExist)
+                if not isMessageExist:
+                    flash("メッセージが存在しません")
+                    return redirect(url_for("message_view", gid=gid))
+
             eatReaction.add(
                 message_id,
                 message_creation_type,
             )
-            return redirect(url_for("message_view", gid=gid))
+        return redirect(url_for("message_view", gid=gid))
 
 
 # AIメニュー候補リクエスト処理
 @app.route("/group/<gid>/menu", methods=["POST"])
 def ai_menu_process(gid):
     uid = session.get("uid")
+
     if uid is None:
-        # return redirect(url_for("login_view"))
         return (
             jsonify(
                 {
@@ -358,6 +376,7 @@ def ai_menu_process(gid):
         )
     else:
         group = Group.find_by_gid(gid)
+
         if group is None:
             flash("グループが存在しません")
             return (
@@ -443,6 +462,7 @@ def ai_menu_process(gid):
                     ai_message.extend(
                         [f"メニュー{index + 1}: {menu_name}", "", "<材料>"]
                     )
+
                     for ingredient in menu.ingredients:
                         name = ingredient.name
                         quantity = ingredient.quantity
@@ -450,12 +470,13 @@ def ai_menu_process(gid):
                         ai_message.append(f"{name} {quantity}{unit}")
 
                     ai_message.extend(["", "<作り方> "])
+
                     for instruction in menu.instructions:
                         ai_message.append(instruction)
 
                     ai_message_string = "\n".join(ai_message)
                     print(ai_message_string)
-                    Message.create_ai_message(gid, ai_message_string)
+                    Message.ai_create(gid, ai_message_string)
 
                 return (
                     jsonify({"message": "success", "redirect_url": f"/group/{gid}"}),

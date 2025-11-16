@@ -1,33 +1,21 @@
-{% extends 'base.html' %} 
-
-{% block title %}
-<title>home</title>
-{% endblock %}
-
-{% block body %}
+{% extends 'base.html' %} {% block title %}ホーム{% endblock %} {% block body %}
 <header>
   <div class="main-container">
     <div class="logo">CookChat</div>
-     <li class="logout-icon">
-        <a href="{{ url_for('logout_process') }}"> 
-           <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
-        </a> 
-     </li>   
-  </div >
-</header>  
-  <div id="groups-list">
-    <div class="group-box"></div>
-    <ion-icon id="create-group-button" name="add-circle-outline"></ion-icon>
-
+    <li class="logout-icon">
+      <a href="{{ url_for('logout_process') }}">
+        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+      </a>
+    </li>
   </div>
+</header>
+<div id="groups-list">
+  <div class="group-box"></div>
+  <ion-icon id="create-group-button" name="add-circle-outline"></ion-icon>
+</div>
 
-  {% include 'modal/create-group.html' %}
-  {% include 'modal/delete-group.html' %}
-
-
-{% endblock %}
-
-{% block script %}
+{% include 'modal/create-group.html' %} {% include 'modal/delete-group.html' %}
+{% endblock %} {% block script %}
 <script type="text/javascript">
   // prettier-ignore
   const groups = JSON.parse('{{ groups|tojson }}');
@@ -35,8 +23,14 @@
   const uid = JSON.parse('{{ uid|tojson }}');
 </script>
 
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script
+  type="module"
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+></script>
+<script
+  nomodule
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+></script>
 <script
   src="{{url_for('static',filename='js/groups/create-group.js')}}"
   type="module"
