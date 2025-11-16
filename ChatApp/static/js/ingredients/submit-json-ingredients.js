@@ -25,14 +25,15 @@ form.addEventListener('submit', async function (event) {
       unit: ingredientUnits[i],
     });
   }
-
-  const request = formData.get('request');
+  const servingCount = formData.get('servingCount');
   const menuCandidateCount = formData.get('menuCandidateCount');
+  const preference = formData.get('preference');
 
   const request_data = {
     ingredients: ingredients,
-    request: request,
+    servingCount: servingCount,
     menuCandidateCount: menuCandidateCount,
+    preference: preference,
   };
 
   try {

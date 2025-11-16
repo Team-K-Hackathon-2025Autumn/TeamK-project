@@ -98,6 +98,12 @@
   margin-top: 5px;
 }
 
+.reaction-form {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* ボタンとカウントの間の隙間 */
+}
+
 /* メッセージ操作ボタン */
 .reaction-message-button {
   background: none;

@@ -18,7 +18,7 @@ import os
 import json
 
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List
 
 from models import User, Group, Message, Member, eatReaction
 from util.assets import bundle_css_files
@@ -311,12 +311,11 @@ def delete_message(gid):
         else:
             message_id = request.form.get("message_id")
             message = Message.find_by_mid(message_id)
-            isMessageExist = True if not message else False
+            isMessageExist = True if message else False
             if not isMessageExist:
                 flash("メッセージが存在しません")
-            elif message != None:
-                if uid != message["uid"]:
-                    flash("メッセージの作成者ではないため削除できません")
+            elif uid != message["uid"]:
+                flash("メッセージの作成者ではないため削除できません")
             else:
                 Message.delete(message_id)
         return redirect(url_for("message_view", gid=gid))
@@ -415,6 +414,7 @@ def ai_menu_process(gid):
             class Menu(BaseModel):
                 menuId: str = Field(description="The id of the menu. start from 1")
                 menuName: str = Field(description="The name of the recipe.")
+                servingCount: int = Field(description="The number of servings")
                 ingredients: List[Ingredient]
                 instructions: List[str]
 
@@ -433,8 +433,9 @@ def ai_menu_process(gid):
             あなたは献立のメニューアドバイザーです。JSON形式で送信されるデータに基づいて、献立を考えてください。
             このデータには
                 - 今ある食材名（name）、分量（quantity)、分量の単位（unit)
-                - 任意の希望リクエスト
+                - 人数（何人前用か）
                 - 希望するメニュー数
+                - 任意の追加要望
 
             が記載されています。データは{request_data}です。
 
@@ -459,8 +460,13 @@ def ai_menu_process(gid):
                 for index, menu in enumerate(ai_response.menus):
                     ai_message = []
                     menu_name = menu.menuName
+                    serving_count = menu.servingCount
                     ai_message.extend(
-                        [f"メニュー{index + 1}: {menu_name}", "", "<材料>"]
+                        [
+                            f"メニュー{index + 1}: {menu_name} ({serving_count}人前）",
+                            "",
+                            "<材料>",
+                        ]
                     )
 
                     for ingredient in menu.ingredients:
