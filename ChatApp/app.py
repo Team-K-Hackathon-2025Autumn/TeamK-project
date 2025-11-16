@@ -67,7 +67,7 @@ def login_process():
             else:
                 session["uid"] = user["id"]
                 return redirect(url_for("home_view"))
-        return redirect(url_for("login_view"))
+    return redirect(url_for("login_view"))
 
 
 # ログイン画面表示
@@ -128,7 +128,7 @@ def logout_process():
 def home_view():
     uid = session.get("uid")
     if uid is None:
-        return render_template("auth/login.html")
+        return redirect(url_for("login_view"))
     else:
         groups = Group.find_by_uid(uid)
         # groups.reverse()
@@ -140,7 +140,7 @@ def home_view():
 def group_process():
     uid = session.get("uid")
     if uid is None:
-        return render_template("auth/login.html")
+        return redirect(url_for("login_view"))
     else:
         return redirect(url_for("home_view"))
 
@@ -178,7 +178,7 @@ def update_group(gid):
         else:
             new_group_name = request.form.get("newGroupName")
             Group.update(gid, new_group_name)
-            return redirect(f"/group/{gid}")
+            return redirect(url_for("message_view", gid=gid))
 
 
 # グループ削除処理
@@ -288,7 +288,7 @@ def create_message(gid):
             message = request.form.get("message")
             if message:
                 Message.create(uid, gid, message)
-                return redirect(f"/group/{gid}")
+                return redirect(url_for("message_view", gid=gid))
 
 
 # メッセージ削除処理
@@ -311,7 +311,7 @@ def delete_message(gid):
         else:
             message_id = request.form.get("message_id")
             Message.delete(message_id)
-            return redirect(f"/group/{gid}")
+            return redirect(url_for("message_view", gid=gid))
 
 
 # リアクション送信処理
@@ -338,7 +338,7 @@ def add_reaction(gid):
                 message_id,
                 message_creation_type,
             )
-            return redirect(f"/group/{gid}")
+            return redirect(url_for("message_view", gid=gid))
 
 
 # AIメニュー候補リクエスト処理
