@@ -15,7 +15,7 @@
     width: 100%;
 }
 
-.ion-icon {
+.error-content {
     font-size: 50px
 }
 
@@ -28,12 +28,12 @@
 .error-button button {
     padding: 10px 20px;
     font-size: 1rem;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
+    cursor: pointerter;
+    border: ;
+    border-radius: 15px;
     background-color: #f4f0f1;
-    color: #fff;
-    transition: background-color 0.3s;
+    color: #0c0c0c;
+    transition: background-color .3s
 }
 
 .error-button button:hover {
