@@ -1,0 +1,18 @@
+{% extends 'error/base.html' %} {% block title %} error {% endblock %} {% block
+body %}
+<body class="error">
+  <div class="error-wrapper">
+    <div class="error-content">
+      <div class="error-description error404or500">
+      <ion-icon name="alert-circle"></ion-icon>
+        <p>ページにアクセスできませんでした</p>
+        <a class="error-button pink" href="{{ url_for('home_view')}}"><button>ホームへ戻る</button></a>
+      </div>
+    </div>
+  </div>
+  <img
+    src="{{url_for('static',filename='img/500.png.png') }}"
+    class="error-gif"
+  />
+</body>
+{% endblock %} {% block script %} {% endblock %}
