@@ -4,16 +4,16 @@ body %}
   <div class="error-content">
     <div class="error-description">
       <ion-icon name="alert-circle"></ion-icon>
-      <p>ページにアクセスできませんでした</p>
+      <p><strong>ページにアクセスできませんでした</strong></p>
+      <img
+      src="{{ url_for('static', filename='img/404.png.png') }}"
+      alt="Error Image"
+      class="error-gif"
+      />
       <a class="error-button pink" href="{{ url_for('home_view') }}">
         <button>ホームへ戻る</button>
       </a>
     </div>
-    <img
-      src="{{ url_for('static', filename='img/404.png.png') }}"
-      alt="Error Image"
-      class="error-gif"
-    />
   </div>
 </div>
 {% endblock %} {% block script %} {% endblock %}
