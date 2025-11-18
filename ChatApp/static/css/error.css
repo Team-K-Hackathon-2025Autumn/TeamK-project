@@ -1,0 +1,62 @@
+/* エラー画面全体を縦横中央に配置 */
+.error-wrapper {
+    height: 100vh; /* 画面全体の高さ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8fc;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* コンテンツの整列 */
+.error-content {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+/* エラーメッセージ */
+.error-description p {
+    font-size: 1.5rem;
+    margin: 20px 0;
+}
+
+/* ボタンスタイル */
+.error-button button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff4081; /* pink */
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+.error-button button:hover {
+    background-color: #e73370;
+}
+
+/* エラー画像 */
+.error-gif {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 20px;
+}
+
+/* 小さい画面向けの調整 */
+@media (max-width: 480px) {
+    .error-description p {
+        font-size: 1.2rem;
+    }
+    
+    .error-button button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+    
+    .error-gif {
+        max-width: 200px;
+    }
+}
