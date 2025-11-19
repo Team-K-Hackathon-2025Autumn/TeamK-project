@@ -2,7 +2,9 @@
 block body %}
 <header>
   <div class="main-container">
-    <div class="logo">CookChat</div>
+    <div class="logo">
+      <img id="logo_img" src="../static/img/cookchat_logo.png" alt="cookchat">
+    </div>
     <li class="logout-icon">
       <a href="{{ url_for('logout_process') }}">
         <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
@@ -67,7 +69,7 @@ block body %}
           value="{{ message.creation_type }}"
         />
         <button class="reaction-message-button">
-          食べたｲｲﾈ! {{ message.counts }}
+          食べたｲｲﾈ! <span class="reaction-counts">{{ message.counts }}</span>
         </button>
       </form>
     </div>
@@ -95,7 +97,7 @@ block body %}
           value="{{ message.creation_type }}"
         />
         <button class="reaction-message-button">
-          食べたｲｲﾈ! {{ message.counts }}
+          食べたｲｲﾈ! <span class="reaction-counts">{{ message.counts }}</span>
         </button>
       </form>
     </div>
@@ -129,16 +131,15 @@ block body %}
   // prettier-ignore
   const uid = JSON.parse('{{ uid|tojson }}');
   const group = JSON.parse('{{ group|tojson }}');
-  // const messages = JSON.parse('{{messages|tojson}}')
 </script>
 <script
   src="{{url_for('static',filename='js/scroll-message.js')}}"
   type="text/javascript"
 ></script>
-<!-- <script
+<script
   src="{{url_for('static',filename='js/time-reaction.js')}}"
   type="text/javascript"
-></script> -->
+></script>
 <script
   src="{{url_for('static',filename='js/groups/update-group.js')}}"
   type="text/javascript"

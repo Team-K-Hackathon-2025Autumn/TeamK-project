@@ -1,7 +1,9 @@
 {% extends 'base.html' %} {% block title %}ホーム{% endblock %} {% block body %}
 <header>
   <div class="main-container">
-    <div class="logo">CookChat</div>
+    <div class="logo">
+      <img id="logo_img" src="../static/img/cookchat_logo.png" alt="cookchat">
+    </div>
     <li class="logout-icon">
       <a href="{{ url_for('logout_process') }}">
         <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>

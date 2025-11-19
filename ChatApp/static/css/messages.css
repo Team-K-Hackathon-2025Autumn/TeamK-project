@@ -16,6 +16,10 @@
   border: none;
 } 
 
+#logo_img {
+  height: 24px;
+}
+
 #chat-header-left {
   display: flex;
   justify-content:space-between;
@@ -147,57 +151,6 @@
   font-size: 11px;
   margin-left: 8px;
 }
-
-
-
-/*
-.my-message-top {
-  align-items: end;
-}
-.message-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-.message-bottom {
-  display: flex;
-  justify-content: flex-end;
-}
-.message-bottom2 {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-}
-.messages,
-.my-messages {
-  margin-bottom: 20px;
-}
-.box {
-  display: inline-block;
-  padding: 10px;
-  border-radius: 8px;
-  max-width: 70%;
-  word-wrap: break-word;
-}
-.box-left {
-  background-color: #fff;
-  white-space: pre-wrap;
-}
-.box-right {
-  background-color: #d87c58;
-  white-space: pre-wrap;
-  color: #fff;
-  float: right;
-}
-.reactions {
-  color: #444;
-  margin-top: 5px;
-}
-.reaction-form {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}  */
 
 /* メッセージ操作ボタン */
 .reaction-message-button {
