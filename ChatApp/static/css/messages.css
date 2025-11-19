@@ -44,7 +44,9 @@
   justify-content: end;
 }
 
-#chat-header-right button {
+#group-update-button,
+#member-add-button,
+#member-view-button {
   background: none;
   border: none;
   color: #5d4037;
