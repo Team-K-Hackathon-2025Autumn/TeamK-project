@@ -2,7 +2,11 @@
 <header>
   <div class="main-container">
     <div class="logo">
-      <img id="logo_img" src="../static/img/cookchat_logo.png" alt="cookchat">
+      <img
+        id="logo_img"
+        src="{{ url_for('static',filename='img/cookchat_logo_white.png') }}"
+        alt="cookchat"
+      />
     </div>
     <li class="logout-icon">
       <a href="{{ url_for('logout_process') }}">
@@ -13,7 +17,7 @@
 </header>
 <div id="groups-list">
   <div class="group-box"></div>
-  <ion-icon id="create-group-button" name="add-circle-outline"></ion-icon>
+  <ion-icon id="create-group-button" name="add-circle"></ion-icon>
 </div>
 
 {% include 'modal/create-group.html' %} {% include 'modal/delete-group.html' %}
