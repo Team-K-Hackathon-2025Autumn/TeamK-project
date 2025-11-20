@@ -162,6 +162,25 @@ class Message:
             db_pool.release(conn)
 
     @classmethod
+    def find_by_mid(cls, message_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                    SELECT id, uid
+                    FROM messages
+                    WHERE id = %s;
+                """
+                cur.execute(sql, (message_id))
+                message = cur.fetchone()
+                return message
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
     def create(cls, uid, gid, message):
         conn = db_pool.get_conn()
         try:
@@ -213,7 +232,7 @@ class Message:
             db_pool.release(conn)
 
     @classmethod
-    def create_ai_message(cls, gid, ai_message):
+    def ai_create(cls, gid, ai_message):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:

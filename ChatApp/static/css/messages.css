@@ -4,19 +4,78 @@
   padding: 0;
 }
 
-
 /* チャットヘッダー */
+.chat-header-box {
+  background-color: #d87c58;
+  border-radius: 0 0 20px 20px;
+  /* padding: 20px; */
+}
 
 .chat-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
-  color: #5d4037;
-  background: none;
+  /* color: #5d4037;
+  background-color: #fcfcfc4a; */
   border: none;
+  border-radius: 10px;
 }
 
+#logo_img {
+  height: 35px;
+}
+
+#chat-header-left {
+  width: 120px;
+  padding: 14px 18px;
+}
+
+#chat-header-left button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+#chat-header-center {
+  width: 300px;
+  text-align: center;
+  padding: 14px 18px;
+}
+
+#group-name {
+  margin-left: 20px;
+  color: white;
+}
+
+#chat-header-right {
+  display: flex;
+  padding: 14px 18px;
+  text-align: center;
+  /* width: 120px; */
+  gap: 20px;
+}
+
+#group-update-button,
+#member-add-button,
+#member-view-button {
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
 
 #group-name {
   font-weight: 600;
@@ -24,50 +83,15 @@
   margin: 0 8px;
 }
 
-.chat-header button {
-  background: none;
-  border: none;
-  color: #5D4037;
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-left: 6px;
-  transition: 0.3s;
-}
-
 .chat-header button:hover {
   opacity: 0.7;
 }
 
-
-
 /* メッセージエリア */
-.message-top{
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-.message-bottom{
-  display: flex;
-  justify-content: flex-end;
-}
-.message-bottom2{
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-}
 #message-area {
-  padding: 15px;
-  height: 69.4vh;
+  padding: 0 15px;
+  height: calc(100vh - 276px);
   overflow-y: auto;
-}
-
-.messages, .my-messages {
-  margin-bottom: 20px;
-}
-
-.user-name {
-  color: #626264;
-  font-size: 12px;
 }
 
 .box {
@@ -79,54 +103,115 @@
 }
 
 .box-left {
-  background-color: #fff;
+  background-color: #ffffff;
+  white-space: pre-wrap;
+  margin-right: 3px;
 }
 
 .box-right {
-  background-color: #D87C58;
-  color: #fff;
-  float: right;
+  background-color: #d87c58;
+  color: white;
+  white-space: pre-wrap;
+  margin-left: 3px;
 }
 
-.sendTime {
-  font-size: 0.8rem;
+.my-messages {
+  margin-bottom: 25px;
+}
+
+.my-message-top {
+  text-align: end;
+}
+
+.my-message-top form {
+  position: relative;
+}
+
+.my-message-content {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+  margin-right: 12px;
+}
+
+.my-sendTime {
+  font-size: 0.6rem;
   color: #626264;
   margin-top: 5px;
+  text-align: end;
 }
 
-.reactions {
-  color: #444;
+.my-message-bottom {
+  text-align: end;
+  margin-top: 3px;
+  margin-right: 20px;
+}
+
+.other-messages {
+  margin-bottom: 25px;
+}
+
+.other-sendTime {
+  font-size: 0.6rem;
+  color: #626264;
   margin-top: 5px;
+  text-align: start;
+}
+
+.other-message-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: end;
+}
+
+.other-message-bottom {
+  margin-top: 3px;
+  margin-left: 8px;
+}
+
+.user-name {
+  color: #626264;
+  font-size: 11px;
+  margin-left: 8px;
 }
 
 /* メッセージ操作ボタン */
 .reaction-message-button {
-  background: none;
+  background: white;
+  border: none;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   margin-right: 10px;
   color: #122543;
   border-radius: 20px;
-  border-color: #9DA977;
   padding: 3px;
+  opacity: 0.3;
 }
 .delete-message-button {
   border: none;
-  background: none;
+  border-radius: 50%;
+  background: white;
   cursor: pointer;
-  font-size: 1.5rem;
-  margin-right: 9px;
-  color: #122543;
+  color: #5d4037;
+  font-size: 1.2rem;
+  padding: 4px 5px 0px;
+  position: absolute;
+  right: 0;
+  top: -12px;
+  transition: 0.3s ease;
 }
 
-.delete-message-button:hover ion-icon {
-  color: #d9534f;
+.delete-message-button:hover {
+    transform: scale(1.1);
 }
-.reaction2{
+.reaction2 {
   display: flex;
   margin-right: 15px;
   align-items: flex-end;
+}
 
+.reaction-message-button:hover {
+  transform: scale(1.1);
 }
 
 /* 入力欄 */
@@ -134,21 +219,22 @@
 .typing-box-wrapper {
   display: flex;
   position: fixed;
+  justify-content: space-between;
+  align-items: center;
   bottom: 0;
   left: 0;
-  width: 100%;
-  background-color: #f6e2b3;
-  padding: 8px 0 10px;
+  right: 0;
+  padding: 20px;
+  gap: 20px;
 }
 
 .typing-box {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 75%;
-  margin: 0 25px;
-  background-color: #fff8ed;
-  border-radius: 15px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 30px;
   padding: 3px 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
@@ -160,17 +246,18 @@
   background: none;
   font-size: 0.9rem;
   font-family: inherit;
-  padding: 6px;
+  padding: 10px;
   outline: none;
   color: #5d4037;
+  height: 30px;
 }
 
 #add-message-button {
   display: flex;
   background: none;
   border: none;
-  color: #9DA977;
-  font-size: 2rem;
+  color: #d97c59;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -178,14 +265,18 @@
 #add-message-button:hover {
   transform: scale(1.1);
 }
-#create-menu{
-  font-size: 3.5rem;
-  color: #D87C58;
+#create-menu {
+  display: flex;
+  border: none;
   cursor: pointer;
   transition: 0.3s ease;
-  padding-right:20px;
+  color: #ffffff;
+  font-size: 1rem;
+  border-radius: 50%;
+  background-color: #d87c58;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(216, 124, 88, 0.4);
 }
-#create-menu img {
-  width: 40px;
-  height: auto; 
+#create-menu:hover {
+    transform: scale(1.1);
 }
