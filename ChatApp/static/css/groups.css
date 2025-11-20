@@ -1,21 +1,22 @@
 body {
-  margin: 0;
-  background-color: #F6E2B3;
+  margin: 0 auto;
+  background-color: #FBEFE6;
+  max-width: 1000px;
 }
 .main-container {
   size:375px 110px;
   display: flex;
   justify-content: space-between;
     align-items: center;
-  background: linear-gradient(to bottom, #F6E2B3, #D87C58);
+  /* background: linear-gradient(to bottom, #F6E2B3, #D87C58); */
   padding: 30px 30px;
 }
 header .logo{
-  background-color: #FFF8E7;
+  /* background-color: #FFF8E7; */
   color: #5D4037;
   font-weight: 600;
   padding: 16px 16px;
-  border-radius: 30px;
+  /* border-radius: 30px; */
 }
 header .icon{
     font-size: 32px;

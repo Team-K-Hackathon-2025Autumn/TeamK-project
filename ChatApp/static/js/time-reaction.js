@@ -23,7 +23,7 @@ reactionCounts.forEach(element => {
     reactionMsgBtn.style.opacity = '1.0';
     reactionMsgBtn.style.color = 'rgba(253, 126, 0, 1.0)'; 
     reactionMsgBtn.style.fontWeight = 'bold'
-    reactionMsgBtn.style.border = '1px rgb(253,126,0) solid';
+    reactionMsgBtn.style.border = '2px rgb(253,126,0) solid';
 } else if (eachCount < 100) {
     reactionMsgBtn.style.fontSize = '1.0rem';
     reactionMsgBtn.style.opacity = '1.0';
