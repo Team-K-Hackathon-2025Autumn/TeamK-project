@@ -26,14 +26,14 @@
 
 /* ボタンスタイル */
 .error-button button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointerter;
-    border: ;
-    border-radius: 15px;
-    background-color: #f4f0f1;
-    color: #0c0c0c;
-    transition: background-color .3s
+    width: 100%;
+    height: 48px;
+    background-color: #faf7f6;
+    color: #0a0a0a;
+    border: none;
+    border-radius: 24px;
+    margin-top: 52px;
+    font-size: 16px;
 }
 
 .error-button button:hover {
