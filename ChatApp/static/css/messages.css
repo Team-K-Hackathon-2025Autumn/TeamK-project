@@ -6,7 +6,7 @@
 
 /* チャットヘッダー */
 .chat-header-box {
-  background-color: #c9b3b7;
+  background-color: #9da977;
   /* padding: 20px; */
 }
 
@@ -36,6 +36,12 @@
   font-size: 1.5rem;
   cursor: pointer;
   transition: 0.3s;
+}
+
+#chat-header-center {
+  width: 300px;
+  text-align: center;
+  padding: 14px 18px;
 }
 
 #group-name {
