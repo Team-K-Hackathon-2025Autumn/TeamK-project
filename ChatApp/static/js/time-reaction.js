@@ -7,33 +7,41 @@ reactionCounts.forEach(element => {
     const eachCount = parseInt(element.textContent,10);
     // そのカウントが書かれているボタンをelementの親要素のbuttonとして取得
     const reactionMsgBtn = element.closest('button');
-
+    reactionMsgBtn.style.transition = '0.3s ease';
     // eachCountの値によってスタイルを変更
     if (eachCount === 0) {
     reactionMsgBtn.style.fontSize = '0.6rem';
     reactionMsgBtn.style.opacity = '0.3';
 } else if (eachCount < 5) {
+    reactionMsgBtn.style.fontSize = '0.6rem';
+    reactionMsgBtn.style.opacity = '1.0';
+    // reactionMsgBtn.style.border = '1px #00c9ad solid';
+    reactionMsgBtn.style.color = 'white';
+    reactionMsgBtn.style.backgroundColor = '#a97777'
+} else if (eachCount < 10) {
     reactionMsgBtn.style.fontSize = '0.8rem';
     reactionMsgBtn.style.opacity = '1.0';
-} else if (eachCount < 10) {
-    reactionMsgBtn.style.fontSize = '1.0rem';
-    reactionMsgBtn.style.opacity = '1.0';
+    // reactionMsgBtn.style.border = '1px #00c9ad solid';
+    reactionMsgBtn.style.color = 'white';
+    reactionMsgBtn.style.backgroundColor = '#a97777'
 } else if (eachCount < 20) {
     reactionMsgBtn.style.fontSize = '1.0rem';
     reactionMsgBtn.style.opacity = '1.0';
-    reactionMsgBtn.style.color = 'rgba(253, 126, 0, 1.0)'; 
-    reactionMsgBtn.style.fontWeight = 'bold'
-    reactionMsgBtn.style.border = '2px rgb(253,126,0) solid';
+    reactionMsgBtn.style.color = 'white';
+    reactionMsgBtn.style.backgroundColor = '#a97777' 
+    // reactionMsgBtn.style.border = '2px #00c9ad solid';
 } else if (eachCount < 100) {
-    reactionMsgBtn.style.fontSize = '1.0rem';
-    reactionMsgBtn.style.opacity = '1.0';
-    reactionMsgBtn.style.backgroundColor = 'rgba(253, 126, 0, 1.0)';
-    reactionMsgBtn.style.color = 'white';  
-} else {
     reactionMsgBtn.style.fontSize = '1.2rem';
     reactionMsgBtn.style.opacity = '1.0';
-    reactionMsgBtn.style.backgroundColor = 'rgba(253, 126, 0, 1.0)';     
-    reactionMsgBtn.style.color = 'white'; 
+    reactionMsgBtn.style.color = 'white';
+    reactionMsgBtn.style.backgroundColor = '#a97777'
+    // reactionMsgBtn.style.border = '2px #00c9ad solid'; 
+} else {
+    reactionMsgBtn.style.fontSize = '1.4rem';
+    reactionMsgBtn.style.opacity = '1.0';
+    reactionMsgBtn.style.color = 'white';
+    reactionMsgBtn.style.backgroundColor = '#a97777'
+    // reactionMsgBtn.style.border = '2px #00c9ad solid'; 
 }
 });
 

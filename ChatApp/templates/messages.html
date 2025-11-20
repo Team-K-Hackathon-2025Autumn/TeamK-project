@@ -3,7 +3,11 @@ block body %}
 <header>
   <div class="main-container">
     <div class="logo">
-      <img id="logo_img" src="../static/img/cookchat_logo.png" alt="cookchat">
+      <img
+        id="logo_img"
+        src="{{ url_for('static',filename='img/cookchat_logo.png') }}"
+        alt="cookchat"
+      />
     </div>
     <li class="logout-icon">
       <a href="{{ url_for('logout_process') }}">
@@ -12,27 +16,31 @@ block body %}
     </li>
   </div>
 </header>
-<div class="chat-header">
-  <div id="chat-header-left">
-    <a href="{{ url_for('home_view') }}">
-      <button><ion-icon name="chevron-back-outline"></ion-icon></button>
-    </a>
-    <p id="group-name">{{ group.name }}</p>
-  </div>
-  <div id="chat-header-right">
-    {% if uid == group.created_by %}
-    <button id="group-update-button">
-      <ion-icon name="pencil-outline"></ion-icon>
-    </button>
-    {% include 'modal/update-group.html' %}
-    <button id="member-add-button">
-      <ion-icon name="person-add-outline"></ion-icon>
-    </button>
-    {% include 'modal/add-member.html' %}{% endif %}
-    <button id="member-view-button">
-      <ion-icon name="people-outline"></ion-icon>
-    </button>
-    {% include 'modal/view-member.html' %}
+<div class="chat-header-box">
+  <div class="chat-header">
+    <div id="chat-header-left">
+      <a href="{{ url_for('home_view') }}">
+        <button><ion-icon name="chevron-back"></ion-icon></button>
+      </a>
+    </div>
+    <div id="chat-header-center">
+      <p id="group-name">{{ group.name }}</p>
+    </div>
+    <div id="chat-header-right">
+      {% if uid == group.created_by %}
+      <button id="group-update-button">
+        <ion-icon name="pencil"></ion-icon>
+      </button>
+      {% include 'modal/update-group.html' %}
+      <button id="member-add-button">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+      {% include 'modal/add-member.html' %}{% endif %}
+      <button id="member-view-button">
+        <ion-icon name="people"></ion-icon>
+      </button>
+      {% include 'modal/view-member.html' %}
+    </div>
   </div>
 </div>
 
@@ -108,6 +116,9 @@ block body %}
 </div>
 
 <div class="typing-box-wrapper">
+  <button id="create-menu">
+    <ion-icon name="restaurant"></ion-icon>
+  </button>
   <form
     class="typing-box"
     action="/group/{{ group.id }}/message"
@@ -120,9 +131,6 @@ block body %}
       <ion-icon name="paper-plane"></ion-icon>
     </button>
   </form>
-  <a id="create-menu" href="#">
-    <img src="{{ url_for('static', filename='img/button.svg') }}" />
-  </a>
   {% include 'modal/input-ingredients.html' %}
 </div>
 

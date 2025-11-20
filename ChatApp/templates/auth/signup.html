@@ -1,68 +1,73 @@
 {% extends 'auth/base.html' %}{% block title %}新規ユーザー登録{% endblock %} {%
 block body %}
-<header class="signup-header">
+<div class="content">
   <div class="auth-innerwrap">
-    <h1 class="login-h1">
-      <img src="../../static/img/cookchat_logo.png" alt="CookChat">
-    </h1>
+    <div class="auth-logo-wrapper">
+      <div class="logo">
+        <img
+          class="cookchat-logo"
+          src="{{ url_for('static',filename='img/cookchat_logo.png') }}"
+        />
+      </div>
+    </div>
+    <div class="auth-innerwrap">
+      <form class="auth-form" method="post">
+        <h2 class="signup-title">新規ユーザー登録</h2>
+        <div class="auth-input">
+          <label for="name-input">名前</label><br />
+          <input
+            type="text"
+            placeholder="名前入力"
+            name="name"
+            id="name-input"
+            required
+          />
+        </div>
+        <div class="auth-input">
+          <label for="email-input">メールアドレス</label><br />
+          <input
+            type="email"
+            placeholder="メールアドレス入力"
+            name="email"
+            id="email-input"
+            required
+          />
+        </div>
+        <div class="auth-input">
+          <label for="password-input">パスワード</label><br />
+          <input
+            type="password"
+            placeholder="パスワード入力"
+            name="password"
+            id="password-input"
+            required
+          />
+        </div>
+        <div class="auth-input">
+          <label for="password-input">パスワード確認</label><br />
+          <input
+            type="password"
+            placeholder="パスワード確認"
+            name="passwordConfirmation"
+            id="password-input"
+            required
+          />
+        </div>
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
+        <button class="signup-button">登録</button>
+      </form>
+      <p class="signup-link">
+        <a class="switch-auth-mode" href="{{ url_for('login_view') }}">
+          ログイン
+        </a>
+      </p>
+    </div>
   </div>
-</header>
-<div class="auth-innerwrap">
-  <form class="auth-form" method="post">
-    <h2 class="login-title">Create your account</h2>
-    <div class="auth-input">
-      <label for="name-input">名前</label><br />
-      <input
-        type="text"
-        placeholder="名前入力"
-        name="name"
-        id="name-input"
-        required
-      />
-    </div>
-    <div class="auth-input">
-      <label for="email-input">メールアドレス</label><br />
-      <input
-        type="email"
-        placeholder="メールアドレス入力"
-        name="email"
-        id="email-input"
-        required
-      />
-    </div>
-    <div class="auth-input">
-      <label for="password-input">パスワード</label><br />
-      <input
-        type="password"
-        placeholder="パスワード入力"
-        name="password"
-        id="password-input"
-        required
-      />
-    </div>
-    <div class="auth-input">
-      <label for="password-input">パスワード確認</label><br />
-      <input
-        type="password"
-        placeholder="パスワード確認"
-        name="passwordConfirmation"
-        id="password-input"
-        required
-      />
-    </div>
-    {% with messages = get_flashed_messages() %} {% if messages %}
-    <ul class="flashes">
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %} {% endwith %}
-    <button class="signup-button">登録</button>
-  </form>
-  <p class="signup-link">
-    <a class="switch-auth-mode" href="{{ url_for('login_view') }}">
-      ログイン
-    </a>
-  </p>
+  {% endblock %}
 </div>
-{% endblock %}
