@@ -2,7 +2,6 @@
 .error-wrapper {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 8%;
     text-align: left;
     background-color: #f8f8fc;
     box-sizing: border-box
@@ -17,7 +16,7 @@
 /* エラーの！　*/
 .alert-icon {
     font-size: 50px;
-    margin: 0 auto 10px auto;
+    display: block;
 }
 
 /* エラーメッセージ */
