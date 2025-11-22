@@ -11,7 +11,7 @@ reactionCounts.forEach((element) => {
   // eachCountの値によってスタイルを変更
   if (eachCount === 0) {
     reactionMsgBtn.style.fontSize = '0.6rem';
-    reactionMsgBtn.style.opacity = '0.3';
+    reactionMsgBtn.style.opacity = '0.5';
   } else if (eachCount < 5) {
     reactionMsgBtn.style.fontSize = '0.6rem';
     reactionMsgBtn.style.opacity = '1.0';
