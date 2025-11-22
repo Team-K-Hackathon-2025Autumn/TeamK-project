@@ -1,19 +1,24 @@
-{% extends 'error/base.html' %} {% block title %} error {% endblock %} {% block
-body %}
+{% extends 'error/base.html' %} {% block title %}404 error{% endblock %}{% block 
+  body %}
 <div class="error-wrapper">
   <div class="error-content">
     <div class="error-description">
-      <ion-icon name="alert-circle"></ion-icon>
+      <ion-icon name="alert-circle" class="alert-icon"></ion-icon>
       <p><strong>ページにアクセスできませんでした</strong></p>
       <img
       src="{{ url_for('static', filename='img/404.png.png') }}"
       alt="Error Image"
       class="error-gif"
       />
-      <a class="error-button pink" href="{{ url_for('home_view') }}">
+      <a class="error-button" href="{{ url_for('home_view') }}">
         <button>ホームへ戻る</button>
       </a>
     </div>
   </div>
 </div>
-{% endblock %} {% block script %} {% endblock %}
+{% endblock %} 
+
+{% block script %}
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+{% endblock %}
