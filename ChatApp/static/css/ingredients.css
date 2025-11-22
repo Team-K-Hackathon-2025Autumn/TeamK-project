@@ -1,16 +1,21 @@
 .input-modal-content {
-  background-color: #f6efe7;
-  padding: 10px;
-  border-radius: 8px;
+  background: #fff;
+  border-radius: 20px;
+  width: 90%; /* スマホでは幅広め */
+  max-width: 350px; /* PCでは幅を制限 */
+  padding: 24px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease;
+  position: relative;
 }
 .input-h5 {
   /* border-bottom: solid 1px black; */
   margin: 20px auto 0;
 }
 .input-zone {
-  height: 200px;
-  width: 90%;
-  margin: 0 auto;
+  min-height: 100px;
+  max-height: 200px;
+  width: 100%;
   overflow-y: auto;
 }
 
@@ -20,37 +25,49 @@
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #f6efe7;
+  color: #8c7b70;
+  background-color: white;
+  margin-bottom: 5px;
+  font-size: 14px;
 }
 .input-area {
   display: flex;
   flex-direction: row;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
+  gap: 5px;
 }
 .ingre {
   width: 50%;
+  padding: 5px;
   /* text-align: center; */
   box-sizing: border-box;
-  margin-right: 2px;
 }
 .quant {
+  padding: 5px;
   width: 25%;
   /* text-align: center; */
   box-sizing: border-box;
-  margin-right: 2px;
 }
+
 .unit {
+  padding: 5px;
   width: 15%;
   /* text-align: center; */
   box-sizing: border-box;
 }
+
 .del_btn {
-  width: 10%;
-  /* text-align: center; */
-  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  background: #eee;
   border: none;
-  background-color: #f6efe7;
-  font-size: 15px;
+  border-radius: 50%;
+  color: #666;
+  cursor: pointer;
+}
+
+.del_btn:hover {
+  opacity: 0.4;
 }
 .ion-icon {
   text-align: center;
@@ -58,41 +75,57 @@
 }
 .add-btn {
   border: none;
-  background-color: #f6efe7;
+  background-color: #ffffff;
 }
 #add-input-button {
   font-size: 24px;
   color: #d87c58;
 }
+#add-input-button:hover {
+  transition: 0.3s ease;
+  transform: scale(1.1);
+}
 #serving-count {
-  text-align: right;
-  width: 40%;
+  padding: 5px;
+  width: 100%;
+  height: 30px;
+  box-sizing: border-box;
 }
 #candidate-count {
-  text-align: right;
-  width: 40%;
+  padding: 5px;
+  width: 100%;
+  height: 30px;
+  box-sizing: border-box;
 }
 .request {
-  text-align: center;
   margin: 30px 0 10px;
 }
 .request h5 {
-  /* text-decoration: underline; */
-  /* text-underline-offset: 3px; */
+  margin-bottom: 5px;
+  color: #4a3b32;
 }
 #request-area {
+  padding: 5px;
   margin-top: 5px;
-  width: 67%;
+  width: 100%;
   height: 110px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #ddd;
 }
 .input-submit {
-  text-align: right;
+  text-align: center;
   padding: 20px;
 }
 .input-submit button {
   border: none;
   color: #ffffff;
   background-color: #d87c58;
-  border-radius: 21px;
+  border-radius: 12px;
   padding: 10.5px 15px;
+  width: 100px;
+}
+
+.input-submit button:hover {
+  opacity: 0.7;
 }

@@ -116,7 +116,7 @@ block body %}
 </div>
 
 <div class="typing-box-wrapper">
-  <button id="create-menu">
+  <button id="create-menu-button">
     <ion-icon name="restaurant"></ion-icon>
   </button>
   <form
@@ -125,7 +125,13 @@ block body %}
     method="POST"
     name="newMessageForm"
   >
-    <textarea name="message" id="message" autofocus required></textarea>
+    <textarea
+      name="message"
+      id="message"
+      placeholder="メッセージを入力..."
+      autofocus
+      required
+    ></textarea>
     <input type="hidden" name="gid" value="{{ group.id }}" />
     <button type="submit" id="add-message-button">
       <ion-icon name="paper-plane"></ion-icon>

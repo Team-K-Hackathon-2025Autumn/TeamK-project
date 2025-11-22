@@ -1,8 +1,12 @@
 <div id="input-ingredients-modal" class="modal">
   <div class="input-modal-content">
     <div class="modal-header">
-      <h5 class="input-h5">必須食材入力フォーム</h5>
-      <span class="modalClose" id="input-page-close-button">×</span>
+        <h5>
+        <span class="icon"><ion-icon name="restaurant"></ion-ico></span>
+          必須食材入力フォーム
+      </h5>
+      <span class="modalClose" id="input-page-close-button"><ion-icon name="close-circle"></ion-icon
+      ></span>
     </div>
     <form id="ingredient-form">
       <div class="input-zone">
@@ -10,7 +14,6 @@
           <label class="ingre">食材名</label>
           <label class="quant">数量</label>
           <label class="unit">単位</label>
-          <lavel class="del_btn"></lavel>
         </div>
         <div id="add-input-area">
           <!-- ここに入力欄が入る -->
@@ -19,7 +22,7 @@
           <button class="add-btn" type="button" onclick="add_input_area();">
             <ion-icon
               id="add-input-button"
-              name="add-circle-outline"
+              name="add-circle"
             ></ion-icon>
           </button>
         </div>
@@ -48,11 +51,11 @@
         />
       </div>
       <div class="request">
-        <h5>追加の要望</h5>
+        <h5>追加の要望（任意）</h5>
         <textarea
           id="request-area"
           name="preference"
-          placeholder="追加の要望があれば入力してください（任意）"
+          placeholder="追加の要望があれば入力してください"
         ></textarea>
       </div>
       <p class="input-submit">
