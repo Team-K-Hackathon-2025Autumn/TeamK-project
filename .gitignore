@@ -205,3 +205,24 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Mac
+.DS_Store
+
+# bundled.css
+/ChatApp/static/gen/*
+
+# Windowsの不要ファイル
+Thumbs.db
+desktop.ini
+
+# IDEの設定ファイル
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OSの一時ファイル
+.Trashes
+.Spotlight-V100
+.fseventsd

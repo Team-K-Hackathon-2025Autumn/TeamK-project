@@ -14,20 +14,19 @@
   <header>
 
   <div class="main-container">
-
-    <div class="logo">CookChat</div>
-
-     <li class="logout-icon">
-
-        <a href="{{ url_for('logout_process') }}"> 
-
-           <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
-
-        </a> 
-
-     </li>   
-
-  </div >
+    <div class="logo">
+      <img
+        id="logo_img"
+        src="{{ url_for('static',filename='img/cookchat_logo.png') }}"
+        alt="cookchat"
+      />
+    </div>
+    <li class="logout-icon">
+      <a href="{{ url_for('logout_process') }}">
+        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+      </a>
+    </li>
+  </div>
 
 </header>
   {% block body %} {% endblock %}

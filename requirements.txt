@@ -24,7 +24,7 @@ shellescape==3.8.1
 urllib3==1.26.12
 webassets==2.0
 Werkzeug==2.2.2
-genai
+google-genai
 pydantic
 typing
 

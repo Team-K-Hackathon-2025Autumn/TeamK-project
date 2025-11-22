@@ -17,37 +17,56 @@
         </div>
         <div class="ion-icon">
           <button class="add-btn" type="button" onclick="add_input_area();">
-            <ion-icon id="add-input-button" name="add-circle-outline"></ion-icon>
+            <ion-icon
+              id="add-input-button"
+              name="add-circle-outline"
+            ></ion-icon>
           </button>
         </div>
       </div>
       <div class="request">
-        <h5>希望リクエスト</h5>
-        <textarea
-          id="request-area"
-          name="request"
-          placeholder="希望を入力してください"
-        ></textarea>
+        <h5>人数</h5>
+        <input
+          id="serving-count"
+          type="number"
+          value="{{members | length}}"
+          min="1"
+          name="servingCount"
+          placeholder="半角数字で入力"
+        />
       </div>
       <div class="request">
-        <h5>希望メニュー数（1~9）</h5>
+        <h5>希望メニュー数</h5>
         <input
           id="candidate-count"
           type="number"
-          value="5"
+          value="4"
+          min="1"
           max="9"
           name="menuCandidateCount"
           placeholder="半角数字で入力"
         />
       </div>
+      <div class="request">
+        <h5>追加の要望</h5>
+        <textarea
+          id="request-area"
+          name="preference"
+          placeholder="追加の要望があれば入力してください（任意）"
+        ></textarea>
+      </div>
       <p class="input-submit">
-        <button id="input-submit">AIに送信</button>
+        <button id="input-submit" type="submit">AIに送信</button>
       </p>
     </form>
   </div>
 </div>
 <script
   src="{{url_for('static',filename='js/ingredients/submit-json-ingredients.js')}}"
+  type="module"
+></script>
+<script
+  src="{{url_for('static',filename='js/ingredients/submit-validation.js')}}"
   type="module"
 ></script>
 <script

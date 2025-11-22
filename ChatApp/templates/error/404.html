@@ -3,16 +3,16 @@
 <div class="error-wrapper">
   <div class="error-content">
     <div class="error-description">
-      <ion-icon name="alert-circle" class="alert-icon"></ion-icon>
-      <p><strong>ページにアクセスできませんでした</strong></p>
+      <div class="error-message-wrapper">
+        <ion-icon name="alert-circle" class="alert-icon"></ion-icon>
+        <p><strong>ページにアクセスできませんでした</strong></p>
+      </div>
       <img
       src="{{ url_for('static', filename='img/404.png.png') }}"
       alt="Error Image"
       class="error-gif"
       />
-      <a class="error-button" href="{{ url_for('home_view') }}">
-        <button>ホームへ戻る</button>
-      </a>
+      <button class="error-button"><a  href="{{ url_for('home_view') }}">ホームへ戻る</a></button>
     </div>
   </div>
 </div>
