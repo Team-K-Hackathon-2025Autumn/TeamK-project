@@ -1,6 +1,6 @@
 // 食材入力フォームを表示するモーダルの制御
 isModalCloseDisabled = false;
-const inputButton = document.getElementById('create-menu');
+const inputButton = document.getElementById('create-menu-button');
 // おそらく()内をmessage.htmlのボタン名と合わせる
 const inputIngredientsModal = document.getElementById(
   'input-ingredients-modal'

@@ -9,7 +9,7 @@ const deleteButton = document.getElementById('button');
 const path = window.location.pathname;
 const savedscrollTopPosition = sessionStorage.getItem('scrollY_' + path);
 if (savedscrollTopPosition) {
-  element.scrollTop = parseInt(savedscrollTopPosition, 10);
+  element.scrollTop = parseInt(savedscrollTopPosition);
 } else {
   element.scrollTo(0, element.scrollHeight);
 }
@@ -17,12 +17,17 @@ if (savedscrollTopPosition) {
 sessionStorage.removeItem('scrollY_' + path);
 
 const reactionButtons = document.querySelectorAll('.reaction-message-button');
+const deleteButtons = document.querySelectorAll('.delete-message-button');
 
-reactionButtons.forEach((button) => {
-  button.addEventListener('click', function (event) {
-    console.log('a');
-    const path = window.location.pathname;
-    const scrollTopPosition = element.scrollTop;
-    sessionStorage.setItem('scrollY_' + path, scrollTopPosition);
+const buttons = [reactionButtons, deleteButtons];
+
+for (button of buttons) {
+  button.forEach((button) => {
+    button.addEventListener('click', function (event) {
+      console.log('a');
+      const path = window.location.pathname;
+      const scrollTopPosition = element.scrollTop - 4;
+      sessionStorage.setItem('scrollY_' + path, scrollTopPosition);
+    });
   });
-});
+}

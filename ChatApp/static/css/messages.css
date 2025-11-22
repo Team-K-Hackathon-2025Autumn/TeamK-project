@@ -22,7 +22,7 @@
 }
 
 #logo_img {
-  height: 35px;
+  height: 24px;
 }
 
 #chat-header-left {
@@ -44,7 +44,7 @@
 }
 
 #chat-header-center {
-  width: 300px;
+  width: 500px;
   text-align: center;
   padding: 14px 18px;
 }
@@ -97,7 +97,6 @@
 .box {
   display: inline-block;
   padding: 10px;
-  border-radius: 8px;
   max-width: 70%;
   word-wrap: break-word;
 }
@@ -105,13 +104,16 @@
 .box-left {
   background-color: #ffffff;
   white-space: pre-wrap;
+  border-radius: 0px 30px 30px 30px;
   margin-right: 3px;
+  color: #4a3b32;
 }
 
 .box-right {
   background-color: #d87c58;
   color: white;
   white-space: pre-wrap;
+  border-radius: 30px 30px 0px 30px;
   margin-left: 3px;
 }
 
@@ -171,7 +173,7 @@
 
 .user-name {
   color: #626264;
-  font-size: 11px;
+  font-size: 14px;
   margin-left: 8px;
 }
 
@@ -185,24 +187,33 @@
   color: #122543;
   border-radius: 20px;
   padding: 3px;
-  opacity: 0.3;
+  opacity: 0.5;
 }
+
+.reaction-message-button:hover {
+  transition: 0.3s ease;
+  transform: scale(1.1);
+}
+
+.reaction-message-button:click {
+  transition: 0.3s ease;
+}
+
 .delete-message-button {
   border: none;
   border-radius: 50%;
   background: white;
   cursor: pointer;
-  color: #5d4037;
+  color: #8488a4;
   font-size: 1.2rem;
   padding: 4px 5px 0px;
   position: absolute;
   right: 0;
   top: -12px;
-  transition: 0.3s ease;
 }
 
 .delete-message-button:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 .reaction2 {
   display: flex;
@@ -210,12 +221,7 @@
   align-items: flex-end;
 }
 
-.reaction-message-button:hover {
-  transform: scale(1.1);
-}
-
 /* 入力欄 */
-
 .typing-box-wrapper {
   display: flex;
   position: fixed;
@@ -226,6 +232,7 @@
   right: 0;
   padding: 20px;
   gap: 20px;
+  background-color: white;
 }
 
 .typing-box {
@@ -233,10 +240,10 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #f5f5f5;
   border-radius: 30px;
   padding: 3px 5px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); */
 }
 
 .typing-box textarea {
@@ -252,6 +259,10 @@
   height: 30px;
 }
 
+#message {
+  align-content: center;
+}
+
 #add-message-button {
   display: flex;
   background: none;
@@ -265,7 +276,7 @@
 #add-message-button:hover {
   transform: scale(1.1);
 }
-#create-menu {
+#create-menu-button {
   display: flex;
   border: none;
   cursor: pointer;
@@ -275,8 +286,8 @@
   border-radius: 50%;
   background-color: #d87c58;
   padding: 10px;
-  box-shadow: 0 2px 5px rgba(216, 124, 88, 0.4);
+  /* box-shadow: 0 2px 5px rgba(216, 124, 88, 0.4); */
 }
-#create-menu:hover {
-    transform: scale(1.1);
+#create-menu-button:hover {
+  transform: scale(1.1);
 }

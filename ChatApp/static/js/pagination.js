@@ -31,11 +31,11 @@ const appendGroups = () => {
       ownershipType = 'メンバー';
     }
 
-      li.style.backgroundColor = "white"; // 好きな色を指定
-      li.style.color = "#5D4037";
-      li.textalign = "center";
-      li.style.width = "295px";
-      li.style.height = "40px";
+    li.style.backgroundColor = 'white'; // 好きな色を指定
+    li.style.color = '#5D4037';
+    li.textalign = 'center';
+    li.style.width = '295px';
+    li.style.height = '40px';
     const ownwership = document.createElement('div');
     ownwership.innerHTML = ownershipType;
     ownwership.classList.add('ownershipType');
@@ -63,8 +63,7 @@ const appendGroups = () => {
     // 作成者のみ削除ボタンを表示
     if (uid === group.created_by) {
       const deleteButton = document.createElement('button');
-      deleteButton.innerHTML =
-        '<ion-icon name="trash-outline" style="color: #afafaf"></ion-icon>';
+      deleteButton.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
       deleteButton.classList.add('delete-button');
       li.appendChild(deleteButton);
 
