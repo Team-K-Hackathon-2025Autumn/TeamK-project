@@ -1,0 +1,81 @@
+/* エラー画面全体を縦横中央に配置 */
+.error-wrapper {
+    margin: 0 auto;
+    text-align: left;
+    box-sizing: border-box;
+    height: 100vh;
+    background-color: #ddecf3;
+}
+
+.error-wrapper-500 {
+    margin: 0 auto;
+    text-align: left;
+    box-sizing: border-box;
+    height: 100vh;
+    background-color: #d7e8f0;
+}
+
+/* コンテンツの整列 */
+.error-content {
+    text-align: center;
+    width: 100%;
+}
+
+/* アイコンとメッセージの整列 */
+.error-message-wrapper {
+    max-width: 430px;
+    text-align: start;
+    margin: 0 auto;
+    padding: 40px 0 20px;
+    display: flex;
+    align-items: center;
+}
+
+/* エラーの！　*/
+.alert-icon {
+    font-size: 50px;
+    margin-left: 30px;
+    color: #ea494d;
+}
+
+/* エラーメッセージ */
+.error-description p {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* エラー画像 */
+.error-gif {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    display: block;
+    margin: 20px auto 0;
+}
+
+/* エラーボタンの下線削除 */
+.error-button a{
+    text-decoration: none;
+}
+
+/* ボタンスタイル */
+.error-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 15px;
+    background-color: white; 
+    color: #0c0c0c;
+    border: 0.5px black solid;
+    transition: background-color .3s;
+    display: block;
+    margin: 40px auto;
+    text-decoration: none;
+}
+
+.error-button button:hover {
+    background-color: #f4f0f1;
+}
