@@ -80,7 +80,7 @@
 /* メッセージエリア */
 #message-area {
   padding: 0 15px;
-  height: 81vh;
+  height: 75vh;
   overflow-y: auto;
 }
 
@@ -124,6 +124,7 @@
   justify-content: flex-end;
   align-items: end;
   margin-right: 12px;
+  margin-top: 20px;
 }
 
 .my-sendTime {
@@ -145,6 +146,7 @@
 
 .other-message-top {
   display: flex;
+  margin-top: 20px;
 }
 
 .other-sendTime {
