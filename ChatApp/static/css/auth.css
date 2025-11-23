@@ -1,31 +1,4 @@
 @charset "utf-8";
-/* 上部になぜか出る余白を削除 */
-* {
-  margin: 0px;
-  padding: 0px;
-}
-
-body {
-  background-color: #fbefe6;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-}
-
-.noto-sans-jp {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
 .content {
   margin: 0;
   display: flex;
@@ -36,7 +9,7 @@ img {
 .auth-innerwrap {
   max-width: 500px;
   margin: 0 auto;
-  padding: 0 8.5%;
+  /* padding: 0 8.5%; */
   text-align: left;
 }
 
@@ -76,7 +49,8 @@ img {
   height: 46px;
   margin-top: 8px;
   font-family: inherit;
-  font-size: 120%;
+  font-size: 0.95rem;
+  /* padding: 0 10px; */
 }
 
 .auth-input input::placeholder {
@@ -91,10 +65,14 @@ img {
   background-color: #d87c58;
   color: #fcfcfd;
   border: none;
-  border-radius: 24px;
+  border-radius: 12px;
   margin-top: 52px;
   font-family: inherit;
   font-size: 16px;
+}
+
+.login-button:hover {
+  opacity: 0.7;
 }
 
 .login-link {
@@ -138,10 +116,14 @@ img {
   background-color: #d87c58;
   color: #fcfcfd;
   border: none;
-  border-radius: 24px;
+  border-radius: 12px;
   margin-top: 52px;
   font-family: inherit;
   font-size: 16px;
+}
+
+.signup-button:hover {
+  opacity: 0.7;
 }
 
 .signup-link {

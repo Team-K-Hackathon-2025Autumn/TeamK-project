@@ -132,8 +132,8 @@ def home_view():
         return redirect(url_for("login_view"))
     else:
         groups = Group.find_by_uid(uid)
-        # groups.reverse()
-        return render_template("groups.html", groups=groups, uid=uid)
+        user = User.find_by_uid(uid)
+        return render_template("groups.html", groups=groups, uid=uid, user=user)
 
 
 # グループリダイレクト処理
@@ -258,12 +258,14 @@ def message_view(gid):
             return redirect(url_for("home_view"))
         else:
             messages = Message.get_all(gid)
+            user = User.find_by_uid(uid)
             return render_template(
                 "messages.html",
                 messages=messages,
                 group=group,
                 members=members,
                 uid=uid,
+                user=user,
                 reopen_modal=reopen_modal,
             )
 
@@ -405,7 +407,7 @@ def ai_menu_process(gid):
             request_data = request.get_json()
             print(request_data)
 
-            # ---- Gemini APIの設定 ----
+            # Gemini APIの設定
             class Ingredient(BaseModel):
                 name: str = Field(description="Name of the ingredient.")
                 quantity: str = Field(description="Quantity of the ingredient")
@@ -427,12 +429,13 @@ def ai_menu_process(gid):
                 print(f"Gemini APIの初期化中にエラーが発生しました: {e}")
                 abort(500)
 
-            # ---- Gemini APIでメニュー作成を依頼 ---
+            # Gemini APIで献立案の提示を依頼
             # プロンプト
             prompt = f"""
             あなたは献立のメニューアドバイザーです。JSON形式で送信されるデータに基づいて、献立を考えてください。
             このデータには
                 - 今ある食材名（name）、分量（quantity)、分量の単位（unit)
+                - 今ある食材名（name）、分量（quantity)、分量の単位（unit)を無視するべきか否かのフラグ
                 - 人数（何人前用か）
                 - 希望するメニュー数
                 - 任意の追加要望
@@ -441,7 +444,9 @@ def ai_menu_process(gid):
 
             # 最重要ルール
             - 回答は日本語にしてください。
-            - 今ある食材は必ず使ってください。ただし、必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
+            - 今ある食材名（name）、分量（quantity)、分量の単位（unit)を無視するべきか否かのフラグの値がonではない場合、今ある食材は必ず使ってください。ただし、必ず今ある食材だけでできるメニューである必要はなく、追加の食材が必要になっても問題ありません。
+            - 今ある食材名（name）、分量（quantity)、分量の単位（unit)を無視するべきか否かのフラグがonだった場合、今ある食材は完全に無視して、自由にメニューを立案してください。
+            - 今ある食材名（name）、分量（quantity)、分量の単位（unit)を無視するべきか否かを問わず、任意の追加要望があればそれを考慮してください。
             - 作り方の文章には必ず 1. ような番号をつけてください。この番号は1から始めてください。
             """
 
@@ -463,7 +468,7 @@ def ai_menu_process(gid):
                     serving_count = menu.servingCount
                     ai_message.extend(
                         [
-                            f"メニュー{index + 1}: {menu_name} ({serving_count}人前）",
+                            f"献立案 {index + 1}: {menu_name} ({serving_count}人前）",
                             "",
                             "<材料>",
                         ]
@@ -473,7 +478,7 @@ def ai_menu_process(gid):
                         name = ingredient.name
                         quantity = ingredient.quantity
                         unit = ingredient.unit
-                        ai_message.append(f"{name} {quantity}{unit}")
+                        ai_message.append(f"{name}・・・{quantity}{unit}")
 
                     ai_message.extend(["", "<作り方> "])
 

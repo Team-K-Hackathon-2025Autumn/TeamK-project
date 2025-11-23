@@ -9,6 +9,7 @@
       />
     </div>
     <li class="logout-icon">
+      <div class="user-name">{{user.name}} さん</div>
       <a href="{{ url_for('logout_process') }}">
         <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
       </a>
@@ -17,7 +18,9 @@
 </header>
 <div id="groups-list">
   <div class="group-box"></div>
-  <ion-icon id="create-group-button" name="add-circle"></ion-icon>
+</div>
+<div class="add-group">
+  <ion-icon id="create-group-button" name="add"></ion-icon>
 </div>
 
 {% include 'modal/create-group.html' %} {% include 'modal/delete-group.html' %}
@@ -27,6 +30,7 @@
   const groups = JSON.parse('{{ groups|tojson }}');
   // prettier-ignore
   const uid = JSON.parse('{{ uid|tojson }}');
+  const user = JSON.parse('{{ user|tojson }}');
 </script>
 
 <script

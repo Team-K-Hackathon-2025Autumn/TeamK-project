@@ -10,7 +10,7 @@ const deletegroupModal = document.getElementById('delete-group-modal');
 
 const groupBox = document.querySelector('.group-box'); // グループリストを表示するコンテナ
 
-const STEP = 5; // 一度に表示するグループ数
+const STEP = 20; // 一度に表示するグループ数
 let displayedCount = 0; // 現在表示しているグループ数
 
 // グループを追加表示する関数
@@ -26,7 +26,7 @@ const appendGroups = () => {
 
     let ownershipType = '';
     if (uid === group.created_by) {
-      ownershipType = 'オーナー';
+      ownershipType = '作成者';
     } else {
       ownershipType = 'メンバー';
     }

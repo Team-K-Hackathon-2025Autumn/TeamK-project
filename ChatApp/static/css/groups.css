@@ -1,6 +1,3 @@
-body {
-  margin: 0;
-}
 .main-container {
   size: 375px 110px;
   display: flex;
@@ -13,13 +10,6 @@ body {
 /* header .logo {
   padding: 16px 16px;
 } */
-header .icon {
-  font-size: 32px;
-  color: #fecba3;
-}
-.logout-icon {
-  list-style: none;
-}
 /* 外枠：グループ名とゴミ箱を横並びにする */
 .group-item-wrapper {
   display: flex;
@@ -27,13 +17,18 @@ header .icon {
   align-items: center;
   margin-bottom: 12px;
 }
+
+#groups-list {
+  padding: 0 15px;
+  /* overflow-y: auto; */
+}
 /* グループ全体のコンテナ */
 .group-box {
   display: flex;
   flex-direction: column;
-  max-height: 400px;
+  max-height: 100vh;
   overflow-y: auto;
-  height: max-content; /* スクロールできる高さを確保（適宜調整） */
+  /* height: max-content;  */
   padding: 20px 0;
   /*width: 367px; /* ここからゴミ箱があってもY軸の配置がずれないよう追加 */
   margin: 0 auto;
@@ -54,6 +49,11 @@ header .icon {
   gap: 12px;
 }
 
+.group-item:hover {
+  transition: 0.3s ease;
+  transform: scale(1.02);
+}
+
 .ownershipType {
   border-radius: 5px;
   background-color: #f4a261;
@@ -67,6 +67,8 @@ header .icon {
   text-decoration: none;
   flex: 1;
   font-size: 16px;
+  /* z-index: 1; */
+  cursor: pointer;
 }
 
 /* ゴミ箱ボタン（右に少し離して置く） */
@@ -85,14 +87,37 @@ header .icon {
   transform: scale(1.1);
 }
 
+.add-group {
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  gap: 20px;
+  background-color: #d87c58;
+  border-radius: 20px 20px 0 0;
+}
+
 #create-group-button {
   display: block;
-  margin: 40px auto 20px; /* 上40px・下20pxの余白で中央寄せ */
+  margin: 10px auto;
   font-size: 48px;
   cursor: pointer;
   text-align: center;
+  gap: 20px;
+  background: #d87c58;
+  border: none;
+  color: #ffffff;
   border-radius: 50%;
-  color: #d87c58;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: rgba(255, 255, 255, 0.7) 0 0 10px;
 }
 
 #create-group-button:hover {

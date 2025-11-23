@@ -17,7 +17,7 @@ block body %}
           <label for="name-input">名前</label><br />
           <input
             type="text"
-            placeholder="名前入力"
+            placeholder="名前を入力"
             name="name"
             id="name-input"
             required
@@ -27,7 +27,7 @@ block body %}
           <label for="email-input">メールアドレス</label><br />
           <input
             type="email"
-            placeholder="メールアドレス入力"
+            placeholder="メールアドレスを入力"
             name="email"
             id="email-input"
             required
@@ -37,7 +37,7 @@ block body %}
           <label for="password-input">パスワード</label><br />
           <input
             type="password"
-            placeholder="パスワード入力"
+            placeholder="パスワードを入力"
             name="password"
             id="password-input"
             required
@@ -47,7 +47,7 @@ block body %}
           <label for="password-input">パスワード確認</label><br />
           <input
             type="password"
-            placeholder="パスワード確認"
+            placeholder="再度パスワードを入力"
             name="passwordConfirmation"
             id="password-input"
             required
@@ -55,9 +55,7 @@ block body %}
         </div>
         {% with messages = get_flashed_messages() %} {% if messages %}
         <ul class="flashes">
-          {% for message in messages %}
-          <li>{{ message }}</li>
-          {% endfor %}
+          {% for message in messages %} {{ message }} {% endfor %}
         </ul>
         {% endif %} {% endwith %}
         <button class="signup-button">登録</button>

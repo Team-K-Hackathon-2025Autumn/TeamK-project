@@ -46,6 +46,21 @@ class User:
         finally:
             db_pool.release(conn)
 
+    @classmethod
+    def find_by_uid(cls, uid):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT * FROM users WHERE id=%s;"
+                cur.execute(sql, (uid,))
+                user = cur.fetchone()
+            return user
+        except pymysql.Error as e:
+            print(f"エラーが発生しています：{e}")
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
 
 # グループクラス
 class Group:
@@ -145,7 +160,7 @@ class Message:
                     
                     UNION ALL
                     
-                    SELECT am.id, '0' AS uid, 'AIからのメニュー提案' AS name, am.creation_type, am.message, ar.counts, am.created_at
+                    SELECT am.id, '0' AS uid, 'AIからの献立案' AS name, am.creation_type, am.message, ar.counts, am.created_at
                     FROM ai_messages AS am
                     LEFT OUTER JOIN ai_eat_reactions AS ar ON am.id = ar.message_id
                     WHERE am.gid = %s

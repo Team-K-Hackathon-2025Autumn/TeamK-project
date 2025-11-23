@@ -129,14 +129,24 @@ function create_unit_input(num) {
   option_2.appendChild(option_2_txt);
 
   var option_3 = document.createElement('option');
-  var option_3_txt = document.createTextNode('g');
-  option_3.setAttribute('value', 'g');
+  var option_3_txt = document.createTextNode('本');
+  option_3.setAttribute('value', '本');
   option_3.appendChild(option_3_txt);
 
   var option_4 = document.createElement('option');
-  var option_4_txt = document.createTextNode('ml');
-  option_4.setAttribute('value', 'ml');
+  var option_4_txt = document.createTextNode('束');
+  option_4.setAttribute('value', '束');
   option_4.appendChild(option_4_txt);
+
+  var option_5 = document.createElement('option');
+  var option_5_txt = document.createTextNode('g');
+  option_5.setAttribute('value', 'g');
+  option_5.appendChild(option_5_txt);
+
+  var option_6 = document.createElement('option');
+  var option_6_txt = document.createTextNode('ml');
+  option_6.setAttribute('value', 'ml');
+  option_6.appendChild(option_6_txt);
 
   var input_unit = document.createElement('select');
   input_unit.setAttribute('class', 'unit');
@@ -147,6 +157,8 @@ function create_unit_input(num) {
   input_unit.appendChild(option_2);
   input_unit.appendChild(option_3);
   input_unit.appendChild(option_4);
+  input_unit.appendChild(option_5);
+  input_unit.appendChild(option_6);
   return input_unit;
 }
 
@@ -180,7 +192,44 @@ function set_add_btn_disabled() {
   var buttons = form.getElementsByTagName('button');
   if (buttons.length < 9) {
     document.getElementsByClassName('add-btn')[0].disabled = false;
+
+    if (document.getElementById('delegation').checked) {
+      document.getElementsByClassName('add-btn')[0].style.visibility = 'hidden';
+    } else {
+      document.getElementsByClassName('add-btn')[0].style.visibility =
+        'visible';
+    }
   } else {
     document.getElementsByClassName('add-btn')[0].disabled = true;
+    document.getElementsByClassName('add-btn')[0].style.visibility = 'hidden';
+  }
+}
+
+function ingredientsRequired() {
+  const addBtn = document.getElementsByClassName('add-btn')[0];
+  const toggle = document.getElementById('delegation');
+  const ingres = document.querySelectorAll('.ingre');
+  const quants = document.querySelectorAll('.quant');
+  const units = document.querySelectorAll('.unit');
+  const inputs = [ingres, quants, units];
+
+  if (toggle.checked) {
+    for (const classes of inputs) {
+      classes.forEach((element) => {
+        element.removeAttribute('required');
+        element.setAttribute('disabled', 'true');
+        addBtn.setAttribute('disabled', 'true');
+        addBtn.style.visibility = 'hidden';
+      });
+    }
+  } else {
+    inputs.forEach((classes) => {
+      classes.forEach((element) => {
+        element.setAttribute('required', 'true');
+        element.removeAttribute('disabled');
+        addBtn.removeAttribute('disabled');
+        addBtn.style.visibility = 'visible';
+      });
+    });
   }
 }

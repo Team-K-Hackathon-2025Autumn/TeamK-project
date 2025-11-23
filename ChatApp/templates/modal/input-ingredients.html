@@ -27,6 +27,17 @@
           </button>
         </div>
       </div>
+
+      <div class="request">
+        <h5>AIにおまかせ（食材が無視されます）</h5>
+        <input
+          id="delegation"
+          type="checkbox"
+          name="delegation"
+          onchange="ingredientsRequired()"
+        />
+      </div>
+
       <div class="request">
         <h5>人数</h5>
         <input
@@ -59,7 +70,7 @@
         ></textarea>
       </div>
       <p class="input-submit">
-        <button id="input-submit" type="submit">AIに送信</button>
+        <button id="input-submit" type="submit">AIに献立案をリクエスト</button>
       </p>
     </form>
   </div>
