@@ -79,8 +79,8 @@
 
 /* メッセージエリア */
 #message-area {
-  padding: 0 15px;
-  height: 75vh;
+  padding: 20px 15px 0;
+  height: calc(100vh - 246px);
   overflow-y: auto;
 }
 
