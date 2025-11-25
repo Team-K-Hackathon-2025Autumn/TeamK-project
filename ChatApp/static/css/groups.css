@@ -6,6 +6,10 @@
   background-color: #ffffff;
   padding: 10px 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: fixed; /*ヘッダーを固定するために追加 */
+  top: 0;
+  left: 0;
+  right: 0;
 }
 /* header .logo {
   padding: 16px 16px;
@@ -26,13 +30,12 @@
 .group-box {
   display: flex;
   flex-direction: column;
-  max-height: 100vh;
+  max-height: calc(100vh - 176px); /* 画面の縦幅によって表示領域が合わなくなる問題を修正 */
   overflow-y: auto;
   /* height: max-content;  */
-  padding: 20px 0;
+  padding: 14px 20px 0; /* 画面の縦幅によって表示領域が合わなくなる問題を修正 */
   /*width: 367px; /* ここからゴミ箱があってもY軸の配置がずれないよう追加 */
-  margin: 0 auto;
-  padding: 20px 20px 20px 20px; /* ここまで */
+  margin: 66px auto 0; /* 画面の縦幅によって表示領域が合わなくなる問題を修正 */
 }
 
 /* グループ名のボックス */

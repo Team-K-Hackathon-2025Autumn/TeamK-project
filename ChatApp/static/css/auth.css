@@ -130,3 +130,20 @@
   text-align: center;
   margin-top: 42px;
 }
+
+@media screen and (max-width:600px) {
+  .auth-innerwrap {
+    padding: 0 8.5%;
+  }
+  /* ここから縦幅が小さい画面の対策 */
+  .auth-input {
+    margin-top: 12px;
+  }
+  .signup-button {
+    margin-top: 26px;
+  }
+  .signup-link {
+    margin-top: 21px;
+  }
+  /* ここまで縦幅が小さい画面の対策 */
+}

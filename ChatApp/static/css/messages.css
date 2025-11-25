@@ -3,6 +3,10 @@
   background-color: #d87c58;
   border-radius: 0 0 20px 20px;
   /* padding: 20px; */
+  position: fixed;
+  top: 66px;
+  right: 0;
+  left: 0;
 }
 
 .chat-header {
@@ -71,6 +75,13 @@
   font-weight: 600;
   font-size: 0.95rem;
   margin: 0 8px;
+  /* ここから文字が溢れた場合に3点リーダを表示 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 1em;
+  /* ここまで文字が溢れた場合に3点リーダを表示 */
 }
 
 .chat-header button:hover {
@@ -79,9 +90,10 @@
 
 /* メッセージエリア */
 #message-area {
-  padding: 20px 15px 0;
-  height: calc(100vh - 246px);
+  padding: 0 15px;
+  height: calc(100vh - 226px);
   overflow-y: auto;
+  margin-top: 130px;
 }
 
 .box {

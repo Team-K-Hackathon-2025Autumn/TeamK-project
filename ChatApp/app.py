@@ -145,11 +145,8 @@ def home_view():
         return redirect(url_for("login_view"))
     user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
-        print(user_in_uid,flush=True)
         return redirect(url_for("logout_process"))
     else:
-        print("バリデーション通過",flush=True)
-        print(user_in_uid,flush=True)
         groups = Group.find_by_uid(uid)
         user = User.find_by_uid(uid)
         return render_template("groups.html", groups=groups, uid=uid, user=user)
