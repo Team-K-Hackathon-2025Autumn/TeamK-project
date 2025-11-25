@@ -28,9 +28,11 @@ form.addEventListener('submit', async function (event) {
   const servingCount = formData.get('servingCount');
   const menuCandidateCount = formData.get('menuCandidateCount');
   const preference = formData.get('preference');
+  const delegation = formData.get('delegation');
 
   const request_data = {
     ingredients: ingredients,
+    delegation: delegation,
     servingCount: servingCount,
     menuCandidateCount: menuCandidateCount,
     preference: preference,

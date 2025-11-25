@@ -1,31 +1,4 @@
 @charset "utf-8";
-/* 上部になぜか出る余白を削除 */
-* {
-  margin: 0px;
-  padding: 0px;
-}
-
-body {
-  background-color: #fbefe6;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-}
-
-.noto-sans-jp {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
 .content {
   margin: 0;
   display: flex;
@@ -36,7 +9,7 @@ img {
 .auth-innerwrap {
   max-width: 500px;
   margin: 0 auto;
-  padding: 0 8.5%;
+  /* padding: 0 8.5%; */
   text-align: left;
 }
 
@@ -72,17 +45,18 @@ img {
   border: 1px solid #9da977;
   border-radius: 6px;
   display: inline-block;
-  width: 100%;
+  width: calc(100% - 20px);
   height: 46px;
   margin-top: 8px;
   font-family: inherit;
-  font-size: 120%;
+  font-size: 0.95rem;
+  padding: 0 10px;
 }
 
 .auth-input input::placeholder {
   color: #b5a998;
   font-size: 16px;
-  padding-left: 10px;
+  /* padding-left: 10px; */
 }
 
 .login-button {
@@ -91,10 +65,14 @@ img {
   background-color: #d87c58;
   color: #fcfcfd;
   border: none;
-  border-radius: 24px;
+  border-radius: 12px;
   margin-top: 52px;
   font-family: inherit;
   font-size: 16px;
+}
+
+.login-button:hover {
+  opacity: 0.7;
 }
 
 .login-link {
@@ -138,13 +116,34 @@ img {
   background-color: #d87c58;
   color: #fcfcfd;
   border: none;
-  border-radius: 24px;
+  border-radius: 12px;
   margin-top: 52px;
   font-family: inherit;
   font-size: 16px;
 }
 
+.signup-button:hover {
+  opacity: 0.7;
+}
+
 .signup-link {
   text-align: center;
   margin-top: 42px;
+}
+
+@media screen and (max-width:600px) {
+  .auth-innerwrap {
+    padding: 0 8.5%;
+  }
+  /* ここから縦幅が小さい画面の対策 */
+  .auth-input {
+    margin-top: 12px;
+  }
+  .signup-button {
+    margin-top: 26px;
+  }
+  .signup-link {
+    margin-top: 21px;
+  }
+  /* ここまで縦幅が小さい画面の対策 */
 }

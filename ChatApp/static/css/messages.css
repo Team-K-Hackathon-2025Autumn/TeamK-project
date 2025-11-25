@@ -1,14 +1,12 @@
-/* 全体のリセット */
-* {
-  margin: 0;
-  padding: 0;
-}
-
 /* チャットヘッダー */
 .chat-header-box {
   background-color: #d87c58;
   border-radius: 0 0 20px 20px;
   /* padding: 20px; */
+  position: absolute;
+  top: 66px;
+  right: 0;
+  left: 0;
 }
 
 .chat-header {
@@ -19,10 +17,6 @@
   background-color: #fcfcfc4a; */
   border: none;
   border-radius: 10px;
-}
-
-#logo_img {
-  height: 24px;
 }
 
 #chat-header-left {
@@ -81,6 +75,14 @@
   font-weight: 600;
   font-size: 0.95rem;
   margin: 0 8px;
+  /* ここから文字が溢れた場合に3点リーダを表示 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 1em;
+  word-break: break-all;
+  /* ここまで文字が溢れた場合に3点リーダを表示 */
 }
 
 .chat-header button:hover {
@@ -90,8 +92,9 @@
 /* メッセージエリア */
 #message-area {
   padding: 0 15px;
-  height: calc(100vh - 276px);
+  height: calc(100vh - 226px);
   overflow-y: auto;
+  margin-top: 130px;
 }
 
 .box {
@@ -134,6 +137,7 @@
   justify-content: flex-end;
   align-items: end;
   margin-right: 12px;
+  margin-top: 20px;
 }
 
 .my-sendTime {
@@ -153,6 +157,11 @@
   margin-bottom: 25px;
 }
 
+.other-message-top {
+  display: flex;
+  margin-top: 20px;
+}
+
 .other-sendTime {
   font-size: 0.6rem;
   color: #626264;
@@ -169,6 +178,10 @@
 .other-message-bottom {
   margin-top: 3px;
   margin-left: 8px;
+}
+
+.ai-verified {
+  color: #2b70ff;
 }
 
 .user-name {

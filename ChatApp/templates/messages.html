@@ -10,6 +10,7 @@ block body %}
       />
     </div>
     <li class="logout-icon">
+      <div class="user-name">{{user.name}} さん</div>
       <a href="{{ url_for('logout_process') }}">
         <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
       </a>
@@ -86,7 +87,12 @@ block body %}
   <!-- 自分以外のメッセージ -->
   <div class="other-messages">
     <div class="other-message-top">
+      {% if message.creation_type == "ai" %}
+      <p class="ai-verified"><ion-icon name="star"></ion-icon></p>
       <p class="user-name">{{ message.name }}</p>
+      {% else %}
+      <p class="user-name">{{ message.name }}</p>
+      {% endif %}
     </div>
     <div class="other-message-content">
       <p class="box box-left">{{ message.message }}</p>

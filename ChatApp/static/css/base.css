@@ -1,0 +1,45 @@
+/* 全体のリセット */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #fbefe6;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.noto-sans-jp {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+header .icon {
+  font-size: 32px;
+  color: #d87c58;
+  opacity: 0.5;
+}
+.logout-icon {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#logo_img {
+  height: 24px;
+}
+
+ul.flashes {
+  text-align: center;
+}
