@@ -45,18 +45,18 @@
   border: 1px solid #9da977;
   border-radius: 6px;
   display: inline-block;
-  width: 100%;
+  width: calc(100% - 20px);
   height: 46px;
   margin-top: 8px;
   font-family: inherit;
   font-size: 0.95rem;
-  /* padding: 0 10px; */
+  padding: 0 10px;
 }
 
 .auth-input input::placeholder {
   color: #b5a998;
   font-size: 16px;
-  padding-left: 10px;
+  /* padding-left: 10px; */
 }
 
 .login-button {

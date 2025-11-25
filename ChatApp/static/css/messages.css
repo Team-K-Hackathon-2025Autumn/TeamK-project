@@ -3,7 +3,7 @@
   background-color: #d87c58;
   border-radius: 0 0 20px 20px;
   /* padding: 20px; */
-  position: fixed;
+  position: absolute;
   top: 66px;
   right: 0;
   left: 0;
@@ -81,6 +81,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-height: 1em;
+  word-break: break-all;
   /* ここまで文字が溢れた場合に3点リーダを表示 */
 }
 
