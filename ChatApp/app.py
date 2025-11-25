@@ -46,7 +46,7 @@ def index_process():
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     return redirect(url_for("home_view"))
@@ -80,7 +80,7 @@ def login_view():
     uid = session.get("uid")
     if uid is None:
         return render_template("auth/login.html")
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     return redirect(
@@ -94,7 +94,7 @@ def signup_view():
     uid = session.get("uid")
     if uid is None:
         return render_template("auth/signup.html")
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     return redirect(
@@ -143,7 +143,7 @@ def home_view():
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     else:
@@ -158,7 +158,7 @@ def group_process():
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     else:
@@ -171,7 +171,7 @@ def create_group():
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     else:
@@ -192,7 +192,7 @@ def update_group(gid):
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     else:
@@ -213,7 +213,7 @@ def delete_group(gid):
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     else:
@@ -234,7 +234,7 @@ def add_member(gid):
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     email = request.form.get("email")
@@ -276,7 +276,7 @@ def message_view(gid):
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     else:
@@ -310,7 +310,7 @@ def create_message(gid):
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     else:
@@ -337,7 +337,7 @@ def delete_message(gid):
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     else:
@@ -369,7 +369,7 @@ def add_reaction(gid):
     uid = session.get("uid")
     if uid is None:
         return redirect(url_for("login_view"))
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return redirect(url_for("logout_process"))
     else:
@@ -418,8 +418,8 @@ def ai_menu_process(gid):
             ),
             200,
         )
-    
-    user_in_uid = User.find_by_uid(uid) # uidがDBに存在しない場合のバリデーション
+
+    user_in_uid = User.find_by_uid(uid)  # uidがDBに存在しない場合のバリデーション
     if user_in_uid is None:
         return (
             jsonify(
